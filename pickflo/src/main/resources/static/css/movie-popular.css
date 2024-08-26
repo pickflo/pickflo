@@ -16,23 +16,37 @@ main {
 	padding: 20px;
 	justify-content: center;
 	align-items: center;
+	margin-top: 20px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+#intro {
+	text-align: center; /* 텍스트와 자식 요소를 중앙에 정렬 */
+	margin: 0 auto; /* 가운데 정렬을 위한 자동 마진 */
+}
+
+#content {
+	display: flex;
+	justify-content: center; /* 가운데 정렬 */
+	width: 100%; /* 전체 너비를 차지하도록 설정 */
 }
 /* 기본적인 레이아웃 설정 */
 #layout {
-	flex-wrap: wrap;
-	justify-content: center; /* 가운데 정렬 */
-	margin-top:20px;
-	margin-left:30px;
-	margin-right:30px;
+	margin-top: 20px;
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start; /* 가운데 정렬 */
 	gap: 10px; /* 요소들 사이의 간격 추가 */
+	max-width: 1200px; /* 최대 너비 설정 (원하는 최대 너비로 조정 가능) */
+	width: 100%; /* 전체 너비에 맞게 설정 */
 }
 
 .photo {
 	justify-content: flex-start; /* 가운데 정렬 */
 	width: 100%; /* 컨테이너의 너비에 맞게 */
 	max-width: 150px; /* 최대 너비 설정 */
-	max-height : 200px; /* 최대 높이 설정 */
+	max-height: 200px; /* 최대 높이 설정 */
 	flex: 1 1 calc(20% - 20px); /* 5개의 사진이 한 줄에 들어가도록 설정 (전체 폭의 20%) */
 	background-color: #222; /* 각 이미지의 배경을 약간 밝은 검정색으로 설정 */
 	border-radius: 8px; /* 부드러운 모서리 */
@@ -61,19 +75,19 @@ main {
 }
 
 /* 웹페이지 크기가 줄어들면 반응형 레이아웃 적용 */
-@media (max-width: 1024px) {
+@media ( max-width : 1024px) {
 	.photo {
 		flex: 1 1 calc(25% - 20px); /* 4개의 사진이 한 줄에 들어가도록 설정 */
 	}
 }
 
-@media (max-width: 768px) {
+@media ( max-width : 768px) {
 	.photo {
 		flex: 1 1 calc(33.33% - 20px); /* 3개의 사진이 한 줄에 들어가도록 설정 */
 	}
 }
 
-@media (max-width: 480px) {
+@media ( max-width : 480px) {
 	.photo {
 		flex: 1 1 calc(50% - 20px); /* 2개의 사진이 한 줄에 들어가도록 설정 */
 	}
