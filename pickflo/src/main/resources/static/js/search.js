@@ -57,12 +57,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // 영화 필터링 함수
     const filterMovies = () => {
         let result = allMovies;
-
+		
+		// 장르 필터링
         if (selectedGenre) {
             const genreId = selectedGenre.getAttribute('data-value');
             result = result.filter(movie => movie.genre_ids.includes(parseInt(genreId)));
         }
+		
+		// 국가 필터링
+		if (selectedCountry) {
+            const countryCode = selectedCountry.getAttribute('data-value');
+            result = result.filter(movie => 
+                movie.production_countries.some(country => country.iso_3166_1 === countryCode)
+            );
+        }
 
+        // 결과 렌더링
+        renderMovies(result);
+		
+		/*
         if (selectedCountry) {
             const countryCode = selectedCountry.getAttribute('data-value');
             fetch(`${baseUrl}/discover/movie?api_key=${apiKey}&language=ko-KR&region=${countryCode}`)
@@ -75,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .catch(error => console.error('Error fetching data:', error));
         } else {
             renderMovies(result);
-        }
+        } */
     };
 
     // 영화 카드를 생성하는 함수
@@ -123,6 +136,25 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // 영화 목록을 가져오는 함수
+    const fetchMovies = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/discover/movie?api_key=${apiKey}&language=ko-KR`);
+            const data = await response.json();
+            if (data.results) {
+                // 영화의 상세 정보를 가져오는 함수 호출
+                allMovies = await Promise.all(data.results.map(async movie => {
+                    const movieDetailResponse = await fetch(`${baseUrl}/movie/${movie.id}?api_key=${apiKey}&language=ko-KR`);
+                    const movieDetail = await movieDetailResponse.json();
+                    return { ...movie, production_countries: movieDetail.production_countries };
+                }));
+                filteredMovies = allMovies; // 초기 필터링은 전체 영화
+                filterMovies(); // 필터 적용
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    /*
     const fetchMovies = () => {
         fetch(`${baseUrl}/discover/movie?api_key=${apiKey}&language=ko-KR`)
             .then(response => response.json())
@@ -134,9 +166,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
-    };
+    }; */
 
     // 영화 검색 함수
+    const searchMovies = async (query) => {
+        if (!query) {
+            fetchMovies(); // 검색어가 없는 경우 전체 영화 목록을 가져옴
+        } else {
+            try {
+                const response = await fetch(`${baseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=ko-KR`);
+                const data = await response.json();
+                if (data.results) {
+                    allMovies = await Promise.all(data.results.map(async movie => {
+                        const movieDetailResponse = await fetch(`${baseUrl}/movie/${movie.id}?api_key=${apiKey}&language=ko-KR`);
+                        const movieDetail = await movieDetailResponse.json();
+                        return { ...movie, production_countries: movieDetail.production_countries };
+                    }));
+                    filteredMovies = allMovies; // 초기 필터링은 전체 영화
+                    filterMovies(); // 필터 적용
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    };
+    /*
     const searchMovies = (query) => {
         if (!query) {
             fetchMovies(); // 검색어가 없는 경우 전체 영화 목록을 가져옴
@@ -152,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
-    };
+    }; */
 
     // 사람 검색 함수
     const searchPeople = (query) => {
