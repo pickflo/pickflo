@@ -9,6 +9,8 @@ import com.pickflo.service.PopularMovieService;
 
 import lombok.RequiredArgsConstructor;
 
+// 나중에 삭제할 파일
+
 @RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor

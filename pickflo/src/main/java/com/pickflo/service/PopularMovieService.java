@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class PopularMovieService {
 	private String imageBaseUrl; // 이미지 기본 URL
 
 	@Transactional
+	@Scheduled(cron = "0 0 0 * * *") // 매일 자정에 실행
 	public void updatePopularMovies() {
 		// 기존 데이터를 삭제
 		popuRepo.deleteAll();
@@ -45,7 +47,6 @@ public class PopularMovieService {
 
 					// `poster_path`가 `null`일 경우 기본값 설정
 					String imgPath = movieData.getPoster_path();
-					log.info("-----posterpath={}",imgPath);
 					if (imgPath == null) {
 						imgPath = ""; // 또는 적절한 기본값 설정
 					} else {
