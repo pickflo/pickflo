@@ -41,16 +41,10 @@ public class PopularMovieService {
 
 		List<PopularMovie> movies = tmdbClient.getPopularMovies(apiKey, language).getResults().stream()
 				.map(movieData -> {
-					log.info("----------movieData={}",movieData);
 					// poster_path(img URL) 데이터 불러오기
-					String imgPath = movieData.getPoster_path();
-					if (imgPath == null) {
-						imgPath = ""; 
-					} else {
-						// `imageBaseUrl`과 `poster_path`를 합쳐서 전체 이미지 URL 생성
-						imgPath = imageBaseUrl + imgPath;
-					}
-					
+					// `imageBaseUrl`과 `poster_path`를 합쳐서 전체 이미지 URL 생성
+					String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
+				
 					return PopularMovie.builder().code(movieData.getId()).title(movieData.getTitle()).img(imgPath)
 							.build();
 				}).collect(Collectors.toList());
