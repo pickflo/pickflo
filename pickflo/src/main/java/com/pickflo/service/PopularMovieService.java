@@ -59,5 +59,12 @@ public class PopularMovieService {
 
 		popuRepo.saveAll(movies);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<PopularMovie> readPopularMovies() {
+		List<PopularMovie> list= popuRepo.findAll();
+		return list;
+		
+	}
 
 }
