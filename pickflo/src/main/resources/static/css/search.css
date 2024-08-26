@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+body {
+	background-color: #000000;
+	color: #ffffff;
+	margin: 0;
+}
+
+.keyword-search {
+	margin-top: 100px;
+}
+
+.input-group {
+	border: none; 
+	margin-bottom: 10px;
+}
+
+.input-group-prepend .input-group-text {
+	background-color: #343a40;
+	border: none; 
+	border-radius: 0.25rem 0 0 0.25rem;
+}
+
+#search-input {
+	border: none; 
+	border-radius: 0 0.25rem 0.25rem 0;
+	color: #ffffff;
+	background-color: #343a40;
+}
+
+#search-input::placeholder {
+    color: #bbbbbb; 
+}
+
+#search-input:focus {
+	box-shadow: none; 
+	outline: none; 
+}
+
+.input-group-prepend .input-group-text i {
+	font-size: 20px;
+	color: #ffff;
+}
+
+.searching-category {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.searching-category .btn {
+	background-color: #6c757d; 
+	color: #fff; 
+	border-radius: 5px;
+	padding: 10px 20px;
+	margin: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+
+}
+
+.searching-category button:hover {
+	background-color: #343a40;
+	color: white;
+}
+
+.searching-category .btn.selected {
+	background-color: #343a40;
+    color: white;
+}
+
+.searching-category .btn:focus {
+	border: none;
+	outline: none;
+}
+
+#movies-container {
+	margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.poster-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.title {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.overview {
+    font-size: 14px;
+    color: #555;
+}
+
+.vote-average {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+@media ( max-width : 768px) {
+	.searching-category {
+		display: flex;
+		flex-wrap: nowrap !important;
+		overflow-x: auto;
+		white-space: nowrap;
+		margin-top: 10px;
+		padding: 0px 10px;
+		/* 스크롤바 숨기기 */
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		justify-content: start;
+	}
+		
+	.searching-category button {
+		background-color: #6c757d;
+	}
+	#search-input {
+		font-size: 14px;
+	}
+	.input-group {
+		font-size: 14px;
+	}
+}
+
+
+
+
