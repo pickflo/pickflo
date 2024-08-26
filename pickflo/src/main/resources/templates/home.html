@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/home.css">
+	<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+</head>
+<body class="background-container">
+
+	<div>
+	<div class="overlay"></div>
+		<main>
+			<div id="logo">
+				<a href="/" class="home-link">
+					<h1>PICKFLO</h1>
+				</a>
+			</div>
+			<div class="card card-body mx-auto">
+				<form th:action="@{/mypage}" method="post" id="loginForm">
+					<input type="text" class="form-control" id="email"
+						name="email" placeholder="이메일" required autofocus /> <input
+						type="password" class="form-control" id="password" name="password"
+						placeholder="비밀번호" required />
+					<button class="form-control btn" id="btnSignIn">로그인</button>
+				</form>
+				<a id="linkSignUp" href="/user/signup" class="form-control btn">회원가입	</a>
+			</div>
+		</main>
+	</div>
+	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
+	<script th:src="@{/js/signin.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+</html>
