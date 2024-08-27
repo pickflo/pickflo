@@ -40,9 +40,13 @@ main {
 	font-weight: bold; /* 선택 사항: 폰트 두께 */
 }
 
-.intro-title {
+.intro-text {
 	font-size: 16px; /* 두 번째 p 요소의 폰트 크기 */
-	font-weight: normal; /* 선택 사항: 폰트 두께 */
+	margin-bottom: 10px; /* intro-text와 홈으로 가기 사이의 여백을 줄임 */
+	text-align: center; /* 텍스트를 가운데 정렬 */
+	white-space: normal; /* 텍스트가 자동으로 줄 바꿈 되도록 설정 */
+	/* line-height: 1.5; 줄 간격 조정 (선택 사항) */
+	margin: 0; /* 여백을 0으로 설정 (필요시 조정) */
 }
 
 #home {
@@ -93,7 +97,7 @@ a:hover {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.6); /* 검정색 배경에 80% 불투명도 추가 */
+	background-color: rgba(0, 0, 0, 0.8); /* 검정색 배경에 80% 불투명도 추가 */
 	opacity: 0;
 	transition: opacity 0.3s ease;
 	border-radius: 10px; /* 부드러운 모서리 */
@@ -104,9 +108,10 @@ a:hover {
 }
 
 .poster {
+	width: 100%;
+	height: 100%;
 	border-radius: 10px; /* 부드러운 모서리 */
 	transition: transform 0.3s ease; /* 마우스 오버 시 확대 효과 추가 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
 }
 
@@ -114,9 +119,34 @@ a:hover {
 	transform: scale(1.05); /* 마우스 오버 시 이미지 확대 */
 }
 
-.poster-img {
+.poster-image {
 	width: 100%;
 	height: 100%;
 	object-fit: cover; /* 이미지가 컨테이너를 덮도록 설정, 비율 유지 */
 }
 
+/* 모바일 화면에서 포스터 크기와 레이아웃 조정 */
+@media only screen and (max-width: 768px) {
+	main {
+		padding: 5px;
+	}
+	#layout {
+		grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 열을 설정 */
+		gap: 10px; /* 간격을 조금 줄임 */
+	}
+	.poster {
+		width: 100%;
+		height: auto; /* 높이 자동 조정 */
+	}
+	.poster-image {
+		height: 150px; /* 모바일에서는 포스터 이미지 높이를 줄임 */
+	}
+	.intro-text {
+		font-size: 14px; /* 모바일에서 텍스트 크기 줄임 */
+		line-height: 1.4; /* 줄 간격 조정 (선택 사항) */
+	}
+	.intro-text span {
+		display: block; /* span 태그를 블록 요소로 변경하여 두 줄로 나누기 */
+		margin-bottom: 5px; /* 각 줄 사이에 간격 추가 (필요시 조정) */
+	}
+}
