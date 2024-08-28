@@ -54,7 +54,6 @@ dependencies {
 	// Feign client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     
-    implementation 'org.json:json:20211205'
 }
 
 dependencyManagement {
