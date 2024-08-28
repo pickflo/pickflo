@@ -1,24 +1,18 @@
 package com.pickflo.service;
 
-import java.io.Console;
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pickflo.domain.Movie;
-import com.pickflo.domain.SurveyMovie;
 import com.pickflo.dto.MovieGenreDto;
 import com.pickflo.repository.MovieClient;
-import com.pickflo.repository.MovieClient.MovieData;
 import com.pickflo.repository.MovieClient.MovieDetailResponse;
 import com.pickflo.repository.MovieRepository;
-import com.pickflo.repository.PopularMovieClient;
-import com.pickflo.repository.PopularMovieRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +59,7 @@ public class MovieService {
 		    MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
 		    if (movieData != null) {
 		        String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
-		        Movie movie = Movie.builder().movieTitle(movieData.getTitle()).movieImg(imgPath)
+		        Movie movie = Movie.builder().movieCode(movieData.getId()).movieTitle(movieData.getTitle()).movieImg(imgPath)
 		                .movieOverview(movieData.getOverview()).movieRating(movieData.getVote_average())
 		                .movieReleaseDate(Date.valueOf(movieData.getRelease_date())).movieRuntime(movieData.getRuntime())
 		                .build();

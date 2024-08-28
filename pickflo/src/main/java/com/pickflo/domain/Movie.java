@@ -30,6 +30,10 @@ public class Movie {
 	@Column(name = "MOVIE_ID")
 	private Long id;
 	
+	@Column(unique = true)
+	@Basic(optional = false)
+	private Long movieCode;
+	
 	@Basic(optional = false)
 	private String movieTitle;
 	
