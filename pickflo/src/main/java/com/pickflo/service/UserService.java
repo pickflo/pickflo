@@ -1,6 +1,6 @@
 package com.pickflo.service;
 
-import java.time.LocalDate;
+
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pickflo.domain.User;
+import com.pickflo.dto.CustomUserDetails;
 import com.pickflo.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,9 +28,9 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		log.info("email={}",email);
-		Optional<User> entity = userRepo.findByEmail(email);
-		if(entity.isPresent()) {
-			return entity.get();
+		User user = userRepo.findByEmail(email).orElseThrow();
+		if(user != null) {
+			return new CustomUserDetails(user); //entity.get();
 		} else {
 			throw new UsernameNotFoundException(email + ": 일치하는 이메일이 없습니다");
 		}
@@ -37,6 +38,7 @@ public class UserService implements UserDetailsService {
 	
     @Transactional
     public User create(User user) {
+    	
         log.info("create(member={})", user);
         user.setPassword(passwordEncode.encode(user.getPassword()));
         return userRepo.save(user);
@@ -48,7 +50,7 @@ public class UserService implements UserDetailsService {
         return memberOptional.orElse(null);
     }
     
-    public Boolean checkPassword(String password) {
+    public boolean checkPassword(String password) {
     	Optional<User> member = userRepo.findByPassword(password);
     	if(!member.isPresent()) {
     		return true;
@@ -57,7 +59,7 @@ public class UserService implements UserDetailsService {
     	}
     }
     
-    public Boolean checkEmail(String email) {
+    public boolean checkEmail(String email) {
     	Optional<User> member = userRepo.findByEmail(email);
     	if(!member.isPresent()) {
     		return true;
@@ -65,8 +67,8 @@ public class UserService implements UserDetailsService {
     		return false;
     	}
     }
-    
-    public Boolean checkNickname(String nickname) {
+        
+    public boolean checkNickname(String nickname) {
     	Optional<User> member = userRepo.findByNickname(nickname);
     	if(!member.isPresent()) {
     		return true;
