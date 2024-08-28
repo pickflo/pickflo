@@ -43,9 +43,10 @@ public class PopularMovieService {
 				.map(movieData -> {
 					// poster_path(img URL) 데이터 불러오기
 					// `imageBaseUrl`과 `poster_path`를 합쳐서 전체 이미지 URL 생성
+					// bean img
 					String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
 				
-					return PopularMovie.builder().code(movieData.getId()).title(movieData.getTitle()).img(imgPath)
+					return PopularMovie.builder().movieId(movieData.getId()).title(movieData.getTitle()).img(imgPath)
 							.build();
 				}).collect(Collectors.toList());
 

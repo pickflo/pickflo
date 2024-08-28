@@ -22,10 +22,10 @@ public class PopularMovie {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long surveyId;
 
-	@Basic(optional = false) // not null 
-	private Long code;
+	@Basic(optional = false) // not null
+	private Long movieId;
 	
 	@Basic(optional = false) // not null 
 	private String title;

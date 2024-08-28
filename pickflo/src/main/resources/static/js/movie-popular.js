@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			htmlStr += `
 				<div class="movie">
 					<div class="poster"> 
-						<img src="${img}" alt="${title}" />
+						<img class="poster-image" src="${img}" alt="${title}" />
 						<div class="overlay"></div>
 					</div>
 				</div>
