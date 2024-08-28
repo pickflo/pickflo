@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class PickfloApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

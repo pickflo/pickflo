@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+body, html {
+	background-color: #141414; /* 넷플릭스와 유사한 진한 검은색 배경 */
+	color: #e5e5e5; /* 텍스트를 연한 회색으로 설정 */
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+main {
+	width: 100%;
+	padding: 20px;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+#intro {
+	position: fixed; /* 고정된 위치 */
+	top: 0;
+	left: 0;
+	width: 100%; /* 화면 전체 너비 */
+	padding: 25px;
+	background-color: rgba(0, 0, 0, 0.8); /* 검정색 배경에 80% 불투명도 추가 */
+	z-index: 1000; /* 다른 요소보다 위에 위치하도록 설정 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px; /* 요소 간 간격 */
+}
+
+.intro-title {
+	font-size: 24px; /* 첫 번째 p 요소의 폰트 크기 */
+	font-weight: bold; /* 선택 사항: 폰트 두께 */
+}
+
+.intro-text {
+	font-size: 16px; /* 두 번째 p 요소의 폰트 크기 */
+	margin-bottom: 10px; /* intro-text와 홈으로 가기 사이의 여백을 줄임 */
+	text-align: center; /* 텍스트를 가운데 정렬 */
+	white-space: normal; /* 텍스트가 자동으로 줄 바꿈 되도록 설정 */
+	/* line-height: 1.5; 줄 간격 조정 (선택 사항) */
+	margin: 0; /* 여백을 0으로 설정 (필요시 조정) */
+}
+
+#home {
+	display: flex; /* 아이콘들을 수평으로 정렬 */
+	justify-content: center; /* 수평 가운데 정렬 */
+	align-items: flex-start; /* 상단 정렬 */
+	gap: 5px; /* 아이콘들 사이의 간격 */
+	margin-top: 10px; /* '홈으로 가기' 텍스트와 아이콘들 사이의 간격 */
+}
+
+a {
+	font-size: 14px; /* 텍스트 크기 */
+	font-weight: bold; /* 선택 사항: 폰트 두께 */
+	text-decoration: none; /* 밑줄 제거 */
+	color: #E50913; /* 링크의 색상을 기본 텍스트 색상과 동일하게 설정 */
+}
+
+a:hover {
+	text-decoration: none; /* 마우스 오버 시에도 밑줄 제거 유지 */
+}
+
+/* 기본적인 레이아웃 설정 */
+#layout {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr); /* 한 줄에 7개의 열을 설정 */
+	gap: 15px; /* 각 요소 사이의 간격 */
+	width: 100%;
+	padding-top: 140px; /* #intro의 높이 만큼 패딩 추가 */
+	margin: 0 auto;
+	max-width: calc(7 * 160px + 6 * 15px);
+	/* 7개의 포스터와 그 사이의 간격에 맞는 최대 너비 설정 */
+	box-sizing: border-box; /* 박스 크기 계산에 패딩과 테두리 포함 */
+}
+
+.movie {
+	position: relative;
+	display: inline-block;
+}
+
+.movie img {
+	display: block;
+	width: 100%;
+}
+
+.movie .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8); /* 검정색 배경에 80% 불투명도 추가 */
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	border-radius: 10px; /* 부드러운 모서리 */
+}
+
+.movie.selected .overlay {
+	opacity: 1;
+}
+
+.poster {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px; /* 부드러운 모서리 */
+	transition: transform 0.3s ease; /* 마우스 오버 시 확대 효과 추가 */
+	overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
+}
+
+.poster:hover {
+	transform: scale(1.05); /* 마우스 오버 시 이미지 확대 */
+}
+
+.poster-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* 이미지가 컨테이너를 덮도록 설정, 비율 유지 */
+}
+
+/* 모바일 화면에서 포스터 크기와 레이아웃 조정 */
+@media only screen and (max-width: 768px) {
+	main {
+		padding: 5px;
+	}
+	#layout {
+		grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 열을 설정 */
+		gap: 10px; /* 간격을 조금 줄임 */
+	}
+	.poster {
+		width: 100%;
+		height: auto; /* 높이 자동 조정 */
+	}
+	.poster-image {
+		height: 150px; /* 모바일에서는 포스터 이미지 높이를 줄임 */
+	}
+	.intro-text {
+		font-size: 14px; /* 모바일에서 텍스트 크기 줄임 */
+		line-height: 1.4; /* 줄 간격 조정 (선택 사항) */
+	}
+	.intro-text span {
+		display: block; /* span 태그를 블록 요소로 변경하여 두 줄로 나누기 */
+		margin-bottom: 5px; /* 각 줄 사이에 간격 추가 (필요시 조정) */
+	}
+}
