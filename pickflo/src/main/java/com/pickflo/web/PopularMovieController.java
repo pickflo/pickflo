@@ -9,8 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class PopularMovieController {
 
-	@GetMapping("/popular")
-	public void popular() {
+	@GetMapping("/popular-movie")
+	public String popular() {
+		return "popular-movie";
 	}
 	
 }

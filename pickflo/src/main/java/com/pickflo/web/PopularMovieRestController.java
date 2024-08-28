@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pickflo.domain.SurveyMovie;
+import com.pickflo.service.MovieService;
 import com.pickflo.service.PopularMovieService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Slf4j
 @RequestMapping("/api/popular")
@@ -20,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PopularMovieRestController {
 
 	private final PopularMovieService movieSvc;
-
+	
 	@GetMapping("/list")
 	public ResponseEntity<List<SurveyMovie>> readPopularMovies() {
 		List<SurveyMovie> list=movieSvc.readPopularMovies();
@@ -32,4 +35,6 @@ public class PopularMovieRestController {
 	public void savePopularMovies() {
 		movieSvc.updatePopularMovies();
 	}
+
+	
 }

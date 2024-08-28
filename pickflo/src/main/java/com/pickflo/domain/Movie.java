@@ -1,4 +1,6 @@
 package com.pickflo.domain;
+import java.sql.Date;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +27,7 @@ public class Movie {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MOVIES_ID")
+	@Column(name = "MOVIE_ID")
 	private Long id;
 	
 	@Basic(optional = false)
@@ -35,13 +37,13 @@ public class Movie {
 	private String movieOverview;
 	
 	@Basic(optional = false)
-	private String movieRating;
+	private Double movieRating;
 	
 	@Basic(optional = false)
-	private String movieReleaseDate;
+	private Date movieReleaseDate;
 	
 	@Basic(optional = false)
-	private String movieRuntime;
+	private Integer movieRuntime;
 	
 	private String movieImg;
 	

@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "tmdbClient", url = "${tmdb.api.url}") // 기본 URL
+@FeignClient(name = "PopularMovieClient", url = "${tmdb.api.url}") // 기본 URL
 public interface PopularMovieClient {
 
 	@GetMapping("/movie/popular") // 기본 URL 뒤에 붙일 end point(인기 영화)
