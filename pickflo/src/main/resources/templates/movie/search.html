@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PickFlo</title>
+</head>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="/pickflo/css/search.css" rel="stylesheet" />
+<link href="/pickflo/css/list.css" rel="stylesheet" />
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="row justify-content-center">
+			<div class="keyword-search col-10 col-md-8">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<button id="search-button" class="btn">
+		                    <i class='fas fa-search' style='font-size: 12px'></i>
+		                </button>
+					</div>
+					<input type="text" id="search-input" class="form-control" placeholder="제목, 감독 또는 배우로 검색하세요" />
+					<div id="clear-button" class="input-group-append">
+				        <button type="button" id="clear-input" class="btn">
+				            <i class="fas fa-times" style='font-size: 12px'></i>
+				        </button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="searching-category" data-type="genre">
+
+			<button class="btn" data-value="28">액션</button>
+			<button class="btn" data-value="12">모험</button>
+			<button class="btn" data-value="16">애니메이션</button>
+			<button class="btn" data-value="35">코미디</button>
+			<button class="btn" data-value="80">범죄</button>
+			<!-- <button class="btn" data-value="99">다큐멘터리</button> -->
+			<button class="btn" data-value="18">드라마</button>
+			<button class="btn" data-value="10751">가족</button>
+			<button class="btn" data-value="14">판타지</button>
+			<!-- <button class="btn" data-value="36">역사</button> -->
+			<button class="btn" data-value="27">공포</button>
+			<!-- <button class="btn" data-value="10402">음악</button> -->
+			<!-- <button class="btn" data-value="9648">미스터리</button> -->
+			<button class="btn" data-value="10749">로맨스</button>
+			<button class="btn" data-value="878">SF</button>
+			<button class="btn" data-value="53">스릴러</button>
+			<!-- <button class="btn" data-value="10752">전쟁</button> -->
+		</div>
+
+		<div class="searching-category" data-type="country">
+			<button class="btn" data-value="KR">한국 영화</button>
+			<button class="btn" data-value="US">미국 영화</button>
+			<button class="btn" data-value="TW">대만 영화</button>
+			<button class="btn" data-value="JP">일본 영화</button>
+			<button class="btn" data-value="CN">중국 영화</button>
+		</div>
+		</div>
+		<div class="list-wrap">
+			<div class="movie-list"></div>
+		</div>
+
+		<!-- <script src="/pickflo/js/search.js"></script> -->
+		<script th:src="@{/js/search.js}"></script>
+</body>
+
+
+</html>
