@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public interface MovieClient {
 
 	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(인기 영화)
-	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres, @RequestParam String language); // api key와 언어 제한
+	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres, @RequestParam String language, @RequestParam String page); // api key와 언어 제한
 	
 	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(인기 영화)
-	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable(name="id") Long id, @RequestParam String language); // api key와 언어 제한
+	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id, @RequestParam String language); // api key와 언어 제한
 	
 
 	// tmdb api의 인기영화 목록 필드 results

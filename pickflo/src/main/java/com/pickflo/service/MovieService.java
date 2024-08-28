@@ -33,16 +33,18 @@ public class MovieService {
 	private String language;
 
 	@Value("${tmdb.image.base.url}")
-	private String imageBaseUrl; // 이미지 기본 URL
+	private String imageBaseUrl; 
 
 	private String with_genres = "28";
+	
+	private String page = "8";
 
 	@Transactional
 	public void getMovieId() {
 		// 기존 데이터를 삭제
 		// movieRepo.deleteAll();
 
-		List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language).getResults().stream()
+		List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language, page).getResults().stream()
 				.map(MovieData -> {
 					// poster_path(img URL) 데이터 불러오기
 					// `imageBaseUrl`과 `poster_path`를 합쳐서 전체 이미지 URL 생성
