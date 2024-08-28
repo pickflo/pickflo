@@ -2,6 +2,7 @@ package com.pickflo.web;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 public class SignupRestController {
 	
-	private final UserService memberSvc;
+	private final UserService userSvc;
 	
 	@GetMapping("/check-email")
 	@ResponseBody
 	public ResponseEntity<String> checkEmail(@RequestParam(name = "email") String email) {
-		boolean result = memberSvc.checkEmail(email);
+		boolean result = userSvc.checkEmail(email);
 		if (result) {
 			return ResponseEntity.ok("Y");
 		} else {
@@ -36,7 +37,7 @@ public class SignupRestController {
 	@GetMapping("/check-password")
 	@ResponseBody
 	public ResponseEntity<String> checkPassword(@RequestParam(name = "password") String password) {
-		boolean result = memberSvc.checkPassword(password);
+		boolean result = userSvc.checkPassword(password);
 		if(result) {
 			return ResponseEntity.ok("Y");
 		} else {

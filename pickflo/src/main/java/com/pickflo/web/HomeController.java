@@ -1,58 +1,49 @@
 package com.pickflo.web;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pickflo.domain.User;
 import com.pickflo.service.UserService;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequiredArgsConstructor
+@RequestMapping("/")
 public class HomeController {
+	
+	   private final UserService userSvc;
 
-	private final UserService userSvc;
-	private final PasswordEncoder passwordEncoder;
+	   public HomeController(UserService userSvc) {
+	        this.userSvc = userSvc;
+	    }
+	
+    @GetMapping("/home")
+    public String home(Model model) {
+        // 현재 인증된 사용자 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
 
-	@GetMapping("/")
-	public String home() {
-		return "home";
-	}
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
 
-	@PostMapping("/mypage")
-	public String mypage(@RequestParam("email") String email, @RequestParam("password") String password,
-						RedirectAttributes redirectAttributes) {
+        if (email != null) {
+            User user = userSvc.findByEmail(email);
+            model.addAttribute("user", user);
+        } else {
+            log.warn("사용자가 인증되지 않았습니다.");
+            return "redirect:/user/signin"; // 인증되지 않은 경우 로그인 페이지로 리다이렉트
+        }
 
-		User user = userSvc.findByEmail(email);
-
-		if (user != null) {
-			if (passwordEncoder.matches(password, user.getPassword())) {
-				return "mypage";
-			} else {
-				redirectAttributes.addFlashAttribute("errorMessage", "이메일 또는 비밀번호가 일치하지 않습니다.");
-				return "redirect:/";
-			}
-		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "일치하는 회원이 없습니다.");
-			return "redirect:/";
-		}
-	}
-
-	@GetMapping("/user/signup")
-	public void signup() {
-
-	}
-
-	@PostMapping("/user/signup")
-	public String writeSignup(User User) {
-		userSvc.create(User);
-		return "home";
-	}
+        return "home"; // home.html 페이지로 이동
+    }
+    
+    
 }
+

@@ -4,9 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.pickflo.repository.UserRepository;
+import com.pickflo.service.UserService;
 
 @Configuration
 //-> 스프링 컨테이너에서 생성하고 관리하는 설정 컴포넌트.
@@ -40,10 +44,27 @@ public class SecurityConfig {
       
       // 로그인 페이지(폼) 설정 - 스프링 시큐리티에서 제공하는 기본 HTML 페이지를 사용.
       // http.formLogin(Customizer.withDefaults());
-      // Custom 로그인 HTML 페이지를 사용.
-      http.formLogin((login) -> login.loginPage("/user/signin"));
-      
-      return http.build(); // DefaultSecurityFilterChain 객체를 생성해서 리턴.
-  }
-  
+      // Custom 로그인 HTML 페이지를 사용.     
+      http
+	      .authorizeHttpRequests((requests) -> requests
+	          .requestMatchers("/user/signin", "/user/signup").permitAll()
+	          .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()  // 정적 자원 접근 허용
+	          .requestMatchers("/api/**").permitAll() // API 경로에 대한 접근 허용 
+	          .anyRequest().authenticated()
+	      )
+	      .formLogin((form) -> form
+	              .loginPage("/user/signin")
+	              .usernameParameter("email")  // email 필드를 username으로 사용
+	              .passwordParameter("password")
+	              .defaultSuccessUrl("/home", true)
+	              .permitAll()
+	          )
+	      .logout((logout) -> logout
+	          .logoutUrl("/user/logout")
+	          .logoutSuccessUrl("/user/signin")
+	          .permitAll()
+	      );
+
+      return http.build(); // DefaultSecurityFilterChain 객체를 생성해서 리턴
+  }  
 }

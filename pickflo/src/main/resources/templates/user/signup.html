@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="/css/fragments.css">
-	<link rel="stylesheet" href="/css/signup.css">
+	<link rel="stylesheet" href="/pickflo/css/fragments.css">
+	<link rel="stylesheet" href="/pickflo/css/signup.css">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -14,7 +14,7 @@
 		<div>
 		<main>
 			<div id="logo">
-				<a href="/" class="home-link">
+				<a href="/pickflo/user/signin" class="home-link">
 					<h1>PICKFLO</h1>
 				</a>
 			</div>
@@ -22,7 +22,7 @@
 				<form id="myForm" th:action="@{/user/signup}" method="post">
 					<div class="input-container">
 						<input type="email" class="form-control" id="email" name="email"
-							placeholder="이메일" required /> <i
+							placeholder="이메일" required autocomplete="off" /> <i
 							class="fa-solid fa-check d-none" style="color: #4caf50;"></i>
 						<div id="checkEmailResult" style="color: green;">@포함 입력해주세요.</div>
 					</div>
@@ -37,7 +37,7 @@
 					</div>
 					<div class="input-container">
 						<input type="text" class="form-control" id="nickname"
-							name="nickname" placeholder="닉네임" required /> <i
+							name="nickname" placeholder="닉네임" required  autocomplete="off" /> <i
 							class="fa-solid fa-check" style="color: #4caf50;"></i>
 						<div id="checkNicknameResult" style="color: green;">영문자,숫자,한글,밑줄 및 점을 포함, 15자이내</div>
 					</div>
