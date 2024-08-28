@@ -39,7 +39,7 @@ public class MovieService {
 	@Transactional
 	public void getMovieId() {
 		// 기존 데이터를 삭제
-		movieRepo.deleteAll();
+		// movieRepo.deleteAll();
 
 		List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language).getResults().stream()
 				.map(MovieData -> {
