@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	
 	// 인기영화 DB data 불러오기
-	const uri = `/pickflo/api/popular/list`;
+	const uri = `/pickflo/api/picker/list`;
 	axios
 		.get(uri)
 		.then((response) => {
@@ -22,12 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		let htmlStr = '';
 		for (let i = 0; i < data.length; i++) {
-			const movieId = data[i].movieId;
-			const title = data[i].title;
-			const img = data[i].img;
+			const code = data[i].movieCode;
+			const title = data[i].movieTitle;
+			const img = data[i].movieImg;
 			
 			htmlStr += `
-				<div class="movie">
+				<div class="movie" code="${code}">
 					<div class="poster"> 
 						<img class="poster-image" src="${img}" alt="${title}" />
 						<div class="overlay"></div>

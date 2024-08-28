@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/movie/popular")
-public class PopularMovieController {
+@RequestMapping("/movie/picker")
+public class MoviePickerController {
 
 	@GetMapping("")
-	public void popular() {
+	public void picker() {
 	}
 	
 }
