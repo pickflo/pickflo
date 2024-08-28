@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pickflo.domain.User;
+import com.pickflo.dto.UserSignupDto;
 import com.pickflo.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,9 @@ public class SigninController {
 	}
 
 	@PostMapping("/user/signup")
-	public String signup(User user, RedirectAttributes redirectAttributes) {
+	public String signup(UserSignupDto dto, RedirectAttributes redirectAttributes) {
 		 try {
-			 userSvc.create(user);
+			 userSvc.create(dto);
 	            redirectAttributes.addFlashAttribute("signupSuccess");
 	        } catch (Exception e) {
 	            redirectAttributes.addFlashAttribute("signupError");
