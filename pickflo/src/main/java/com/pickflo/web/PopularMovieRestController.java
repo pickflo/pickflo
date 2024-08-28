@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pickflo.domain.PopularMovie;
+import com.pickflo.domain.SurveyMovie;
 import com.pickflo.service.PopularMovieService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ public class PopularMovieRestController {
 	private final PopularMovieService movieSvc;
 
 	@GetMapping("/list")
-	public ResponseEntity<List<PopularMovie>> readPopularMovies() {
-		List<PopularMovie> list=movieSvc.readPopularMovies();
+	public ResponseEntity<List<SurveyMovie>> readPopularMovies() {
+		List<SurveyMovie> list=movieSvc.readPopularMovies();
 		return ResponseEntity.ok(list);
 	}
 
