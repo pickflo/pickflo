@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.custom-container {
+	width: 100%;
+	margin-top: 20px;
+	padding: 20px 20px;
+}
+
+.custom-body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+#searchBtn {
+	padding: 5px;
+	margin-right: 10px;
+	font-size: 20px;
+	background-color: transparent;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+#searchBtn:hover {
+	background-color: transparent;
+	color: #c3c3c3;
+}
+
+.customList {
+	margin-top: 20px; /* 입력 필드와 버튼 아래에 마진 추가 */
+}
+
+.nickname {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+/* 반응형 스타일 */
+@media ( max-width : 768px) {
+	#logo h1 {
+		font-size: 1.5rem; /* 작은 화면에서는 로고 크기를 줄입니다 */
+	}
+}
