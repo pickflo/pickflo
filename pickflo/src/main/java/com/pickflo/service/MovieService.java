@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,7 @@ public class MovieService {
 	@Transactional
 	public void getMovieId() {
 		// 기존 데이터를 삭제
-		movieRepo.deleteAll();
+		// movieRepo.deleteAll();
 
 		List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language).getResults().stream()
 				.map(MovieData -> {
@@ -56,16 +57,25 @@ public class MovieService {
 	}
 
 	public void getMovies(Long id) {
-		    MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
-		    if (movieData != null) {
-		        String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
-		        Movie movie = Movie.builder().movieCode(movieData.getId()).movieTitle(movieData.getTitle()).movieImg(imgPath)
-		                .movieOverview(movieData.getOverview()).movieRating(movieData.getVote_average())
-		                .movieReleaseDate(Date.valueOf(movieData.getRelease_date())).movieRuntime(movieData.getRuntime())
-		                .build();
-		        movieRepo.save(movie);
-		    }
-		
-	}
+		MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
 
+		if (movieData != null) {
+			// 영화가 이미 데이터베이스에 있는지 확인
+			boolean exists = movieRepo.existsByMovieCode(movieData.getId());
+
+			// 영화가 없으면 저장
+			if (!exists) {
+				String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
+				Movie movie = Movie.builder().movieCode(movieData.getId()).movieTitle(movieData.getTitle())
+						.movieImg(imgPath).movieOverview(movieData.getOverview())
+						.movieRating(movieData.getVote_average())
+						.movieReleaseDate(Date.valueOf(movieData.getRelease_date()))
+						.movieRuntime(movieData.getRuntime()).build();
+				movieRepo.save(movie);
+			} else {
+				log.info("Movie with code {} already exists in the database.", movieData.getId());
+			}
+		}
+
+	}
 }
