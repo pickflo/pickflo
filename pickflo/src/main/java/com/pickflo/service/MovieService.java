@@ -34,29 +34,31 @@ public class MovieService {
 
 	@Value("${tmdb.image.base.url}")
 	private String imageBaseUrl; 
-
-	private String with_genres = "28";
 	
-	private String page = "8";
-
+	/* 장르id: 액션(28), 모험(12), 애니메이션(16), 코미디(35), 범죄(80), 
+	 * 다큐멘터리(99), 드라마(18), 가족(10751), 판타지(14), 역사(36), 공포(27), 
+	 * 음악(10402), 미스터리(9648), 로맨스(10749), SF(878), 스릴러(53), 전쟁(10752) */
+	private String with_genres = "53"; 
+	
 	@Transactional
-	public void getMovieId() {
-		// 기존 데이터를 삭제
-		// movieRepo.deleteAll();
+    public void fetchMoviesFromPages() {
+        for (int i = 5; i <= 20; i++) {
+            getMovieId(i);
+        }
+    }
 
-		List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language, page).getResults().stream()
-				.map(MovieData -> {
-					// poster_path(img URL) 데이터 불러오기
-					// `imageBaseUrl`과 `poster_path`를 합쳐서 전체 이미지 URL 생성
-					// bean img
-					Long id = MovieData.getId();
-					return MovieGenreDto.builder().movieId(id).build();
-				}).collect(Collectors.toList());
+	public void getMovieId(int pageNumber) {
+        List<MovieGenreDto> list = movieClient.getGenreMovies(apiKey, with_genres, language, String.valueOf(pageNumber))
+                .getResults().stream()
+                .map(MovieData -> {
+                    Long id = MovieData.getId();
+                    return MovieGenreDto.builder().movieId(id).build();
+                })
+                .collect(Collectors.toList());
 
-		// forEach를 사용하여 getMovies 호출
-		list.forEach(movieGenreDto -> getMovies(movieGenreDto.getMovieId()));
-
-	}
+        // forEach를 사용하여 getMovies 호출
+        list.forEach(movieGenreDto -> getMovies(movieGenreDto.getMovieId()));
+    }
 
 	public void getMovies(Long id) {
 		MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
