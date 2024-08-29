@@ -21,25 +21,14 @@ public class MovieRestController {
 	
 	private final MovieService movieSvc;
 	
-	@GetMapping("/save/movies")
-    public ResponseEntity<String> fetchAndSaveMovies() {
+	@GetMapping("/saveMovies")
+    public ResponseEntity<String> fetchAndSaveMoviesAndGenres() {
         try {
-            movieSvc.fetchMoviesFromPages(); 
-            return ResponseEntity.ok("Movies fetched and saved successfully.");
+            movieSvc.fetchAndSaveMoviesAndGenres();
+            return ResponseEntity.ok("Movies and genres fetched and saved successfully.");
         } catch (Exception e) {
-            log.error("Error occurred while fetching and saving movies: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to fetch and save movies.");
-        }
-    }
-	
-	@GetMapping("/save/genres")
-	public ResponseEntity<String> updateAllMovieGenres() {
-        try {
-            movieSvc.updateAllMovieGenres();
-            return ResponseEntity.ok("All movie genres updated successfully.");
-        } catch (Exception e) {
-            log.error("Error occurred while updating all movie genres: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update all movie genres.");
+            log.error("Error occurred while fetching and saving movies and genres: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to fetch and save movies and genres.");
         }
     }
 }
