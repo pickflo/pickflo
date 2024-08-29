@@ -47,7 +47,7 @@ public class MovieService {
 	 */
 	private String with_genres = "10402";
 
-	/* 대한민국(KR), 미국(US), 대만(TW), 일본(JP), 중국(ㅊ */
+	/* 대한민국(KR), 미국(US), 대만(TW), 일본(JP), 중국(CN) */
 	private String with_origin_country = "KR";
 
 	@Transactional
