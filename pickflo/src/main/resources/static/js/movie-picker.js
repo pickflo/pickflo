@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
 document.addEventListener('DOMContentLoaded', () => {
 
-	const layout=document.querySelector('div#layout');
-	const goToHome=document.querySelector('div#home');
-	
-	
-	// 인기영화 DB data 불러오기
+	const layout = document.querySelector('div#layout');
+	const goToHome = document.querySelector('div#home');
+
+
+	// 영화 DB data 불러오기
 	const uri = `/pickflo/api/picker/list`;
 	axios
 		.get(uri)
@@ -30,18 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				<div class="movie" code="${code}">
 					<div class="poster"> 
 						<img class="poster-image" src="${img}" alt="${title}" />
-						<div class="overlay"></div>
+						<div class="overlay">
+							<i class="bi bi-check-circle"></i>
+						</div>
 					</div>
 				</div>
 			`;
 		}
 		layout.insertAdjacentHTML('beforeend', htmlStr);
 
-		// 선택 아이콘
+		// 영화 선택 시, 클래스 selected 추가
 		const likeMovies = document.querySelectorAll('.overlay');
 		likeMovies.forEach(movie => {
 			movie.addEventListener('click', () => {
-				const movieContainer=movie.closest('.movie');
+				const movieContainer = movie.closest('.movie');
 				if (movieContainer.classList.contains('selected')) {
 					movieContainer.classList.remove('selected');
 				} else {
@@ -51,16 +53,28 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 	}
-	
+
+	// 선태한 영화가 3개 이상일 경우 홈으로 가기 표시
 	function goToHomeVisibility() {
-		// 선태한 영화가 3개 이상일 경우 홈 아이콘 표시
-		const selectedMovie = document.querySelectorAll('.selected');
-		if (selectedMovie.length >= 3) {
+		const selectedMovies = document.querySelectorAll('.selected');
+		if (selectedMovies.length >= 3) {
 			goToHome.classList.remove('d-none');
 		} else {
 			goToHome.classList.add('d-none');
 		}
 	}
+
+	// 홈으로 가기 버튼 클릭 이벤트 
+	goToHome.addEventListener('click', (event) => {
+		// 선택된 영화 목록 가져오기
+		const selectedMovies = Array.from(document.querySelectorAll('.selected')).map(movie => movie.getAttribute('code'));
+
+		// 선택된 영화 목록 DB 저장
+		const uri=``;
+		axios
+			.post(data,uri)
+		
+	});
 
 
 });
