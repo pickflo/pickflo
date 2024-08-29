@@ -1,5 +1,7 @@
 package com.pickflo.domain;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -44,11 +47,14 @@ public class Movie {
 	private Double movieRating;
 	
 	@Basic(optional = false)
-	private Date movieReleaseDate;
+	private LocalDate movieReleaseDate;
 	
 	@Basic(optional = false)
 	private Integer movieRuntime;
 	
 	private String movieImg;
+	
+	@OneToMany(mappedBy = "movie")
+    private Set<MovieGenre> movieGenres;
 	
 }

@@ -13,25 +13,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public interface MovieClient {
 
 	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(인기 영화)
-	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres, @RequestParam String language, @RequestParam String page); // api key와 언어 제한
+	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres, @RequestParam String language, @RequestParam String page);
 	
 	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(인기 영화)
-	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id, @RequestParam String language); // api key와 언어 제한
+	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id, @RequestParam String language);
 	
 
 	// tmdb api의 인기영화 목록 필드 results
 	class TmdbResponse {
 		
 		@JsonProperty("results")
-		private List<MovieData> results;
+		private List<MovieIdResponse> results;
 
-		public List<MovieData> getResults() {
+		public List<MovieIdResponse> getResults() {
 			return results;
 		}
-		
-		  public void setResults(List<MovieData> results) {
-	            this.results = results;
-	        }
+
+		public void setResults(List<MovieIdResponse> results) {
+			this.results = results;
+		}
+	}
+	
+	class MovieIdResponse {
+		private Long id;
+
+		public Long getId() {
+			return id;
+		}
 	}
 	
     class MovieDetailResponse { // 영화 상세 정보에 대한 응답 클래스
@@ -42,6 +50,9 @@ public interface MovieClient {
         private Double vote_average;
         private String release_date;
         private Integer runtime;
+        
+        @JsonProperty("genres")
+        private List<Genre> genres;
 
         public Long getId() {
             return id;
@@ -70,39 +81,25 @@ public interface MovieClient {
         public Integer getRuntime() {
             return runtime;
         }
+
+		public List<Genre> getGenres() {
+			return genres;
+		}
         
     }
-
-    class MovieData {
-        private Long id;
-        private String title;
-        private String poster_path;
-        private String overview;
-        private Double vote_average;
-        private String release_date;
-        private Integer runtime;
+    
+    class Genre {
+        private Integer id;
+        private String name;
         
-        public Long getId() {
-            return id;
-        }
-        public String getTitle() {
-            return title;
-        }
-        public String getPoster_path() {
-            return poster_path;
-        }
-        public String getOverview() {
-            return overview;
-        }
-        public Double getVote_average() {
-            return vote_average;
-        }
-        public String getRelease_date() {
-            return release_date;
-        }
-        public Integer getRuntime() {
-            return runtime;
-        }
+		public Integer getId() {
+			return id;
+		}
+		public String getName() {
+			return name;
+		}
+
+        
     }
 
 }
