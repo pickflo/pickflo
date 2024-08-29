@@ -23,7 +23,7 @@ public class HomeController {
 	        this.userSvc = userSvc;
 	    }
 	
-    @GetMapping("/home")
+    @GetMapping("/home")  ////찜 갯수 3개미만  movie/picker페이지로 이동 그외 / , "/movie/picker"}
     public String home(Model model) {
         // 현재 인증된 사용자 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

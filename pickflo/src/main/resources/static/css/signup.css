@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
 @import
-	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css')
-	;
+	url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
 @font-face {
     font-family: 'PartialSansKR-Regular';
