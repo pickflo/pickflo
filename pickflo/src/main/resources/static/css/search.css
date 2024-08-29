@@ -6,6 +6,31 @@ body {
 	margin: 0;
 }
 
+button.close-btn {
+    top: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #bbbbbb;
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex;
+    justify-content: end;
+}
+
+button.close-btn:focus {
+	border: none;
+	outline: none;
+}
+
+button.close-btn:hover {
+    color: white; 
+}
+
+a.close-btn:hover {
+	text-decoration: none;
+}
+
 .keyword-search {
 	margin-top: 100px;
 }
@@ -19,9 +44,11 @@ body {
 	background-color: #343a40;
 	border: none; 
 	border-radius: 0.25rem 0 0 0.25rem;
+	
 }
 
-#search-input, #search-button {
+#search-input {
+	padding: 25px 15px;
 	border: none; 
 	border-radius: 0 0.25rem 0.25rem 0;
 	color: #ffffff;
@@ -29,10 +56,24 @@ body {
 }
 
 #search-button {
-	border: none; 
-	border-radius: 0.25rem 0 0 0.25rem;
-	color: #ffffff;
+		padding-left: 15px;
+		font-size: 20px;
+		background-color: #343a40;
+		color: #bbbbbb;
+		border: none;
+		cursor: pointer;
+		transition: background-color 0.3s, color 0.3s;
+	}
+	
+#search-button:hover {
 	background-color: #343a40;
+	color: #ffffff;
+}
+
+#search-button:focus {
+	border: none;
+	outline: none;
+	box-shadow: none; 
 }
 
 #search-input::placeholder {
@@ -53,18 +94,16 @@ body {
     position: relative;
 }
 
-#clear-button {
+#clear-input {
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    display: none; /* 기본적으로 숨기기 */
-}
-
-#clear-input {
+    display: none; 
     background: transparent;
     border: none;
+    font-size: 15px;
 }
 
 #clear-input i {
@@ -111,6 +150,15 @@ body {
 }
 
 @media ( max-width : 768px) {
+	.close-btn .material-icons {
+	    top: 35px;
+	    color: #ffffff; 
+	    display: flex;
+	    justify-content: end;
+	    font-size: 20px;
+	    
+	}
+	
 	.searching-category {
 		display: flex;
 		flex-wrap: nowrap !important;
@@ -135,8 +183,9 @@ body {
 		font-size: 14px;
 	}
 	
-	
-	
+	#search-button {
+		font-size: 15px;
+	}
 }
 
 
