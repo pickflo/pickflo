@@ -1,6 +1,5 @@
 package com.pickflo.domain;
 
-import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class UserMoviePickId implements Serializable{
+public class UserMoviePickId{
 
-	private Long userId;
-	private Long movieId;
+    private Long userId;
+    private Long movieId;
 }

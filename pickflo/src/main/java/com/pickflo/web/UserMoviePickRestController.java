@@ -25,12 +25,10 @@ public class UserMoviePickRestController {
 	@PostMapping("/save")
 	public ResponseEntity<?> save(@RequestBody List<UserMoviePickDto> list) {
 		try {
-			log.info("@@@@@@@@@controller-list=${}",list);
-
-			svc.create(list); 
-			return ResponseEntity.ok("Movies saved successfully");
+			svc.create(list);
+			return ResponseEntity.ok("Success");
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error occurred while saving movies");
+			return ResponseEntity.status(500).body("Error");
 		}
 	}
 

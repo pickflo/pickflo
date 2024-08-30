@@ -28,22 +28,21 @@ public class UserMoviePickService {
 
 	@Transactional
 	public void create(List<UserMoviePickDto> dtoList) {
-		log.info("******************");
 		List<UserMoviePick> userMoviePicks = dtoList.stream().map(dto -> {
-			
+
 			User user = userRepo.findById(dto.getUserId()).orElseThrow();
 			log.info("user: {}", user);
-			
-			Movie movie = movieRepo.findByMovieCode(dto.getMovieId()).orElseThrow();
+
+			Movie movie = movieRepo.findById(dto.getMovieId()).orElseThrow();
 			log.info("movie: {}", movie);
-		
-			UserMoviePick ump = UserMoviePick.builder().user(user).movie(movie).build();
+
+			UserMoviePick ump = UserMoviePick.builder()
+								.userId(user.getId()).movieId(movie.getId()).user(user).movie(movie)
+								.build();
 			log.info("ump: {}", ump);
-			
+
 			return ump;
 		}).collect(Collectors.toList());
-		
-		log.info("^^^^^^^^^^^^^^^{}",userMoviePicks);
 
 		pickRepo.saveAll(userMoviePicks);
 	}

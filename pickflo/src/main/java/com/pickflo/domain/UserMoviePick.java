@@ -1,11 +1,12 @@
 package com.pickflo.domain;
 
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -24,19 +25,23 @@ import lombok.ToString;
 @ToString @EqualsAndHashCode
 @Entity
 @Table(name = "USERS_MOVIES")
+@IdClass(UserMoviePickId.class)
 public class UserMoviePick {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	
-	@ToString.Exclude
+	@Id
+    @Column(name = "user_id")
+    private Long userId;
+	
+	@Id
+	@Column(name = "movie_id")
+	private Long movieId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;
 
-	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "movie_id")
+	@JoinColumn(name = "movie_id", insertable = false, updatable = false)
 	private Movie movie;
 
 }
