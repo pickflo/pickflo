@@ -12,6 +12,7 @@ import com.pickflo.domain.User;
 import com.pickflo.dto.UserSignupDto;
 import com.pickflo.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,7 @@ public class SigninController {
 
 	@PostMapping("/user/signin")
 	public String signin(@RequestParam("email") String email, @RequestParam("password") String password,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes,  HttpSession session) {
 
 		User user = userSvc.findByEmail(email);
 
