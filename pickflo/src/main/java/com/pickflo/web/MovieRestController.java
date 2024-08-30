@@ -20,18 +20,43 @@ public class MovieRestController {
 
 	private final MovieService movieSvc;
 	private final CountryService countrySvc;
+	
+	@GetMapping("/saveMoviesByGenres")
+    public ResponseEntity<String> fetchAndSaveMoviesByGenres() {
+        try {
+            movieSvc.saveMoviesByGenres();
+            return ResponseEntity.ok("Movies by genres fetched and saved successfully.");
+        } catch (Exception e) {
+            log.error("Error occurred while fetching and saving movies by genres: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to fetch and save movies by genres.");
+        }
+    }
 
-	@GetMapping("/saveMovies")
-	public ResponseEntity<String> fetchAndSaveMoviesAndGenres() {
-		try {
-			movieSvc.fetchAndSaveMoviesAndGenres();
-			return ResponseEntity.ok("Movies and genres fetched and saved successfully.");
-		} catch (Exception e) {
-			log.error("Error occurred while fetching and saving movies and genres: ", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Failed to fetch and save movies and genres.");
-		}
-	}
+    @GetMapping("/saveMoviesByCountries")
+    public ResponseEntity<String> fetchAndSaveMoviesByCountries() {
+        try {
+            movieSvc.saveMoviesByCountries();
+            return ResponseEntity.ok("Movies by countries fetched and saved successfully.");
+        } catch (Exception e) {
+            log.error("Error occurred while fetching and saving movies by countries: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to fetch and save movies by countries.");
+        }
+    }
+	
+	
+//	@GetMapping("/saveMovies")
+//	public ResponseEntity<String> fetchAndSaveMoviesAndGenres() {
+//		try {
+//			movieSvc.fetchAndSaveMoviesAndGenres();
+//			return ResponseEntity.ok("Movies and genres fetched and saved successfully.");
+//		} catch (Exception e) {
+//			log.error("Error occurred while fetching and saving movies and genres: ", e);
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//					.body("Failed to fetch and save movies and genres.");
+//		}
+//	}
 
 	@GetMapping("/saveCountries")
 	public void getCountryCode() {

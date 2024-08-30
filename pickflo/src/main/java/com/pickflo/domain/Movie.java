@@ -1,5 +1,4 @@
 package com.pickflo.domain;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -46,7 +45,6 @@ public class Movie {
 	@Basic(optional = false)
 	private Double movieRating;
 	
-	@Basic(optional = false)
 	private LocalDate movieReleaseDate;
 	
 	@Basic(optional = false)
@@ -56,5 +54,8 @@ public class Movie {
 	
 	@OneToMany(mappedBy = "movie")
     private Set<MovieGenre> movieGenres;
+	
+	@OneToMany(mappedBy = "movie")
+	private Set<MovieCountry> movieCountries;
 	
 }

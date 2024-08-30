@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class SearchService {
 	private final SearchRepository searchRepo;
 
-    public List<SearchGenreDto> findMoviesByGenreCode(Integer genreCode) {
-        return searchRepo.findMoviesByGenreCode(genreCode);
+	public List<SearchGenreDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode) {
+        return searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode);
     }
 }

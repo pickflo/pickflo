@@ -8,15 +8,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pickflo.domain.Country;
 
 @FeignClient(name = "MovieClient", url = "${tmdb.api.url}") // 기본 URL
 public interface MovieClient {
 
-	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(인기 영화)
+	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point
 	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres,
 			@RequestParam String language, @RequestParam String page);
+	
+	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point
+	TmdbResponse getCountryMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_origin_country,
+			@RequestParam String language, @RequestParam String page);
 
-	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(인기 영화)
+	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point
 	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id,
 			@RequestParam String language);
 
@@ -57,6 +62,9 @@ public interface MovieClient {
 
 		@JsonProperty("genres")
 		private List<Genre> genres;
+		
+		@JsonProperty("origin_country")
+		private List<String> originCountry;
 
 		public Long getId() {
 			return id;
@@ -90,6 +98,10 @@ public interface MovieClient {
 			return genres;
 		}
 
+		public List<String> getOriginCountry() {
+			return originCountry;
+		}
+
 	}
 
 	class Genre {
@@ -103,8 +115,9 @@ public interface MovieClient {
 		public String getName() {
 			return name;
 		}
-
 	}
+	
+	
 
 	class CountryData {
 		private String iso_3166_1;
@@ -117,7 +130,6 @@ public interface MovieClient {
 		public String getNative_name() {
 			return native_name;
 		}
-
 	}
 
 }
