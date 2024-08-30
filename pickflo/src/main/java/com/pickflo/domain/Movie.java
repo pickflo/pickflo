@@ -1,5 +1,6 @@
 package com.pickflo.domain;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -7,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +25,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "MOVIES")
+@Table(name = "MOVIES", uniqueConstraints = { @UniqueConstraint(columnNames = "movieCode") })
 public class Movie {
 	
 	@Id
@@ -37,18 +40,22 @@ public class Movie {
 	@Basic(optional = false)
 	private String movieTitle;
 	
-	@Basic(optional = false)
 	private String movieOverview;
 	
 	@Basic(optional = false)
 	private Double movieRating;
 	
-	@Basic(optional = false)
-	private Date movieReleaseDate;
+	private LocalDate movieReleaseDate;
 	
 	@Basic(optional = false)
 	private Integer movieRuntime;
 	
 	private String movieImg;
+	
+	@OneToMany(mappedBy = "movie")
+    private Set<MovieGenre> movieGenres;
+	
+	@OneToMany(mappedBy = "movie")
+	private Set<MovieCountry> movieCountries;
 	
 }

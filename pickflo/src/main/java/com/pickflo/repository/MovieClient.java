@@ -14,11 +14,18 @@ public interface MovieClient {
 
 	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(장르별 영화)
 	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres,
-			@RequestParam String language);
+			@RequestParam String language, @RequestParam String page);
+
+	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point
+	TmdbResponse getCountryMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_origin_country,
+			@RequestParam String language, @RequestParam String page);
 
 	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(영화 상세)
-	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable(name = "id") Long id,
+	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id,
 			@RequestParam String language);
+
+	@GetMapping("/configuration/countries") // 기본 URL 뒤에 붙일 end point(국가)
+	List<CountryData> getCountry(@RequestParam("api_key") String apiKey, @RequestParam String language);
 
 	// tmdb api의 영화 목록 필드 results
 	class TmdbResponse {
@@ -52,6 +59,12 @@ public interface MovieClient {
 		private String release_date;
 		private Integer runtime;
 
+		@JsonProperty("genres")
+		private List<Genre> genres;
+
+		@JsonProperty("origin_country")
+		private List<String> originCountry;
+
 		public Long getId() {
 			return id;
 		}
@@ -78,6 +91,41 @@ public interface MovieClient {
 
 		public Integer getRuntime() {
 			return runtime;
+		}
+
+		public List<Genre> getGenres() {
+			return genres;
+		}
+
+		public List<String> getOriginCountry() {
+			return originCountry;
+		}
+
+	}
+
+	class Genre {
+		private Integer id;
+		private String name;
+
+		public Integer getId() {
+			return id;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	class CountryData {
+		private String iso_3166_1;
+		private String native_name;
+
+		public String getIso_3166_1() {
+			return iso_3166_1;
+		}
+
+		public String getNative_name() {
+			return native_name;
 		}
 	}
 
