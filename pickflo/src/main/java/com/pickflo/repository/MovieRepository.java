@@ -17,7 +17,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long>{
     
     Movie findByMovieCode(Long movieCode);
    
-    
     @Query("select new com.pickflo.dto.SearchGenreDto(m.movieCode, m.movieImg) "
             + "from Movie m "
             + "join MovieGenre mg on m.id = mg.movieId "

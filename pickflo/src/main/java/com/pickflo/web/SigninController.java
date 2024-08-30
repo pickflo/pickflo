@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,32 +31,23 @@ public class SigninController {
 
 	@PostMapping("/user/signin")
 	public String signin(@RequestParam("email") String email, @RequestParam("password") String password,
-	                     RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 
-	    User user = userSvc.findByEmail(email);
-	    log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!userId={}", user.getId());	  
-	    
-	    int pickedCount = UserMovieSvc.getPickedCountByUserId(user.getId());
+		User user = userSvc.findByEmail(email);
+		int pickedCount = UserMovieSvc.getPickedCountByUserId(user.getId());
 
-	    if (passwordEncoder.matches(password, user.getPassword())) {
-	    	
-	    	log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!userId={}", user.getId());	  
-		    log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@pickedCount={}", pickedCount);
-
-		    if (pickedCount < 3) {
-		        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!userId={}", user.getId());
-		        return "redirect:/movie/picker"; // 찜이 3개 미만이면 /movie/picker로 리다이렉트
-		    } else {
-		        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!userId={}", user.getId());
-		        return "redirect:/"; // 찜이 3개 이상이면 홈 페이지로 리다이렉트
-		    }
+		if (passwordEncoder.matches(password, user.getPassword())) {
+			if (pickedCount < 3) {
+				return "redirect:/movie/picker"; // 찜이 3개 미만이면 /movie/picker로 리다이렉트
+			} else {
+				return "redirect:/"; // 찜이 3개 이상이면 홈 페이지로 리다이렉트
+			}
 		} else {
-		    redirectAttributes.addFlashAttribute("errorMessage", "Invalid email or password.");
-		    return "redirect:/user/signin";
+			redirectAttributes.addFlashAttribute("errorMessage", "Invalid email or password.");
+			return "redirect:/user/signin";
 		}
 	}
 
-	
 	@GetMapping("/user/signup")
 	public void signup() {
 

@@ -12,18 +12,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @FeignClient(name = "MovieClient", url = "${tmdb.api.url}") // 기본 URL
 public interface MovieClient {
 
-	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(인기 영화)
+	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point(장르별 영화)
 	TmdbResponse getGenreMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_genres,
 			@RequestParam String language, @RequestParam String page);
 
-	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(인기 영화)
+	@GetMapping("/discover/movie") // 기본 URL 뒤에 붙일 end point
+	TmdbResponse getCountryMovies(@RequestParam("api_key") String apiKey, @RequestParam String with_origin_country,
+			@RequestParam String language, @RequestParam String page);
+
+	@GetMapping("/movie/{id}") // 기본 URL 뒤에 붙일 end point(영화 상세)
 	MovieDetailResponse getMovie(@RequestParam("api_key") String apiKey, @PathVariable Long id,
 			@RequestParam String language);
 
 	@GetMapping("/configuration/countries") // 기본 URL 뒤에 붙일 end point(국가)
 	List<CountryData> getCountry(@RequestParam("api_key") String apiKey, @RequestParam String language);
 
-	// tmdb api의 인기영화 목록 필드 results
+	// tmdb api의 영화 목록 필드 results
 	class TmdbResponse {
 
 		@JsonProperty("results")
@@ -58,6 +62,9 @@ public interface MovieClient {
 		@JsonProperty("genres")
 		private List<Genre> genres;
 
+		@JsonProperty("origin_country")
+		private List<String> originCountry;
+
 		public Long getId() {
 			return id;
 		}
@@ -90,6 +97,10 @@ public interface MovieClient {
 			return genres;
 		}
 
+		public List<String> getOriginCountry() {
+			return originCountry;
+		}
+
 	}
 
 	class Genre {
@@ -103,7 +114,6 @@ public interface MovieClient {
 		public String getName() {
 			return name;
 		}
-
 	}
 
 	class CountryData {
@@ -117,7 +127,6 @@ public interface MovieClient {
 		public String getNative_name() {
 			return native_name;
 		}
-
 	}
 
 }
