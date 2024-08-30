@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
-public class UserMoviePickId {
-
+public class MovieUserId {
+	private static final long serialVersionUID = 1L;
+	
 	private Long userId;
 	private Long movieId;
+
 }
