@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const code = data[i].movieCode;
 			const title = data[i].movieTitle;
 			const img = data[i].movieImg;
-			
+
 			htmlStr += `
 				<div class="movie" code="${code}">
 					<div class="poster"> 
@@ -66,16 +66,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// 홈으로 가기 버튼 클릭 이벤트 
 	goToHome.addEventListener('click', (event) => {
-		// 선택된 영화 목록 가져오기
-		const selectedMovies = Array.from(document.querySelectorAll('.selected')).map(movie => movie.getAttribute('code'));
+		// 선택된 영화 코드 배열로 가져오기
+		const selectedMoviesCode = Array.from(document.querySelectorAll('.selected')).map(movie => movie.getAttribute('code'));
+
+		// 사용자가 선택한 영화 객체 생성
+		const user={
+			userId:1
+		};		
+
+		const data = selectedMoviesCode.map(movieId => ({
+			userMoviePick: {
+				user:user,
+				movie:{id:movieId}
+			}
+		}));
 
 		// 선택된 영화 목록 DB 저장
-		const uri=``;
+		const uri = `/pickflo/api/usermovie/save`;
 		axios
-			.post(data,uri)
-		
-	});
+			.post(uri,data)
+			.then((response) => {
+				console.log(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+
+});
 
 
 });
-	

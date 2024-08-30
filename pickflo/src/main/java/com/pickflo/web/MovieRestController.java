@@ -10,15 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/api/genre")
+@RequestMapping("/api/movie")
 @RestController
 @RequiredArgsConstructor
 public class MovieRestController {
-
 	
 	private final MovieService movieSvc;
 	
-	@GetMapping("/save")
+	@GetMapping("/save-movies")
 	public void  getMovieId() {
 		movieSvc.getMovieId();
 	}
