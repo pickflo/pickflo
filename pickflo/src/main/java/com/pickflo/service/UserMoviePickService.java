@@ -36,14 +36,18 @@ public class UserMoviePickService {
 			Movie movie = movieRepo.findById(dto.getMovieId()).orElseThrow();
 			log.info("movie: {}", movie);
 
-			UserMoviePick ump = UserMoviePick.builder()
-								.userId(user.getId()).movieId(movie.getId()).user(user).movie(movie)
-								.build();
+			UserMoviePick ump = UserMoviePick.builder().userId(user.getId()).movieId(movie.getId()).user(user)
+					.movie(movie).build();
 			log.info("ump: {}", ump);
 
 			return ump;
 		}).collect(Collectors.toList());
 
 		pickRepo.saveAll(userMoviePicks);
+	}
+
+	@Transactional
+	public int getPickedCountByUserId(Long userId) {
+		return pickRepo.countByUserId(userId);
 	}
 }

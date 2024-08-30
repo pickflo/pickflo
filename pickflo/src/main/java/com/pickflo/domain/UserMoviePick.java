@@ -1,7 +1,5 @@
 package com.pickflo.domain;
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,23 +17,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Setter
 @Builder
-@ToString @EqualsAndHashCode
+@ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "USERS_MOVIES")
 @IdClass(UserMoviePickId.class)
 public class UserMoviePick {
-	
+
 	@Id
-    @Column(name = "user_id")
-    private Long userId;
-	
+	@Column(name = "user_id")
+	private Long userId;
+
 	@Id
 	@Column(name = "movie_id")
 	private Long movieId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", insertable = false, updatable = false)
 	private User user;

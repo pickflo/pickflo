@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class UserMoviePickDto {
 
