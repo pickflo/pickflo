@@ -1,17 +1,11 @@
 package com.pickflo.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pickflo.repository.UserMoviePickRepository;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -30,23 +24,19 @@ import lombok.ToString;
 @ToString @EqualsAndHashCode
 @Entity
 @Table(name = "USERS_MOVIES")
-@IdClass(UserMoviePickId.class)
 public class UserMoviePick {
-	
 	@Id
-    @Column(name = "user_id")
-    private Long userId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@Id
-	@Column(name = "movie_id")
-	private Long movieId;
-	
+	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
+	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "movie_id", insertable = false, updatable = false)
+	@JoinColumn(name = "movie_id")
 	private Movie movie;
 
 }

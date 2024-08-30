@@ -55,17 +55,10 @@ main {
 	align-items: flex-start; /* 상단 정렬 */
 	gap: 5px; /* 아이콘들 사이의 간격 */
 	margin-top: 10px; /* '홈으로 가기' 텍스트와 아이콘들 사이의 간격 */
-}
-
-a {
 	font-size: 14px; /* 텍스트 크기 */
 	font-weight: bold; /* 선택 사항: 폰트 두께 */
 	text-decoration: none; /* 밑줄 제거 */
 	color: #E50913; /* 링크의 색상을 기본 텍스트 색상과 동일하게 설정 */
-}
-
-a:hover {
-	text-decoration: none; /* 마우스 오버 시에도 밑줄 제거 유지 */
 }
 
 /* 기본적인 레이아웃 설정 */

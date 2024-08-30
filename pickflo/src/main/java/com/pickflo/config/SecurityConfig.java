@@ -49,7 +49,7 @@ public class SecurityConfig {
 	      .authorizeHttpRequests((requests) -> requests
 	          .requestMatchers("/user/signin", "/user/signup").permitAll()
 	          .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()  // 정적 자원 접근 허용
-	          .requestMatchers("/api/check-email","/api/check-password").permitAll() // API 경로에 대한 접근 허용 
+	          .requestMatchers("/api/**").permitAll() // API 경로에 대한 접근 허용 
 	          .anyRequest().authenticated()
 	      )
 	      .formLogin((form) -> form

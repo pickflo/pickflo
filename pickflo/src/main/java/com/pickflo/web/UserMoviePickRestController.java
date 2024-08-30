@@ -8,12 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pickflo.domain.Movie;
-import com.pickflo.domain.User;
-import com.pickflo.domain.UserMoviePick;
 import com.pickflo.dto.UserMoviePickDto;
-import com.pickflo.repository.MovieRepository;
-import com.pickflo.repository.UserRepository;
 import com.pickflo.service.UserMoviePickService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,8 +25,9 @@ public class UserMoviePickRestController {
 	@PostMapping("/save")
 	public ResponseEntity<?> save(@RequestBody List<UserMoviePickDto> list) {
 		try {
-			log.info("list=============={}",list);
-			svc.create(list);
+			log.info("@@@@@@@@@controller-list=${}",list);
+
+			svc.create(list); 
 			return ResponseEntity.ok("Movies saved successfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("Error occurred while saving movies");

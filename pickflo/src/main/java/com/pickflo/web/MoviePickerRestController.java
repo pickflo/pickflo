@@ -24,7 +24,6 @@ public class MoviePickerRestController {
 	@GetMapping("/list")
 	public ResponseEntity<List<Movie>> readMovies() {
 		List<Movie> list=svc.readMovies();
-		log.info("@@@@@@@@@@controller-list={}",list);
 		return ResponseEntity.ok(list);
 	}
 }
