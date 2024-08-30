@@ -38,8 +38,6 @@ public class SigninController {
 
 		if (user != null) {
 			if (passwordEncoder.matches(password, user.getPassword())) {
-				session.setAttribute("user", user);
-				session.getAttribute("user=====%%%%%####={}");
 				return "redirect:/home";
 			} else {
 				redirectAttributes.addFlashAttribute("errorMessage");

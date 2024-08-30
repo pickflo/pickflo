@@ -24,24 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/usermovie")
 public class UserMoviePickRestController {
-	
-	private final UserMoviePickService svc;
-	private final UserRepository userRepo;
-	private final MovieRepository movieRepo;
-	
-	@PostMapping("/save")
-	public ResponseEntity<List<UserMoviePick>> save(@RequestBody List<UserMoviePickDto> list){
-		List<UserMoviePick> resultList=null;
-		for(UserMoviePickDto dto:list) {
-			  User user = userRepo.findById(dto.getUserId()).orElseThrow();
-		      Movie  movie = movieRepo.findById(dto.getMovieId()).orElseThrow();
-			UserMoviePick result=UserMoviePick.builder()
-			.user(user).movie(movie).build();
-			resultList.add(result);
-			svc.create(result);
 
+	private final UserMoviePickService svc;
+
+	@PostMapping("/save")
+	public ResponseEntity<?> save(@RequestBody List<UserMoviePickDto> list) {
+		try {
+			log.info("list=============={}",list);
+			svc.create(list);
+			return ResponseEntity.ok("Movies saved successfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("Error occurred while saving movies");
 		}
-		return ResponseEntity.ok(resultList);
 	}
 
 }

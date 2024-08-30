@@ -70,16 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const selectedMoviesCode = Array.from(document.querySelectorAll('.selected')).map(movie => movie.getAttribute('code'));
 
 		// 사용자가 선택한 영화 객체 생성
-		const user={
-			userId:1
-		};		
+		const userId=1;
 
-		const data = selectedMoviesCode.map(movieId => ({
-			userMoviePick: {
-				user:user,
-				movie:{id:movieId}
-			}
-		}));
+		const data = selectedMoviesCode.map(movieId => {
+			userId,movieId
+		});
 
 		// 선택된 영화 목록 DB 저장
 		const uri = `/pickflo/api/usermovie/save`;
