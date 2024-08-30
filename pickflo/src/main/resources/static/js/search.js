@@ -85,28 +85,39 @@
 	}
 	
 	function filterMovies() {
+        let queryParams = '';
+        
         if (selectedGenre) {
             const genreCode = selectedGenre.getAttribute('data-value');
-            
-            // 장르 코드로 영화 정보를 찾는 API 호출
-	        fetch(`/pickflo/api/search/genre?genreCode=${encodeURIComponent(genreCode)}`)
-	            .then(response => {
-	                if (!response.ok) {
-	                    throw new Error(`HTTP error! Status: ${response.status}`);
-	                }
-	                return response.json();
-	            })
-	            .then(movies => {
-	                console.log('Filtered Movies:', movies);
-	                updateMovieList(movies);
-	            })
-	            .catch(error => {
-	                console.error('Error fetching movies:', error.message);
-	            });
-	    } else {
-	        // 장르가 선택되지 않은 경우 영화 목록 비우기
-	        updateMovieList([]);
-	    }
+            queryParams += `genreCode=${encodeURIComponent(genreCode)}`;
+        }
+        
+        if (selectedCountry) {
+            const countryCode = selectedCountry.getAttribute('data-value');
+            if (queryParams.length > 0) queryParams += '&';
+            queryParams += `countryCode=${encodeURIComponent(countryCode)}`;
+        }
+        
+        if (queryParams.length > 0) {
+            // 장르와 국가 코드로 영화 정보를 찾는 API 호출
+            fetch(`/pickflo/api/search/movies?${queryParams}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(movies => {
+                    console.log('Filtered Movies:', movies);
+                    updateMovieList(movies);
+                })
+                .catch(error => {
+                    console.error('Error fetching movies:', error.message);
+                });
+        } else {
+            // 장르와 국가가 선택되지 않은 경우 영화 목록 비우기
+            updateMovieList([]);
+        }
     }
 	
 	function updateMovieList(movies) {

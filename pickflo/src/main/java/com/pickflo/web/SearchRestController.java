@@ -23,18 +23,20 @@ public class SearchRestController {
 
 	private final SearchService searchSvc;
 	
-	@GetMapping("/genre")
-    public ResponseEntity<?> searchMoviesByGenreCode(@RequestParam Integer genreCode) {
-        log.info("Received request for genreCode: {}", genreCode); 
+	@GetMapping("/movies")
+    public ResponseEntity<?> searchMoviesByGenreAndCountry(
+            @RequestParam(required = false) Integer genreCode,
+            @RequestParam(required = false) String countryCode) {
+        log.info("Received request for genreCode: {}, countryCode: {}", genreCode, countryCode);
         try {
-            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreCode(genreCode);
+            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode);
             if (!movies.isEmpty()) {
                 return ResponseEntity.ok(movies);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No movies found for this genre");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No movies found for the given criteria");
             }
         } catch (Exception e) {
-            log.error("Error occurred while searching movies by genre code: ", e);
+            log.error("Error occurred while searching movies by genre and/or country: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
