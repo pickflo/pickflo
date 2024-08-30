@@ -58,4 +58,7 @@ public class Movie {
 	@OneToMany(mappedBy = "movie")
 	private Set<MovieCountry> movieCountries;
 	
+	@OneToMany(mappedBy = "movie")
+	private Set<MoviePerson> moviePeople;
+	
 }

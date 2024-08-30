@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pickflo.domain.Movie;
 import com.pickflo.dto.SearchGenreDto;
 import com.pickflo.service.SearchService;
 
@@ -23,6 +24,7 @@ public class SearchRestController {
 
 	private final SearchService searchSvc;
 	
+	// 장르와 국가 코드로 영화 검색
 	@GetMapping("/movies")
     public ResponseEntity<?> searchMoviesByGenreAndCountry(
             @RequestParam(required = false) Integer genreCode,
@@ -40,4 +42,22 @@ public class SearchRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+	
+	// 키워드로 영화 검색
+//    @GetMapping("/movies/keywords")
+//    public ResponseEntity<?> searchMoviesByKeywords(
+//            @RequestParam(required = false) String[] keywords) {
+//        log.info("Received request for keywords: {}", (Object) keywords);
+//        try {
+//            List<Movie> movies = searchSvc.searchByKeywords(keywords);
+//            if (!movies.isEmpty()) {
+//                return ResponseEntity.ok(movies);
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No movies found for the given keywords");
+//            }
+//        } catch (Exception e) {
+//            log.error("Error occurred while searching movies by keywords: ", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 }
