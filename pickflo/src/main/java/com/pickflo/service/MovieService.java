@@ -1,6 +1,5 @@
 package com.pickflo.service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pickflo.domain.Genre;
 import com.pickflo.domain.Movie;
 import com.pickflo.domain.MovieGenre;
+import com.pickflo.repository.CountryRepository;
 import com.pickflo.repository.GenreRepository;
 import com.pickflo.repository.MovieClient;
 import com.pickflo.repository.MovieClient.MovieDetailResponse;
@@ -30,6 +30,7 @@ public class MovieService {
 	private final MovieRepository movieRepo;
 	private final GenreRepository genreRepo;
 	private final MovieGenreRepository movieGenreRepo;
+	private final CountryRepository countryRepo;
 
 	@Value("${tmdb.api.key}")
 	private String apiKey;
@@ -80,7 +81,7 @@ public class MovieService {
 
 				saveMovieGenres(movie.getId(), movieData.getGenres());
 			} else {
-				log.info("Movie with code {} already exists in the database.", movieData.getId());
+				log.info("MovieUserRepository with code {} already exists in the database.", movieData.getId());
 			}
 		}
 	}
@@ -101,4 +102,5 @@ public class MovieService {
 			}
 		}
 	}
+	
 }

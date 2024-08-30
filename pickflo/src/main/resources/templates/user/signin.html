@@ -10,16 +10,15 @@
 	<div class="overlay"></div>
 		<main>
 			<div id="logo">
-				<a href="/pickflo/user/signin" class="signin-link">
 					<h1>PICKFLO</h1>
 				</a>
 			</div>
 			<div class="card card-body mx-auto">
 				<form th:action="@{/user/signin}" method="post" id="loginForm">
 					<input type="text" class="form-control" id="email"
-						name="email" placeholder="이메일" required autofocus autocomplete="off" /> <input
-						type="password" class="form-control" id="password" name="password"
-						placeholder="비밀번호" required />
+						name="email" placeholder="이메일" required autofocus autocomplete="off" /> 
+						<input type="password" class="form-control" id="password" name="password"
+								placeholder="비밀번호" required />
 					<button type="submit" class="form-control btn" id="btnSignIn">로그인</button>
 				</form>
 				<a id="linkSignUp" href="/pickflo/user/signup" class="form-control btn">회원가입</a>

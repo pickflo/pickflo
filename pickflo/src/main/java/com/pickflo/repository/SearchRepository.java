@@ -19,4 +19,3 @@ public interface SearchRepository extends JpaRepository<Movie, Long> {
             + "where g.genreCode = :genreCode")
     List<SearchGenreDto> findMoviesByGenreCode(@Param("genreCode") Integer genreCode);
 }
-
