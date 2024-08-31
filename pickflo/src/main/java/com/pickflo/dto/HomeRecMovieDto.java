@@ -1,5 +1,7 @@
 package com.pickflo.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HomeRecMovieDto {
-	private Long movieCode;
+	private Long movieId;
 	private String movieImg;
+	// private LocalDate movieReleaseDate;
 }
