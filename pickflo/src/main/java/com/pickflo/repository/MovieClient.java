@@ -140,7 +140,7 @@ public interface MovieClient {
 		// 감독
 		@JsonProperty("crew")
 		private List<PersonData> crew;
-
+		
 		public List<PersonData> getCast() {
 			return cast;
 		}
@@ -148,13 +148,15 @@ public interface MovieClient {
 		public List<PersonData> getCrew() {
 			return crew;
 		}
-
 	}
 
 	class PersonData {
 		private String known_for_department;
 		private String name;
-
+		// 인기도
+		@JsonProperty("popularity") 
+		private double popularity;
+			
 		public String getKnown_for_department() {
 			return known_for_department;
 		}
@@ -162,6 +164,9 @@ public interface MovieClient {
 		public String getName() {
 			return name;
 		}
-
+		
+		public double getPopularity() {
+			return popularity;
+		}
 	}
 }
