@@ -29,7 +29,8 @@
     clearInput.addEventListener('click', () => {
         searchInput.value = '';
         toggleClearButton(); 
-        searchInput.focus(); 
+        searchInput.focus();
+        updateMovieList([]); // 검색 결과를 비웁니다.
     });
 
     // 페이지 로드 시 X 아이콘 상태 업데이트
@@ -128,14 +129,16 @@
 	        movieList.innerHTML = '';
 	    } else {
 	        movies.forEach(movie => {
-	            const movieCard = document.createElement('div');
-	            movieCard.classList.add('movie-card');
-	            
-	            movieCard.innerHTML = `
-	                <img src="${movie.movieImg}" alt="${movie.movieTitle}" class="poster-image">        
-	            `;
-	            
-	            movieList.appendChild(movieCard);
+	            if (movie.movieImg && movie.movieImg.trim() !== '') {
+	                const movieCard = document.createElement('div');
+	                movieCard.classList.add('movie-card');
+	                
+	                movieCard.innerHTML = `
+	                    <img src="${movie.movieImg}" class="poster-image">
+	                `;
+	                
+	                movieList.appendChild(movieCard);
+	            }
 	        });
 	    }
     }

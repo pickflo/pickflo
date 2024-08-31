@@ -22,7 +22,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Entity 
 @Table(name = "PEOPLE")
-public class People {
+public class Person {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

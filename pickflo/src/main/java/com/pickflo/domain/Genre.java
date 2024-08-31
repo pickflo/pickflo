@@ -15,9 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter @Builder
-@ToString @EqualsAndHashCode
+@NoArgsConstructor 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@Getter
+@ToString 
+@EqualsAndHashCode
 @Entity
 @Table(name="GENRES")
 public class Genre {
