@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 			.then((response) => {
 				console.log(response.data);
-				window.location.href = '/pickflo/home';
+				window.location.href = '/pickflo';
 			})
 			.catch((error) => {
 				console.log(error)

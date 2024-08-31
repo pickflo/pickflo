@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 body, html {
-	background-color: #141414; 
-	color: #e5e5e5; 
+	background-color: #141414;
+	color: #e5e5e5;
 	margin: 0;
 	padding: 0;
 	font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@ main {
 	top: 0;
 	left: 0;
 	width: 100%;
-	padding: 25px;
+	padding: 25px 25px 20px 25px;
 	background-color: rgba(0, 0, 0, 0.8); /* 검정색 배경에 80% 불투명도 추가 */
 	z-index: 1000; /* 다른 요소보다 위에 위치하도록 설정 */
 	display: flex;
@@ -36,37 +36,38 @@ main {
 }
 
 .intro-title {
-	font-size: 24px; 
-	font-weight: bold; 
+	font-size: 24px;
+	font-weight: bold;
 }
 
 .intro-text {
-	font-size: 16px; 
+	font-size: 16px;
 	margin-bottom: 10px; /* intro-text와 홈으로 가기 사이의 여백을 줄임 */
-	text-align: center; 
+	text-align: center;
 	white-space: normal; /* 텍스트가 자동으로 줄 바꿈 되도록 설정 */
-	margin: 0; 
+	margin: 0;
 }
 
 #home {
 	display: flex; /* 아이콘들을 수평으로 정렬 */
-	justify-content: center; 
-	align-items: flex-start; 
-	gap: 5px; 
+	justify-content: center;
+	align-items: flex-start;
+	gap: 5px;
 	margin-top: 10px; /* '홈으로 가기' 텍스트와 아이콘들 사이의 간격 */
 }
 
 #home p {
-	font-size: 14px; 
+	font-size: 14px;
 	font-weight: bold;
 	color: #E50913;
+	margin: 0;
 }
 
 /* 기본적인 레이아웃 설정 */
 #layout {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr); /* 한 줄에 7개의 열을 설정 */
-	gap: 15px; 
+	gap: 15px;
 	width: 100%;
 	padding-top: 140px; /* #intro의 높이 만큼 패딩 추가 */
 	margin: 0 auto;
@@ -101,7 +102,7 @@ main {
 }
 
 .movie .overlay i { /* 아이콘 스타일 추가 */
-	font-size: 2rem; 
+	font-size: 2rem;
 }
 
 .movie.selected .overlay {
@@ -111,7 +112,7 @@ main {
 .poster {
 	width: 100%;
 	height: 100%;
-	border-radius: 10px; 
+	border-radius: 10px;
 	transition: transform 0.3s ease; /* 마우스 오버 시 부드럽게 확대 */
 	overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
 }
@@ -133,21 +134,21 @@ main {
 	}
 	#layout {
 		grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 열을 설정 */
-		gap: 10px; 
+		gap: 10px;
 	}
 	.poster {
 		width: 100%;
-		height: auto; 
+		height: auto;
 	}
 	.poster-image {
 		height: 150px; /* 모바일에서는 포스터 이미지 높이를 줄임 */
 	}
 	.intro-text {
 		font-size: 14px; /* 모바일에서 텍스트 크기 줄임 */
-		line-height: 1.4; 
+		line-height: 1.4;
 	}
 	.intro-text span {
 		display: block; /* span 태그를 블록 요소로 변경하여 두 줄로 나누기 */
-		margin-bottom: 5px; 
+		margin-bottom: 5px;
 	}
 }
