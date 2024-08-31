@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HomeRecMovieDto {
-	private Long movieCode;
+	private Long movieId;
 	private String movieImg;
 }

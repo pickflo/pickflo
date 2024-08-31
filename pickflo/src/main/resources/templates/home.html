@@ -3,9 +3,9 @@
 <head>
 <link rel="stylesheet" href="/pickflo/css/fragments.css">
 <link rel="stylesheet" href="/pickflo/css/home.css">
+<link rel="stylesheet" href="/pickflo/css/list.css">
 <link href="/pickflo/css/list.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -13,23 +13,18 @@
 
 </head>
 <body>
-	
-		<th:block th:replace="~{/layout/fragments :: userHeader}"></th:block>
-	
-		<main class="custom-container">
+	<th:block th:replace="~{/layout/fragments :: userHeader}"></th:block>
+	<main class="custom-container">
 		<div class="custom-body">
-			<div class="nickname"
-				th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></div>
-			<a href="/pickflo/movie/search" class="btn" id="searchBtn"> <i
-				class="bi bi-search"></i>
-			</a>
-		</div>
-	
+			<div class="nickname" th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></div>
+			<a href="/pickflo/movie/search" class="btn" id="searchBtn"> <i class="bi bi-search"></i></a>
+		</div>	
 		<div class="list-wrap">
 			<div class="movie-list"></div>
 		</div>
 	</main>
-
+	
+	<script th:src="@{/js/home.js}"></script>
 	<th:block th:replace="~{/layout/fragments :: userHeaderJS}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
