@@ -32,10 +32,7 @@ body {
 	color: #fff !important;
 }
 
-#logo h1 {
-	margin-left: 20px;
-	margin-top: 20px;
-	
+#logo {
 	font-family: 'PartialSansKR-Regular', Arial, sans-serif;
 	font-size: 2em;
 	font-weight: normal;
