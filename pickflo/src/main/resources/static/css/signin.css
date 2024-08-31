@@ -15,13 +15,13 @@
 
 /* 배경 이미지 및 오버레이 스타일 */
 .background-container {
-	position: relative;
-	width: 100%;
-	height: 100vh;
-	background-image: url('/pickflo/images/main.png'); /* 배경 이미지 경로 */
-	background-size: 70%;
-	background-position: center;
-	overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100vh;   
+    background-image: url('/pickflo/images/main.png');
+    background-size: 120%; 
+    background-position: center;
+    overflow: hidden;
 }
 
 /* 배경 이미지 위의 어두운 오버레이 */
@@ -163,3 +163,15 @@ a {
 	text-align: center;
 	padding: 50px;
 }
+
+@media ( max-width : 768px) {
+	.background-container {
+		background-size: 200%; 
+	}
+	
+	.card.card-body {
+		width: 100%;
+	}
+}
+
+
