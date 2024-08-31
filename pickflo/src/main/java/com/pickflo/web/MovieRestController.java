@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pickflo.service.CountryService;
 import com.pickflo.service.MovieService;
+import com.pickflo.service.PersonService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class MovieRestController {
 
 	private final MovieService movieSvc;
 	private final CountryService countrySvc;
+	private final PersonService personSvc;
 	
 	@GetMapping("/saveMoviesByGenres")
     public ResponseEntity<String> fetchAndSaveMoviesByGenres() {
@@ -62,5 +64,16 @@ public class MovieRestController {
 	public void getCountryCode() {
 		countrySvc.getCountryId();
 	}
-
+	
+	@GetMapping("savePeopleByMovieId")
+	public ResponseEntity<String> savePeopleByMovieId() {
+		try {
+			personSvc.savePersonByMovieId(385L);
+			return ResponseEntity.ok("Movies by genres fetched and saved successfully.");
+		} catch (Exception e) {
+			log.error("Error occurred while fetching and saving movies by genres: ", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to fetch and save movies by genres.");
+		}
+	}
 }

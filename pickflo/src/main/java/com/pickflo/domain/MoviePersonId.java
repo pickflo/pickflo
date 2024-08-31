@@ -6,12 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class MoviePersonId {
-	
+
 	private Long movieId;
-	private String moviePersonJob;
 	private Long personId;
 }
