@@ -78,7 +78,8 @@
 				<div class="movie-card" th:each="movie : ${searchMovies}">
 				  <img class="poster-image" th:src="@{${movie.movieImg}}">
 				</div> 
-			</div> 
+			</div>
+			<div id="loading" style="display: none;">로딩중</div>
 		</div>
 		
 		<script th:src="@{/js/search.js}"></script>

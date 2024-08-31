@@ -28,10 +28,12 @@ public class SearchRestController {
 	@GetMapping("/movies")
     public ResponseEntity<?> searchMoviesByGenreAndCountry(
             @RequestParam(required = false) Integer genreCode,
-            @RequestParam(required = false) String countryCode) {
-        log.info("Received request for genreCode: {}, countryCode: {}", genreCode, countryCode);
+            @RequestParam(required = false) String countryCode,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit) {
+        log.info("Received request for genreCode: {}, countryCode: {}, page: {}, limit: {}", genreCode, countryCode, page, limit);
         try {
-            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode);
+            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode, page, limit);
             if (!movies.isEmpty()) {
                 return ResponseEntity.ok(movies);
             } else {
@@ -42,6 +44,27 @@ public class SearchRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+	
+	
+	
+	
+//	@GetMapping("/movies")
+//    public ResponseEntity<?> searchMoviesByGenreAndCountry(
+//            @RequestParam(required = false) Integer genreCode,
+//            @RequestParam(required = false) String countryCode) {
+//        log.info("Received request for genreCode: {}, countryCode: {}", genreCode, countryCode);
+//        try {
+//            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode);
+//            if (!movies.isEmpty()) {
+//                return ResponseEntity.ok(movies);
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No movies found for the given criteria");
+//            }
+//        } catch (Exception e) {
+//            log.error("Error occurred while searching movies by genre and/or country: ", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 	
 	// 키워드로 영화 검색
 //    @GetMapping("/movies/keywords")
