@@ -9,11 +9,9 @@
 	<div>
 	<div class="overlay"></div>
 		<main>
-			<div id="logo">
-					<h1>PICKFLO</h1>
-				</a>
-			</div>
-			<div class="card card-body mx-auto">
+					<h1 id="logo">PICKFLO</h1>
+			
+			<div class="card card-body">
 				<form th:action="@{/user/signin}" method="post" id="loginForm">
 					<input type="text" class="form-control" id="email"
 						name="email" placeholder="이메일" required autofocus autocomplete="off" /> 
@@ -32,7 +30,8 @@
 		const form = document.getElementById('loginForm');
 		form.addEventListener('keydown', function(event) {
 			if (event.key === 'Enter') {
-				event.preventDefault();
+				event.preventDefault(); // 기본 Enter 동작 방지 (폼 제출 방지)
+				document.getElementById('btnSignIn').click(); // 로그인 버튼 클릭
 			}
 		});
 	</script>

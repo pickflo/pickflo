@@ -58,7 +58,6 @@ public class MovieService {
 	private static final int MAX_CAST = 10;
 	private static final int MAX_CREW = 2;
 
-
 	/*
 	 * 액션(28), 모험(12), 애니메이션(16), 코미디(35), 범죄(80), 다큐멘터리(99), 드라마(18), 가족(10751),
 	 * 판타지(14), 역사(36), 공포(27), 음악(10402), 미스터리(9648), 로맨스(10749), SF(878), 스릴러(53),
@@ -67,7 +66,7 @@ public class MovieService {
 
 	/* 대한민국(KR), 미국(US), 대만(TW), 일본(JP), 중국(CN) */
 	// 장르와 국가 데이터 배열 정의
-	private final String[] with_genres = {"53"};
+	private final String[] with_genres = { "28"};
 	private final String[] with_origin_country = { "KR", "TW", "CN" };
 
 	@Transactional

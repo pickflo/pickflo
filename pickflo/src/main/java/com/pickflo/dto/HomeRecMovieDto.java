@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchGenreDto {
+public class HomeRecMovieDto {
 	private Long movieCode;
 	private String movieImg;
 }

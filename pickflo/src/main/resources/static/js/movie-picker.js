@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const selectedMoviesCode = Array.from(document.querySelectorAll('.selected')).map(movie => movie.getAttribute('movie-id'));
 		
 		// TODO: 로그인 유저 아이디 가져오기
-		const userId=1;	
+		const userId = document.getElementById('userId').value;
 
 		// 사용자가 선택한 영화 객체 생성
 		const data = selectedMoviesCode.map(movieId => ({ userId, movieId }));
