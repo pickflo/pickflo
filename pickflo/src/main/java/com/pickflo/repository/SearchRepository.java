@@ -8,8 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.pickflo.domain.Movie;
 import com.pickflo.dto.SearchGenreDto;
-import com.pickflo.dto.SearchMovieListDto;
-
 
 public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuerydsl {
 	
@@ -32,10 +30,5 @@ public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuer
 			+ "or upper(p.personName) like upper('%' || :keywords || '%') ")
 
 	List<Movie> findByMovieTitleOrPersonName(@Param("keywords") String keywords);
-	
-	
-	
+
 }
-
-
-
