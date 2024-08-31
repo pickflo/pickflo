@@ -42,8 +42,10 @@ public class SecurityConfig {
 		// 로그인 페이지(폼) 설정 - 스프링 시큐리티에서 제공하는 기본 HTML 페이지를 사용.
 		// http.formLogin(Customizer.withDefaults());
 		// Custom 로그인 HTML 페이지를 사용.
-		http.authorizeHttpRequests((requests) -> requests.requestMatchers("/user/signin", "/user/signup").permitAll()
-				.requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // 정적 자원 접근 허용
+		http.authorizeHttpRequests((requests) -> 
+		requests.requestMatchers("/user/signin/**", "/user/signup**").permitAll()
+				.requestMatchers("/css/signin.css", "/css/signup.css", "/css/fragment.css"
+						,"/js/signup.js", "/images/main.png").permitAll() // 정적 자원 접근 허용
 				.requestMatchers("/api/**").permitAll() // API 경로에 대한 접근 허용
 				.anyRequest().authenticated())
 				.formLogin((form) -> form.loginPage("/user/signin")

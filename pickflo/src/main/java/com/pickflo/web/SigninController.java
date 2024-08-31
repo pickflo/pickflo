@@ -29,25 +29,6 @@ public class SigninController {
 
 	}
 
-	@PostMapping("/user/signin")
-	public String signin(@RequestParam("email") String email, @RequestParam("password") String password,
-			RedirectAttributes redirectAttributes) {
-
-		User user = userSvc.findByEmail(email);
-		int pickedCount = UserMovieSvc.getPickedCountByUserId(user.getId());
-
-		if (passwordEncoder.matches(password, user.getPassword())) {
-			if (pickedCount < 3) {
-				return "redirect:/movie/picker"; // 찜이 3개 미만이면 /movie/picker로 리다이렉트
-			} else {
-				return "redirect:/"; // 찜이 3개 이상이면 홈 페이지로 리다이렉트
-			}
-		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "Invalid email or password.");
-			return "redirect:/user/signin";
-		}
-	}
-
 	@GetMapping("/user/signup")
 	public void signup() {
 
