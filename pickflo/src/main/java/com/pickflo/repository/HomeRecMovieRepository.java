@@ -83,7 +83,7 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 	        "FROM movies m " +
 	        "JOIN movies_people mp ON m.movie_id = mp.movie_id " +
 	        "JOIN people p ON mp.person_id = p.person_id " +
-	        "JOIN topitems ti ON ti.타입 = '사람' AND ti.이름 = p.person_name", 
+	        "JOIN topitems ti ON ti.타입 = '사람' AND ti.이름 = p.person_name " , 
 	        nativeQuery = true)
 	    List<Object[]> findMoviesByUserId(@Param("userId") Long userId);
 	    
