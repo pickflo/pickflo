@@ -22,4 +22,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>{
             + "join MovieGenre mg on m.id = mg.movieId "
             + "where mg.genreId = :genreId")
     List<SearchGenreDto> findMoviesByGenreId(@Param("genreId") Long genreId);
+    
 }

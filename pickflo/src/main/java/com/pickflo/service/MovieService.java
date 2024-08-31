@@ -54,7 +54,7 @@ public class MovieService {
 
 	/* 대한민국(KR), 미국(US), 대만(TW), 일본(JP), 중국(CN) */
 	// 장르와 국가 데이터 배열 정의
-	private final String[] with_genres = { "10751", "14", "36", "27", "10402", "9648", "10749", "878", "53", "10752" };
+	private final String[] with_genres = { "28"};
 	private final String[] with_origin_country = { "KR", "TW", "CN" };
 
 	@Transactional

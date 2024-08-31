@@ -46,6 +46,7 @@ public class UserMoviePickService {
 		pickRepo.saveAll(userMoviePicks);
 	}
 
+	//유저가 찜한 영화의 갯수 확인
 	@Transactional
 	public int getPickedCountByUserId(Long userId) {
 		return pickRepo.countByUserId(userId);

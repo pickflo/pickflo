@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" href="/pickflo/css/fragments.css">
 <link rel="stylesheet" href="/pickflo/css/home.css">
@@ -15,12 +15,11 @@
 	<th:block th:replace="~{/layout/fragments :: userHeader}"></th:block>
 	<main class="custom-container">
 		<div class="custom-body">
-			<div class="nickname" th:text="${user.nickname} + '님을 위한 영화 추천'"></div>
-
-				<a href="/pickflo/movie/search" class="btn" id="searchBtn"> <i
-					class="bi bi-search"></i>
-				</a>
-
+			<div class="nickname"
+				th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></div>
+			<a href="/pickflo/movie/search" class="btn" id="searchBtn"> <i
+				class="bi bi-search"></i>
+			</a>
 		</div>
 		<div class="list-wrap">
 			<div class="movie-list"></div>
@@ -30,6 +29,6 @@
 	<th:block th:replace="~{/layout/fragments :: userHeaderJS}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
-
+	
 </body>
 </html>
