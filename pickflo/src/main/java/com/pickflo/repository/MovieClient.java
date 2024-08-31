@@ -27,6 +27,10 @@ public interface MovieClient {
 	@GetMapping("/configuration/countries") // 기본 URL 뒤에 붙일 end point(국가)
 	List<CountryData> getCountry(@RequestParam("api_key") String apiKey, @RequestParam String language);
 
+	@GetMapping("/movie/{id}/credits") // 기본 URL 뒤에 붙일 end point(영화 출연진 및 제작진)
+	MovieCreditsResponse getMoviePerson(@RequestParam("api_key") String apiKey, @PathVariable Long id,
+			@RequestParam String language);
+
 	// tmdb api의 영화 목록 필드 results
 	class TmdbResponse {
 
@@ -129,4 +133,35 @@ public interface MovieClient {
 		}
 	}
 
+	class MovieCreditsResponse {
+		// 배우
+		@JsonProperty("cast")
+		private List<PersonData> cast;
+		// 감독
+		@JsonProperty("crew")
+		private List<PersonData> crew;
+
+		public List<PersonData> getCast() {
+			return cast;
+		}
+
+		public List<PersonData> getCrew() {
+			return crew;
+		}
+
+	}
+
+	class PersonData {
+		private String known_for_department;
+		private String name;
+
+		public String getKnown_for_department() {
+			return known_for_department;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+	}
 }

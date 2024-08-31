@@ -17,12 +17,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
-@Setter
-@Builder
-@ToString
+@NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter 
+@Builder @ToString
 @EqualsAndHashCode
 @Entity
 @Table(name = "USERS_MOVIES")

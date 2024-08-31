@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		let htmlStr = '';
 		for (let i = 0; i < data.length; i++) {
 			const id = data[i].id;
-			const title = data[i].movieTitle;
-			const img = data[i].movieImg;
+			const title = data[i].title;
+			const img = data[i].img;
 
 			htmlStr += `
 				<div class="movie" movie-id="${id}">

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MovieUserId {
-	private static final long serialVersionUID = 1L;
 	
 	private Long userId;
 	private Long movieId;
