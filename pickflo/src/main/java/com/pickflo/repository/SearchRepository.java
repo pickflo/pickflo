@@ -9,13 +9,26 @@ import org.springframework.data.repository.query.Param;
 import com.pickflo.domain.Movie;
 import com.pickflo.dto.SearchGenreDto;
 
-public interface SearchRepository extends JpaRepository<Movie, Long> {
+public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuerydsl {
+	
+	@Query("select distinct new com.pickflo.dto.SearchGenreDto(m.movieCode, m.movieImg) "
+            + "from Movie m "
+            + "join MovieGenre mg on m.id = mg.movieId "
+            + "join Genre g on mg.genreId = g.id "
+            + "join MovieCountry mc on m.id = mc.movieId "
+            + "join Country c on mc.countryId = c.id "
+            + "where (:genreCode is null or g.genreCode = :genreCode) "
+            + "and (:countryCode is null or c.countryCode = :countryCode)")
+    List<SearchGenreDto> findMoviesByGenreAndCountryCode(@Param("genreCode") Integer genreCode,
+                                                          @Param("countryCode") String countryCode);
+	
+	@Query("select distinct m "
+			+ "from Movie m "
+			+ "left join MoviePerson mp on m.id = mp.movieId "
+			+ "left join Person p on mp.personId = p.id "
+			+ "where upper(m.movieTitle) like upper('%' || :keywords || '%') "
+			+ "or upper(p.personName) like upper('%' || :keywords || '%') ")
 
-	@Query("select distinct new com.pickflo.dto.SearchGenreDto(m.movieCode, m.movieImg) " + "from Movie m "
-			+ "join MovieGenre mg on m.id = mg.movieId " + "join Genre g on mg.genreId = g.id "
-			+ "join MovieCountry mc on m.id = mc.movieId " + "join Country c on mc.countryId = c.id "
-			+ "where (:genreCode is null or g.genreCode = :genreCode) "
-			+ "and (:countryCode is null or c.countryCode = :countryCode)")
-	List<SearchGenreDto> findMoviesByGenreAndCountryCode(@Param("genreCode") Integer genreCode,
-			@Param("countryCode") String countryCode);
+	List<Movie> findByMovieTitleOrPersonName(@Param("keywords") String keywords);
+
 }

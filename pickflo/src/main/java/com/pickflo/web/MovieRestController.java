@@ -68,7 +68,7 @@ public class MovieRestController {
 	@GetMapping("savePeopleByMovieId")
 	public ResponseEntity<String> savePeopleByMovieId() {
 		try {
-			personSvc.savePersonByMovieId(382L);
+			personSvc.savePersonByMovieId(381L);
 			return ResponseEntity.ok("Movies by genres fetched and saved successfully.");
 		} catch (Exception e) {
 			log.error("Error occurred while fetching and saving movies by genres: ", e);
