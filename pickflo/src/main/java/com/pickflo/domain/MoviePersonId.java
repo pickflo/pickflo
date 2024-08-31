@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class MovieUserId {
-	
-	private Long userId;
-	private Long movieId;
+public class MoviePersonId {
 
+	private Long movieId;
+	private Long personId;
 }

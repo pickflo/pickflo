@@ -14,32 +14,33 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter 
+@Getter
 @Builder @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "USERS_MOVIES")
-@IdClass(UserMoviePickId.class)
-public class UserMoviePick {
+@Table(name = "	MOVIES_PEOPLE")
+@IdClass(MoviePersonId.class)
+public class MoviePerson {
 
 	@Id
-	@Column(name = "user_id")
-	private Long userId;
-
-	@Id
-	@Column(name = "movie_id")
+	@Column(name="movie_id")
 	private Long movieId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
-	private User user;
-
+	
+	@Id
+	@Column(name = "person_id")
+	private Long personId;
+	
+	@Column(name = "movie_person_job")
+	private String job;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "movie_id", insertable = false, updatable = false)
 	private Movie movie;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "person_id", insertable = false, updatable = false)
+	private Person person;
 }

@@ -1,6 +1,5 @@
 package com.pickflo.domain;
 
-import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,26 +14,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Getter
-@ToString 
+@ToString
 @EqualsAndHashCode
-@Entity
-@Table(name="GENRES")
-public class Genre {
+@Entity 
+@Table(name = "PEOPLE")
+public class Person {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "GENRE_ID")
+	@Column(name = "PERSON_ID")
 	private Long id;
 	
-	@Column(unique = true)
-	@Basic(optional = false) 
-	private Integer genreCode;
-	
-	@Column(unique = true)
-	@Basic(optional = false) 
-	private String genreName;
+	private String personName;
 }
