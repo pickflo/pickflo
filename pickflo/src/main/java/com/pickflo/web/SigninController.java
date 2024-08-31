@@ -1,15 +1,11 @@
 package com.pickflo.web;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.pickflo.domain.User;
 import com.pickflo.dto.UserSignupDto;
-import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SigninController {
 
 	private final UserService userSvc;
-	private final UserMoviePickService UserMovieSvc;
-	private final PasswordEncoder passwordEncoder;
 
 	@GetMapping("/user/signin")
 	public void signin() {
@@ -42,7 +36,7 @@ public class SigninController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("signupError");
 		}
-		return "redirect:/user/signin";
+		return "redirect:/movie/picker";
 	}
 
 }
