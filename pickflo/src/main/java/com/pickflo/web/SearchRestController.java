@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pickflo.domain.Movie;
-import com.pickflo.dto.SearchGenreDto;
+import com.pickflo.dto.SearchGenreCountryDto;
 import com.pickflo.service.SearchService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class SearchRestController {
             @RequestParam(defaultValue = "10") int limit) {
         log.info("Received request for genreCode: {}, countryCode: {}, page: {}, limit: {}", genreCode, countryCode, page, limit);
         try {
-            List<SearchGenreDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode, page, limit);
+            List<SearchGenreCountryDto> movies = searchSvc.findMoviesByGenreAndCountryCode(genreCode, countryCode, page, limit);
             if (!movies.isEmpty()) {
                 return ResponseEntity.ok(movies);
             } else {

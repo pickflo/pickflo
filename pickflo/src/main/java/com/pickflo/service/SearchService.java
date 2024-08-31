@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pickflo.domain.Movie;
-import com.pickflo.dto.SearchGenreDto;
+import com.pickflo.dto.SearchGenreCountryDto;
 import com.pickflo.dto.SearchMovieListDto;
 import com.pickflo.dto.SearchMovieRequestDto;
 import com.pickflo.repository.SearchRepository;
@@ -24,9 +24,9 @@ public class SearchService {
 	
 	private final SearchRepository searchRepo;
 
-	public List<SearchGenreDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode, int page, int limit) {
+	public List<SearchGenreCountryDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<SearchGenreDto> moviePage = searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode, pageable);
+        Page<SearchGenreCountryDto> moviePage = searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode, pageable);
         return moviePage.getContent();
     }
 	

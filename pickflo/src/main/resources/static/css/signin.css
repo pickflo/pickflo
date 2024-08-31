@@ -170,3 +170,13 @@ input[type="text"]:-webkit-autofill {
     color: #fff !important;
     caret-color: #fff;
 }*/
+
+@media ( max-width : 768px) {
+	.background-container {
+		background-size: 200%; 
+	}
+	
+	.card.card-body {
+		width: 100%;
+	}
+}
