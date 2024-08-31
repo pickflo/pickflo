@@ -34,8 +34,9 @@
 						style="font-size: 2rem; color: white;"></i>
 				</button>
 				<div class="dropdown-menu" id="menu">
-					<a href="/pickflo">홈</a> <a href="/pickflo/movie/like">찜한 영화</a> <a
-						href="/pickflo/user/logout">로그아웃</a>
+					<a id="homeLink" href="/pickflo">홈</a> 
+					<a href="/pickflo/movie/like">찜한 영화</a> 
+					<a href="/pickflo/user/logout">로그아웃</a>
 				</div>
 			</div>
 
@@ -143,9 +144,9 @@
 				const homeLink = document.getElementById('homeLink');
 
 				if (currentPath === '/pickflo/movie/like') {
-					homeLink.style.display = 'none';
-				} else {
 					homeLink.style.display = 'block';
+				} else {
+					homeLink.style.display = 'none';
 				}
 			});
 		</script>
