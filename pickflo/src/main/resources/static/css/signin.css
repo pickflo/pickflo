@@ -17,8 +17,8 @@
     position: relative;
     width: 100%;
     height: 100vh;   
-    background-image: url('/pickflo/images/main.png'); /* 배경 이미지 경로 */
-    background-size: 70%; 
+    background-image: url('/pickflo/images/main.png');
+    background-size: 120%; 
     background-position: center;
     overflow: hidden;
 }
