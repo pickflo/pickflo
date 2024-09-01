@@ -54,9 +54,8 @@ public class MovieService {
 	@Value("${tmdb.image.base.url}")
 	private String imageBaseUrl;
 	
-	// 배우와 감독 저장 수 제한
+	// 배우 저장 수 제한
 	private static final int MAX_CAST = 10;
-	private static final int MAX_CREW = 2;
 
 	/*
 	 * 액션(28), 모험(12), 애니메이션(16), 코미디(35), 범죄(80), 다큐멘터리(99), 드라마(18), 가족(10751),
@@ -197,50 +196,57 @@ public class MovieService {
 	
 	@Transactional
 	public void savePersonByMovieId(Long id) {
+		// db에서 영화 조회
 		Movie movie = movieRepo.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
 
 		MovieCreditsResponse response = movieClient.getMoviePerson(apiKey, movie.getMovieCode(), language);
 		List<PersonData> castList = response.getCast(); // api로부터 배우 저장
 		List<PersonData> crewList = response.getCrew(); // api로부터 감독 저장
 
-		// 인기도 순으로 정렬 후 제한된 인원 수만큼 저장
+		// 배우 리스트 인기도 순으로 정렬, 제한된 인원 수만큼 저장
 		List<PersonData> sortedCastList = castList.stream()
 				.sorted((p1, p2) -> Double.compare(p2.getPopularity(), p1.getPopularity())).limit(MAX_CAST)
 				.collect(Collectors.toList());
 
-		List<PersonData> sortedCrewList = crewList.stream()
-				.sorted((p1, p2) -> Double.compare(p2.getPopularity(), p1.getPopularity())).limit(MAX_CREW)
-				.collect(Collectors.toList());
-
 		savePersons(id, sortedCastList, "Acting", MAX_CAST);
-		savePersons(id, sortedCrewList, "Directing", MAX_CREW);
+		savePersons(id, crewList, "Director", Integer.MAX_VALUE); // 제한 수 없이 저장
 	}
 
 	private void savePersons(Long movieId, List<PersonData> personDataList, String department, int max) {
-		int count=0;
-        for (PersonData data : personDataList) {
-            if (department.equalsIgnoreCase(data.getKnown_for_department())) {
-                // Person 엔티티 조회, 데이터 없으면 저장
-                Person person = personRepo.findByPersonName(data.getName()).orElseGet(() -> {
-                    Person newPerson = Person.builder().personName(data.getName()).build();
-                    return personRepo.save(newPerson);
-                });
+		int count = 0;
+		for (PersonData data : personDataList) {
+			if (isDepartmentOrJob(department, data)) {
+				// Person 엔티티 조회, 데이터 없으면 db 저장
+				Person person = personRepo.findByPersonName(data.getName()).orElseGet(() -> {
+					Person newPerson = Person.builder().personName(data.getName()).build();
+					return personRepo.save(newPerson);
+				});
+				
+				// MoviePerson 엔티티 db 저장
+				saveMoviePerson(movieId, person, department);
 
-                // MoviePerson 엔티티 db 저장
-                MoviePerson moviePerson = MoviePerson
-                        .builder()
-                        .movieId(movieId).personId(person.getId()).job(department)
-                        .movie(movieRepo.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found")))
-                        .person(person)
-                        .build();
-                moviePersonRepo.save(moviePerson);
+				count++;
+				// 제한된 사람 수 까지만 저장
+				if (count >= max) {
+					break;
+				}
+			}
+		}
+	}
 
-                count++;
-                if (count >= max) {
-                    break; 
-                }
-            }
-        }
-    }
+	// 배우 또는 감독이 있으면 true 리턴
+	private boolean isDepartmentOrJob(String department, PersonData data) {
+		return department.equalsIgnoreCase(data.getKnown_for_department()) || department.equalsIgnoreCase(data.getJob());
+	}
+	
+	private void saveMoviePerson(Long movieId, Person person, String department) {
+        MoviePerson moviePerson = MoviePerson
+                .builder()
+                .movieId(movieId).personId(person.getId()).job(department)
+                .movie(movieRepo.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found")))
+                .person(person)
+                .build();
+		moviePersonRepo.save(moviePerson);
+	}
 
 }
