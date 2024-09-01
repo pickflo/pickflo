@@ -152,6 +152,7 @@ public interface MovieClient {
 
 	class PersonData {
 		private String known_for_department;
+		private String job;
 		private String name;
 		// 인기도
 		@JsonProperty("popularity") 
@@ -167,6 +168,10 @@ public interface MovieClient {
 		
 		public double getPopularity() {
 			return popularity;
+		}
+		
+		public String getJob() {
+			return job;
 		}
 	}
 }
