@@ -39,7 +39,7 @@
 
 /* 반응형 스타일 */
 @media ( max-width : 768px) {
-	#logo h1 {
-		font-size: 1.5rem; /* 작은 화면에서는 로고 크기를 줄입니다 */
+	#logo {
+		font-size: 1.7rem; /* 작은 화면에서는 로고 크기를 줄입니다 */
 	}
 }

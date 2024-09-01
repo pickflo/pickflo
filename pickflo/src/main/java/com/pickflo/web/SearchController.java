@@ -42,20 +42,4 @@ public class SearchController {
         return "movie/search";
     }
 	
-//	@GetMapping("/movie/search")
-//	public String search(SearchMovieRequestDto dto, Model model) {
-//		log.info("SearchController(dto={})", dto);
-//		
-//		// 키워드가 비어 있는 경우 빈 리스트를 반환
-//	    if (dto.getKeywords() == null || dto.getKeywords().trim().isEmpty()) {
-//	        model.addAttribute("searchMovies", Collections.emptyList());
-//	        return "movie/search";
-//	    }
-//		
-//		List<SearchMovieListDto> result = searchSvc.search(dto);
-//		model.addAttribute("searchMovies", result);
-//		
-//		return "movie/search";
-//	}
-	
 }

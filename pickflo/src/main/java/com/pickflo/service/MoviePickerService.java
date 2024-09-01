@@ -31,4 +31,12 @@ public class MoviePickerService {
 				.build())
 				.collect(Collectors.toList());
 	}
+	
+//	//정희테스트
+//	@Transactional(readOnly = true)
+//	public List<Movie> readMovies(int limit) {
+//		List<Movie> list= repo.findAllMoviesRandomly();
+//		return list.stream().limit(limit).toList();
+//
+//	}
 }

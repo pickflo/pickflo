@@ -6,33 +6,33 @@ body {
 	margin: 0;
 }
 
-button.close-btn {
-    top: 30px;
+a.back-btn {
+    margin-top: 30px;
+    margin-left: 10px;
     background-color: transparent;
     border: none;
-    font-size: 24px;
     color: #bbbbbb;
     cursor: pointer;
     transition: color 0.3s;
     display: flex;
-    justify-content: end;
+    justify-content: start;
 }
 
-button.close-btn:focus {
+a.back-btn:focus {
 	border: none;
 	outline: none;
 }
 
-button.close-btn:hover {
+a.back-btn:hover {
     color: white; 
 }
 
-a.close-btn:hover {
+a.back-btn:hover {
 	text-decoration: none;
 }
 
 .keyword-search {
-	margin-top: 100px;
+	margin-top: 50px;
 }
 
 .input-group {
