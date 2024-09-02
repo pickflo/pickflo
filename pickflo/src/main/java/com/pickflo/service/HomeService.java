@@ -19,6 +19,7 @@ public class HomeService {
 	
 	private final HomeRecMovieRepository homeRecMovieRepo;
 	
+	
 	public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
         List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
 
@@ -48,9 +49,5 @@ public class HomeService {
 	        throw new RuntimeException("Error retrieving movies", e);
 		}
     } */
-	
-//    public List<HomeRecMovieDto> getHomeRecMovies(Long userId) {
-//        return homeRecMovieRepo.findMoviesByUserId(userId);
-//    }
 	
 }
