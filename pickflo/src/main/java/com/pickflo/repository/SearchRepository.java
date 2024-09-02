@@ -13,7 +13,7 @@ import com.pickflo.dto.SearchGenreCountryDto;
 
 public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuerydsl {
 	
-	@Query("select distinct new com.pickflo.dto.SearchGenreCountryDto(m.movieCode, m.movieImg) "
+	@Query("select distinct new com.pickflo.dto.SearchGenreCountryDto(m.id, m.movieImg) "
             + "from Movie m "
             + "join MovieGenre mg on m.id = mg.movieId "
             + "join Genre g on mg.genreId = g.id "
