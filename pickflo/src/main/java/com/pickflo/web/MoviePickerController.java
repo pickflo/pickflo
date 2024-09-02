@@ -19,12 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/movie/picker")
 public class MoviePickerController {
 
-	@Autowired
-	private UserMoviePickService userMoviePickSvc;
-
-	@Autowired
-	private UserService userSvc;
-
 	@GetMapping("")
 	public void showPickerPage(Model model, Authentication authentication) {
 
