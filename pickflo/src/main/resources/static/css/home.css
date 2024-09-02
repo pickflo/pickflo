@@ -1,16 +1,21 @@
 @charset "UTF-8";
 
-.custom-container {
-	width: 100%;
+
+.header {
+	display: flex;
+    justify-content: center; 
+}
+
+.center-container {
+    width: 100%;
 	margin-top: 20px;
 	padding: 20px 20px;
 }
 
 .custom-body {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%; 
 }
 
 #searchBtn {
@@ -42,4 +47,10 @@
 	#logo {
 		font-size: 1.7rem; /* 작은 화면에서는 로고 크기를 줄입니다 */
 	}
+	
+	.center-container {
+	    margin-top: 20px;
+	}
+	
+	
 }

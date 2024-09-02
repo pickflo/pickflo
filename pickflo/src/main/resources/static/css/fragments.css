@@ -11,18 +11,31 @@
 	font-style: normal;
 }
 
+.header-logo {
+	display: flex;
+    justify-content: start;
+    width: 100%; 
+    margin-top: 30px;
+}
+
+.header-user {
+	display: flex;
+    justify-content: end;
+    width: 100%; 
+}
+
+/*
 .header-container {
 	position: relative;
 	width: 100%;
 	height: 100%;
 	margin-top: 20px;
-	display: flex;
-	justify-content: space-between; /* 로고와 메뉴를 양 끝으로 배치 */
-	align-items: center; /* 수직 중앙 정렬 */
+
 	padding: 20px 20px;
 	background-color: #141414;
 	color: white;
 }
+*/
 
 body {
 	margin: 0;
@@ -100,4 +113,11 @@ body {
 	color: #fff;
 	text-align: center;
 	padding: 50px;
+}
+
+@media ( max-width : 768px) {
+	.header-logo {
+		margin-left: 50px;
+	    margin-left: 20px;
+	}
 }

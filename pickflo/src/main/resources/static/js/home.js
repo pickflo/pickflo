@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				img.setAttribute('data-bs-target', '#modalMovieDetails');
 				
 				movieCard.appendChild(img);
-
 				movieListDiv.appendChild(movieCard);
 			});
 			

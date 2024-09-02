@@ -1,9 +1,2 @@
 @charset "UTF-8";
 
-.container-like{
-	margin: 0;
-	padding: 0;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-}
