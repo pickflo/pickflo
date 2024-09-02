@@ -1,11 +1,15 @@
 package com.pickflo.web;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pickflo.dto.MovieDetailsDto;
 import com.pickflo.service.CountryService;
 import com.pickflo.service.MovieService;
 
@@ -62,5 +66,12 @@ public class MovieRestController {
 	public void getCountryCode() {
 		countrySvc.getCountryId();
 	}
+	
+	@GetMapping("/details")
+    public ResponseEntity<MovieDetailsDto> getMovieDetails(@RequestParam Long movieId) {
+        Optional<MovieDetailsDto> movie = movieSvc.getMovieDetails(movieId);
+        return movie.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 	
 }

@@ -8,10 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.pickflo.domain.Movie;
+
 import com.pickflo.dto.SearchGenreCountryDto;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long>{
+public interface MovieRepository extends JpaRepository<Movie, Long>, MovieQuerydsl {
 	// movieCode로 영화 존재 여부 확인
 	boolean existsByMovieCode(Long movieCode);
     
@@ -22,4 +23,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>{
             + "join m.movieGenres mg "
             + "where mg.genre.id = :genreId")
       List<SearchGenreCountryDto> findMoviesByGenreId(@Param("genreId") Long genreId);
-  }
+
+}

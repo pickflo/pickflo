@@ -1,15 +1,2 @@
 @charset "UTF-8";
 
-.user-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;    
-    width: 100%;             
-    padding: 20px 0;        
-}
-
-.user-header th\\:block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}

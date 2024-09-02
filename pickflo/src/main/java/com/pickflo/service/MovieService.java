@@ -3,6 +3,7 @@ package com.pickflo.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,9 @@ import com.pickflo.domain.MovieCountry;
 import com.pickflo.domain.MovieGenre;
 import com.pickflo.domain.MoviePerson;
 import com.pickflo.domain.Person;
+
+import com.pickflo.dto.MovieDetailsDto;
+
 import com.pickflo.repository.CountryRepository;
 import com.pickflo.repository.GenreRepository;
 import com.pickflo.repository.MovieClient;
@@ -220,6 +224,11 @@ public class MovieService {
 		}
 	}
 	
+
+	public Optional<MovieDetailsDto> getMovieDetails(Long movieId) {
+        return movieRepo.findMovieDetailsById(movieId);
+    }
+
 	@Transactional
 	public void savePersonByMovieId(Long id) {
 		// db에서 영화 조회

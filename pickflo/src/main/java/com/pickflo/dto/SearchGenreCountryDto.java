@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchGenreCountryDto {
-    private Long movieCode;
+    private Long movieId;
     private String movieImg;
 }
