@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<link rel="stylesheet" href="/pickflo/css/signin.css">
-	<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+<link rel="stylesheet" href="/pickflo/css/signin.css">
+<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
 </head>
 <body class="background-container">
 	<div>
-	<div class="overlay"></div>
+		<div class="overlay"></div>
 		<main>
-					<h1 id="logo">PICKFLO</h1>
-			
+			<h1 id="logo">PICKFLO</h1>
 			<div class="card card-body">
 				<form th:action="@{/user/signin}" method="post" id="loginForm">
-					<input type="text" class="form-control" id="email"
-						name="email" placeholder="이메일" required autofocus autocomplete="off" /> 
-						<input type="password" class="form-control" id="password" name="password"
-								placeholder="비밀번호" required />
+					<input type="text" class="form-control" id="email" name="email"
+						placeholder="이메일" required autofocus autocomplete="off" /> <input
+						type="password" class="form-control" id="password" name="password"
+						placeholder="비밀번호" required />
 					<button type="submit" class="form-control btn" id="btnSignIn">로그인</button>
 				</form>
-				<a id="linkSignUp" href="/pickflo/user/signup" class="form-control btn">회원가입</a>
+				<a id="linkSignUp" href="/pickflo/user/signup"
+					class="form-control btn">회원가입</a>
 			</div>
 		</main>
 	</div>

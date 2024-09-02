@@ -148,12 +148,15 @@
                 movieCard.classList.add('movie-card');
                 
                 movieCard.innerHTML = `
-                    <img src="${movie.movieImg}" class="poster-image">
+                    <img src="${movie.movieImg}" class="poster-image" 
+						data-movie-id="${movie.movieId}" data-bs-toggle="modal" data-bs-target="#modalMovieDetails">
                 `;
                 
                 movieList.appendChild(movieCard);
             }
         });
+		
+		bindPosterImageClickEvent();
     }
     
     function onScroll() {

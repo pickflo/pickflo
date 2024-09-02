@@ -22,10 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
 				img.alt = 'Movie Image';
 				img.className = 'poster-image'; 
 				
+				img.setAttribute('data-movie-id', movie.movieId);
+				img.setAttribute('data-bs-toggle', 'modal');
+				img.setAttribute('data-bs-target', '#modalMovieDetails');
+				
 				movieCard.appendChild(img);
 
 				movieListDiv.appendChild(movieCard);
 			});
+			
+			bindPosterImageClickEvent();
 		})
 		.catch(error => {
 			console.error('Error fetching movies:', error);

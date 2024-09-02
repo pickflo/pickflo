@@ -18,7 +18,7 @@
 </th:block>
 </head>
 <body>
-	
+
 	<th:block th:fragment="userHeader">
 		<div class="header-logo col-6 col-md-5">
 			<h1 id="logo">PICKFLO</h1>
@@ -33,15 +33,14 @@
 						style="font-size: 2rem; color: white;"></i>
 				</button>
 				<div class="dropdown-menu" id="menu">
-					<a href="/pickflo">홈</a> <a href="/pickflo/movie/like">찜한 영화</a> <a
+					<a id="homeLink" href="/pickflo">홈</a> <a
+						href="/pickflo/movie/like">찜한 영화</a> <a
 						href="/pickflo/user/logout">로그아웃</a>
 				</div>
 			</div>
-
-		
 		</div>
 	</th:block>
-	
+
 	<th:block th:fragment="footerContents">
 		<footer class="footerContents">
 			<div class="container">
@@ -99,7 +98,9 @@
 							<hr class="hr-thick" />
 							<div class="movie-details-section">
 								<h6>감독</h6>
-								<p id="director">감독...</p>
+								<div class="director-container">
+									<span>감독...</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -128,8 +129,8 @@
 
 			// 클릭 외부 이벤트로 메뉴 숨기기
 			document.addEventListener('click', function(event) {
-				const isClickInside = document.querySelector('.header').contains(
-						event.target);
+				const isClickInside = document.querySelector('.header')
+						.contains(event.target);
 				const menu = document.getElementById("menu");
 
 				if (!isClickInside) {
@@ -143,9 +144,9 @@
 				const homeLink = document.getElementById('homeLink');
 
 				if (currentPath === '/pickflo/movie/like') {
-					homeLink.style.display = 'none';
-				} else {
 					homeLink.style.display = 'block';
+				} else {
+					homeLink.style.display = 'none';
 				}
 			});
 		</script>

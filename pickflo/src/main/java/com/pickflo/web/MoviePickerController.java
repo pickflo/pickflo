@@ -1,7 +1,9 @@
 package com.pickflo.web;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,21 +14,18 @@ import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/movie/picker")
 public class MoviePickerController {
 
-	@Autowired
-	private UserMoviePickService userMoviePickSvc;
-
-	@Autowired
-	private UserService userSvc;
-
-	@GetMapping("")
-	public void showPickerPage(Model model, Authentication authentication) {
-
-	}
+	@PreAuthorize("isAuthenticated()")
+    @GetMapping()
+    public String pickerPage() {     
+		// 정상적인 접근 시 picker 페이지로 이동
+        return "/movie/picker";
+    }
 }

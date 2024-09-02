@@ -8,22 +8,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.pickflo.domain.User;
 import com.pickflo.dto.CustomUserDetails;
-import com.pickflo.service.UserService;
-import org.springframework.ui.Model;
+import com.pickflo.service.UserMoviePickService;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
 @Controller
 @RequestMapping("/")
 public class HomeController {
 	
-	   private final UserService userSvc;
-
-	   public HomeController(UserService userSvc) {
-	        this.userSvc = userSvc;
-	    }
+	private final UserMoviePickService userMoviePickSvc;
 	
 	@PreAuthorize("isAuthenticated()") //-> role에 상관없이 아이디/비밀번호로만 인증.
     @GetMapping("/")
@@ -36,10 +33,16 @@ public class HomeController {
 		// 로그인한 사용자의 userId를 얻기
 		Long userId = ((CustomUserDetails) userDetails).getId();
 		
-        // 현재 인증된 사용자정보 가져오기 -> url로 접속 막히위해
+        // 현재 인증된 사용자정보 가져오기 -> url로 접속 막기위해
         String email = null;
 
-        return "home";
+        int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
+		if (pickedCount < 3) {
+			return "redirect:/movie/picker";
+		} else {
+			return "home";
+		}
+        
     }
     
     
