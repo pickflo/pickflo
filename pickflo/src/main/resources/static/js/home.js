@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				img.className = 'poster-image'; 
 				
 				movieCard.appendChild(img);
-
 				movieListDiv.appendChild(movieCard);
 			});
 		})

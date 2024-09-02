@@ -20,11 +20,12 @@
 </th:block>
 </head>
 <body>
-	<th:block th:fragment="userHeader">
-		<header class="header-container">
-
-				<h1 id="logo">PICKFLO</h1>
 	
+	<th:block th:fragment="userHeader">
+		<div class="header-logo col-6 col-md-5">
+			<h1 id="logo">PICKFLO</h1>
+		</div>
+		<div class="header-user col-6 col-md-6">
 			<div class="header">
 				<div class="nickname"
 					th:text="${#authentication.principal.nickname} + '님'"></div>
@@ -39,9 +40,10 @@
 				</div>
 			</div>
 
-		</header>
+		
+		</div>
 	</th:block>
-
+	
 	<th:block th:fragment="footerContents">
 		<footer class="footerContents">
 			<div class="container">

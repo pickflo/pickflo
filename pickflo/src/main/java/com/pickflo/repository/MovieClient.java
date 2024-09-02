@@ -62,7 +62,13 @@ public interface MovieClient {
 		private Double vote_average;
 		private String release_date;
 		private Integer runtime;
-
+		
+		@JsonProperty("adult")
+	    private boolean adult; 
+		
+		@JsonProperty("vote_count")
+	    private int voteCount;
+		
 		@JsonProperty("genres")
 		private List<Genre> genres;
 
@@ -96,7 +102,15 @@ public interface MovieClient {
 		public Integer getRuntime() {
 			return runtime;
 		}
-
+		
+		public boolean isAdult() { 
+	        return adult;
+	    }
+		
+		public int getVoteCount() { 
+	        return voteCount;
+	    }
+		
 		public List<Genre> getGenres() {
 			return genres;
 		}
