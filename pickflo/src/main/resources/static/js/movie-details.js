@@ -2,7 +2,7 @@
  * 
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+function bindPosterImageClickEvent() {
 	const posterImages = document.querySelectorAll('.poster-image');
 
 	posterImages.forEach(image => {
@@ -63,4 +63,4 @@ document.addEventListener('DOMContentLoaded', function() {
 				console.error('Error fetching movie details:', error);
 			});
 	}
-});
+}
