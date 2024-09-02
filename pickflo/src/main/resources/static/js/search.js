@@ -9,9 +9,12 @@
 	const genreButtons = document.querySelectorAll('.searching-category[data-type="genre"] .btn');
 	const countryButtons = document.querySelectorAll('.searching-category[data-type="country"] .btn');
 	const movieList = document.querySelector('.movie-list');
+	const loading = document.getElementById('loading');
 	
 	let selectedGenre = null;
 	let selectedCountry = null;
+	let currentPage = 1;
+	let isLoading = false;
 	
 	// searchInput에 키워드 입력하면 clear-input 버튼이 나타남 
     const toggleClearButton = () => {
@@ -65,7 +68,7 @@
 				button.classList.add('selected');
 				selectedGenre = button;
 			}
-			filterMovies();
+			resetAndFilterMovies();
 			
 		} else if (type === 'country') {
 			if (selectedCountry === button) {
@@ -80,12 +83,23 @@
 				button.classList.add('selected');
 				selectedCountry = button;
 			}
-			filterMovies();
+			resetAndFilterMovies();
 			
 		}
 	}
 	
+	function resetAndFilterMovies() {
+        movieList.innerHTML = ''; // 기존 목록 지우기
+        currentPage = 1; // 페이지 번호 초기화
+        filterMovies(); // 필터링
+    }
+	
 	function filterMovies() {
+        if (isLoading) return; // 데이터 로딩 중이면 요청 무시
+
+        isLoading = true;
+        loading.style.display = 'block'; // 로딩 표시
+
         let queryParams = '';
         
         if (selectedGenre) {
@@ -98,10 +112,9 @@
             if (queryParams.length > 0) queryParams += '&';
             queryParams += `countryCode=${encodeURIComponent(countryCode)}`;
         }
-        
+
         if (queryParams.length > 0) {
-            // 장르와 국가 코드로 영화 정보를 찾는 API 호출
-            fetch(`/pickflo/api/search/movies?${queryParams}`)
+            fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=18`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -109,37 +122,51 @@
                     return response.json();
                 })
                 .then(movies => {
-                    console.log('Filtered Movies:', movies);
-                    updateMovieList(movies);
+                    if (movies.length > 0) {
+                        appendMovieList(movies);
+                        currentPage++; // 페이지 번호 증가
+                    }
+                    isLoading = false;
+                    loading.style.display = 'none'; // 로딩 숨기기
                 })
                 .catch(error => {
                     console.error('Error fetching movies:', error.message);
+                    isLoading = false;
+                    loading.style.display = 'none'; // 로딩 숨기기
                 });
         } else {
-            // 장르와 국가가 선택되지 않은 경우 영화 목록 비우기
-            updateMovieList([]);
+            isLoading = false;
+            loading.style.display = 'none'; // 로딩 숨기기
         }
     }
+
 	
-	function updateMovieList(movies) {
-        // 영화 목록을 업데이트하는 함수
-	    movieList.innerHTML = ''; // 기존 목록 지우기
-	    
-	    if (movies.length === 0) {
-	        movieList.innerHTML = '';
-	    } else {
-	        movies.forEach(movie => {
-	            if (movie.movieImg && movie.movieImg.trim() !== '') {
-	                const movieCard = document.createElement('div');
-	                movieCard.classList.add('movie-card');
-	                
-	                movieCard.innerHTML = `
-	                    <img src="${movie.movieImg}" class="poster-image">
-	                `;
-	                
-	                movieList.appendChild(movieCard);
-	            }
-	        });
-	    }
+	function appendMovieList(movies) {
+        movies.forEach(movie => {
+            if (movie.movieImg && movie.movieImg.trim() !== '') {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                
+                movieCard.innerHTML = `
+                    <img src="${movie.movieImg}" class="poster-image">
+                `;
+                
+                movieList.appendChild(movieCard);
+            }
+        });
     }
+    
+    function onScroll() {
+        const scrollableHeight = document.documentElement.scrollHeight;
+        const scrollPosition = window.innerHeight + window.scrollY;
+
+        if (scrollPosition >= scrollableHeight - 100 && !isLoading) {
+            filterMovies(); // 스크롤 시 새로운 영화 로드
+        }
+    }
+
+    window.addEventListener('scroll', onScroll);
+
+    // 초기 영화 목록 로드
+    filterMovies();
 });

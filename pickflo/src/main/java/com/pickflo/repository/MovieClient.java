@@ -62,7 +62,13 @@ public interface MovieClient {
 		private Double vote_average;
 		private String release_date;
 		private Integer runtime;
-
+		
+		@JsonProperty("adult")
+	    private boolean adult; 
+		
+		@JsonProperty("vote_count")
+	    private int voteCount;
+		
 		@JsonProperty("genres")
 		private List<Genre> genres;
 
@@ -96,7 +102,15 @@ public interface MovieClient {
 		public Integer getRuntime() {
 			return runtime;
 		}
-
+		
+		public boolean isAdult() { 
+	        return adult;
+	    }
+		
+		public int getVoteCount() { 
+	        return voteCount;
+	    }
+		
 		public List<Genre> getGenres() {
 			return genres;
 		}
@@ -140,7 +154,7 @@ public interface MovieClient {
 		// 감독
 		@JsonProperty("crew")
 		private List<PersonData> crew;
-
+		
 		public List<PersonData> getCast() {
 			return cast;
 		}
@@ -148,13 +162,16 @@ public interface MovieClient {
 		public List<PersonData> getCrew() {
 			return crew;
 		}
-
 	}
 
 	class PersonData {
 		private String known_for_department;
+		private String job;
 		private String name;
-
+		// 인기도
+		@JsonProperty("popularity") 
+		private double popularity;
+			
 		public String getKnown_for_department() {
 			return known_for_department;
 		}
@@ -162,6 +179,13 @@ public interface MovieClient {
 		public String getName() {
 			return name;
 		}
-
+		
+		public double getPopularity() {
+			return popularity;
+		}
+		
+		public String getJob() {
+			return job;
+		}
 	}
 }
