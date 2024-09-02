@@ -2,15 +2,10 @@ package com.pickflo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.pickflo.service.UserMoviePickService;
-import com.pickflo.service.UserService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,38 +18,33 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	
 	private final CustomAuthenticationSuccessHandler customAuthSuccessHandler;
-
+//	private final PickedItemsAccessFilter pickedItemsAccessFilter;
+	
 	// 스프링 시큐리티 필터 체인 객체(bean)
 	// 로그인/로그아웃, 인증 필터에서 필요한 설정을 구성.
 	// - 로그인 페이지(뷰), 로그아웃 페이지 설정.
 	// - 페이지 접근 권한(ADMIN, USER) 설정.
 	// - 인증 설정(로그인 없이 접근 가능한 페이지 vs 로그인해야만 접근 가능한 페이지)
 	
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// 시큐리티 관련 설정들을 구성.
+	 @Bean
+	    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        http.csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
+	            .authorizeHttpRequests(requests -> 
+	                requests.requestMatchers("/user/signin/**", "/user/signup/**", "/css/**", "/js/**", "/images/**", "/api/**").permitAll() // 로그인/회원가입 페이지와 정적 자원에 대한 접근 허용
+	                        .requestMatchers("/movie/picker").authenticated() // /movie/picker 페이지 접근은 인증된 사용자만 허용
+	                        .requestMatchers("/movie/like", "/movie/search", "/").authenticated() // /movie/like와 / 페이지 접근은 인증된 사용자만 허용
+	                        .anyRequest().authenticated()) // 나머지 모든 요청도 인증된 사용자만 접근 가능
+	            .formLogin(form -> form.loginPage("/user/signin")
+	                                .usernameParameter("email") // 로그인 시 이메일을 사용자 이름으로 사용
+	                                .passwordParameter("password") // 로그인 시 비밀번호 파라미터 설정
+	                                .successHandler(customAuthSuccessHandler) // 로그인 성공 시 핸들러 지정
+	                                .permitAll()) // 로그인 페이지는 누구나 접근 가능
+	            .logout(logout -> logout.logoutUrl("/user/logout")
+	                                    .logoutSuccessUrl("/user/signin")
+	                                    .permitAll()) // 로그아웃 URL 설정 및 로그아웃 성공 후 이동 페이지 설정
 
-		// CSRF(Cross Site Request Forgery) 기능을 비활성화:
-		// CSRF 기능을 활성화한 경우에는,
-		// Ajax POST/PUT/DELETE 요청에서 csrf 토큰을 서버로 전송하지 않으면 HTTP 403 에러가 발생함.
-		http.csrf((csrf) -> csrf.disable());
+	            ;
 
-		// 로그인 페이지(폼) 설정 - 스프링 시큐리티에서 제공하는 기본 HTML 페이지를 사용.
-		// http.formLogin(Customizer.withDefaults());
-		// Custom 로그인 HTML 페이지를 사용.
-		http.authorizeHttpRequests((requests) -> 
-		requests.requestMatchers("/user/signin/**", "/user/signup**").permitAll()
-				.requestMatchers("/css/signin.css", "/css/signup.css", "/css/fragment.css"
-						,"/js/signup.js", "/images/main.png").permitAll() // 정적 자원 접근 허용
-				.requestMatchers("/api/**").permitAll() // API 경로에 대한 접근 허용
-				.anyRequest().authenticated())
-				.formLogin((form) -> form.loginPage("/user/signin")
-						.usernameParameter("email") 
-						.passwordParameter("password")
-						.successHandler(customAuthSuccessHandler)
-						.permitAll())
-						.logout((logout) -> logout.logoutUrl("/user/logout").logoutSuccessUrl("/user/signin").permitAll());
-
-		return http.build(); // DefaultSecurityFilterChain 객체를 생성해서 리턴
+	        return http.build();
+	    }
 	}
-}
