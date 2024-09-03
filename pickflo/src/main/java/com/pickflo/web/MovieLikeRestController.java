@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pickflo.domain.Movie;
 import com.pickflo.repository.MovieRepository;
 import com.pickflo.repository.UserMoviePickRepository;
+import com.pickflo.service.MovieLikeService;
 import com.pickflo.service.MovieService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/movie")
 public class MovieLikeRestController {
 	
-	private final UserMoviePickRepository userMoviePickRepo;
+	private final MovieLikeService moviceLikeSvc;
 
 	@GetMapping("/like-status")
-	public Boolean getLikeStatus(@RequestParam Long userId, @RequestParam Long movieId) {
-        boolean isFavorite = userMoviePickRepo.existsByUserIdAndMovieId(userId, movieId);
+	public Boolean showLikeStatus(@RequestParam Long userId, @RequestParam Long movieId) {
+        boolean isFavorite = moviceLikeSvc.getLikeStatus(userId, movieId);
         return isFavorite;
     }
 	
