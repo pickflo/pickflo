@@ -28,4 +28,5 @@ public class MovieLikeService {
 		boolean isFavorite = userMoviePickReop.existsByUserIdAndMovieId(userId, movieId);
 		return isFavorite;
 	}
+	
 }
