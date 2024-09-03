@@ -29,4 +29,9 @@ public class MovieLikeService {
 		return isFavorite;
 	}
 	
+	//찜한 영화 3개 남겨두기 위한 카운트
+	public int getCountLike(Long userId) {
+		return userMoviePickReop.countByUserId(userId);
+	}
+	
 }

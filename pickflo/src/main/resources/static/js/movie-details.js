@@ -129,9 +129,15 @@ function bindPosterImageClickEvent() {
 					}*/
 				})
 					.then(response => {
-						iconHeart.classList.remove('fa-solid', 'fa-heart');
-						iconHeart.classList.add('fa-regular', 'fa-heart');
-						iconHeart.style.color = '#ffffff'; // 찜 해제 상태일 때 색상
+						// 서버에서 "no" 응답이 오면 경고창을 띄웁니다.
+						if (response.data === 'no') {
+							alert('찜한 콘텐츠는 3개이상이어야 합니다.');
+						} else {
+							// 정상적으로 해제되었을 때 아이콘 업데이트
+							iconHeart.classList.remove('fa-solid', 'fa-heart');
+							iconHeart.classList.add('fa-regular', 'fa-heart');
+							iconHeart.style.color = '#ffffff'; // 찜 해제 상태일 때 색상
+						}
 					})
 					.catch(error => console.error('Error:', error));
 			}
