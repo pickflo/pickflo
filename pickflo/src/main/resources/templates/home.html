@@ -26,7 +26,9 @@
 <body>
 	<div class="header row">
 		<div class="header-logo col-6 col-md-8">
-			<h1 id="logo">PICKFLO</h1>
+			<a href="/pickflo">
+				<h1 id="logo">PICKFLO</h1>
+			</a>
 		</div>
 		<div class="header-user col-6 col-md-3">
 				<div class="nickname" th:text="${#authentication.principal.nickname} + '님'"></div>
@@ -41,7 +43,7 @@
 	</div>
 	<div class="center-container row">
 		<div class="rec-movies col-8 col-md-5">
-			<div  th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></div>	
+			<h3 th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></h3>	
 		</div>
 		<div class="searchBtn col-2 col-md-6">
 			<a href="/pickflo/movie/search" class="btn" id="searchBtn">

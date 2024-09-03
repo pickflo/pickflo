@@ -12,7 +12,9 @@
 <body>
 	<div class="header row">
 		<div class="header-logo col-6 col-md-8">
-			<h1 id="logo">PICKFLO</h1>
+			<a href="/pickflo">
+				<h1 id="logo">PICKFLO</h1>
+			</a>
 		</div>
 		<div class="header-user col-6 col-md-3">
 				<div class="nickname" th:text="${#authentication.principal.nickname} + '님'"></div>
@@ -25,10 +27,18 @@
 				</div>
 		</div>
 	</div>
-	<div class="container-like">
+	<div class="center-container row">
+		<div class="rec-movies col-8 col-md-5">
+			<h3>찜한 콘텐츠</h3>	
+		</div>
+		<div class="searchBtn col-2 col-md-6">
+			<a href="/pickflo/movie/search" class="btn" id="searchBtn">
+				<i class="bi bi-search"></i>
+			</a>
+		</div>
+	</div>
+	<div>
 		<main>
-				<h2>찜한 콘텐츠</h2>
-			
 			<div class="list-wrap">
 			<div class="movie-list">
 				<input id="userId" class="d-none" th:value="${#authentication.principal.id}">

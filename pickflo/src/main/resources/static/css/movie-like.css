@@ -30,13 +30,43 @@
 	font-size: 20px;
 }
 
-.container-like {
-	margin-top: 50px;
+a {
+	text-decoration: none;
 }
 
-main h2 {
-	margin-left: 150px;
+.center-container {
+	margin-top: 40px;
+	display: flex;
+    align-items: center;
+    padding: 0 110px;
+}
+
+.rec-movies {
+	margin-left: 60px;
+    display: flex;
+    justify-content: start;
+    font-size: 25px;
+}
+
+.searchBtn {
+	margin-right: 20px;
+	display: flex;
+    justify-content: end;
+}
+
+#searchBtn {
+	padding: 5px;
+	margin-right: 0px;
 	font-size: 25px;
+	background-color: transparent;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.searchBtn:hover {
+	background-color: transparent;
+	color: #c3c3c3;
 }
 
 /* 반응형 스타일 */
@@ -63,14 +93,23 @@ main h2 {
 		font-size: 16px;
 	}
 	
-	.container-like {
-		margin-top: 0px;
+	.center-container { 
+		margin-top: 0px; 
+		padding: 0 10px;
 	}
 	
-	main h2 {
-		margin-left: 50px;
+	.rec-movies {
+		margin-left: 35px;
 		font-size: 18px;
 	}
-	
-	
+
+	.rec-movies > h3 {
+		font-size: 19px;
+	}
+
+	#searchBtn {
+		margin-top: 0px;
+		font-size: 16px;
+	}
+		
 }
