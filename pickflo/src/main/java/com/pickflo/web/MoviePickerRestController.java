@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pickflo.dto.MoviePickerDto;
@@ -21,10 +22,10 @@ public class MoviePickerRestController {
 
 	private final MoviePickerService svc;
 
-	@GetMapping("/list")
-	public ResponseEntity<List<MoviePickerDto>> readMovies() {
-		int limit = 20;
-		List<MoviePickerDto> list = svc.readMovies(limit);
-		return ResponseEntity.ok(list);
-	}
+	 @GetMapping("/listByGenre")
+	 public ResponseEntity<List<MoviePickerDto>> readRandomMoviesByGenre(@RequestParam(defaultValue = "6.0") double rating) {
+		 
+		List<MoviePickerDto> list = svc.readRandomMoviesByGenre(rating);
+        return ResponseEntity.ok(list);
+    }
 }

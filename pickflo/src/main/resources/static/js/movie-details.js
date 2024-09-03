@@ -62,5 +62,68 @@ function bindPosterImageClickEvent() {
 			.catch(error => {
 				console.error('Error fetching movie details:', error);
 			});
+
+		// 찜 상태 확인
+		const userId = document.getElementById('userId').value;
+		axios.get(`/pickflo/api/movie/like-status`, { params: { userId: userId, movieId: movieId } })
+			.then(response => {
+				const isFavorite = response.data;
+
+				const iconHeart = document.getElementById('iconHeart');
+				if (isFavorite) {
+					// 찜 상태일 때
+					iconHeart.classList.remove('fa-regular', 'fa-heart');
+					iconHeart.classList.add('fa-solid', 'fa-heart');
+					iconHeart.style.color = 'red'; // 찜 상태일 때 색상 변경
+				} else {
+					// 찜 상태가 아닐 때
+					iconHeart.classList.remove('fa-solid', 'fa-heart');
+					iconHeart.classList.add('fa-regular', 'fa-heart');
+					iconHeart.style.color = 'white'; // 찜 상태가 아닐 때 색상 변경
+				}
+			})
+			.catch(error => {
+				console.error('Error checking favorite status:', error);
+			});
+
+	}
+
+	// 하트 아이콘 클릭 시 호출되는 함수
+	const iconHeart = document.getElementById('iconHeart');
+	iconHeart.addEventListener('click', FavoriteBtn);
+
+	function FavoriteBtn() {
+		const movieId = iconHeart.getAttribute('data-movie-id'); // 영화 ID 가져오기
+		const userId = document.getElementById('userId').value; // 유저 ID 가져오기
+
+		// 영화 ID를 로그로 확인
+		console.log("Movie ID:", movieId);
+		//유저 ID 확인
+		console.log("User ID:", userId);
+		
+		/*
+		// AJAX 요청을 보내 찜 상태를 토글합니다.
+		axios.post('/pickflo/api/movie/favorite', {
+			movieId: movieId,
+			userId: userId
+		}, {
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
+			}
+		})
+			.then(response => {
+				const isFavorite = response.data.favorite;
+				if (isFavorite) {
+					iconHeart.classList.remove('fa-heart');
+					iconHeart.classList.add('fa-solid', 'fa-heart');
+					iconHeart.style.color = 'red'; // 찜 상태일 때 색상
+				} else {
+					iconHeart.classList.remove('fa-solid', 'fa-heart');
+					iconHeart.classList.add('fa-regular', 'fa-heart');
+					iconHeart.style.color = '#ffffff'; // 찜 해제 상태일 때 색상
+				}
+			})
+			.catch(error => console.error('Error:', error))*/
 	}
 }

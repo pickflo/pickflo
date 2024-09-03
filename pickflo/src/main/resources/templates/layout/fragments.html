@@ -51,6 +51,7 @@
 	</th:block>
 
 	<th:block th:fragment="modalMovieDetails">
+	<input id="userId" class="d-none" th:value="${#authentication.principal.id}">
 		<div class="modal fade" id="modalMovieDetails" tabindex="-1"
 			aria-labelledby="labelMovieDetails" aria-hidden="true">
 			<div
@@ -73,8 +74,8 @@
 						<div class="movie-info-container">
 							<div class="movie-title-container">
 								<h2 id="title">영화 제목</h2>
-								<i id="iconHeart" class="fa-regular fa-heart"
-									style="color: #ffffff;"></i>
+								<i id="iconHeart" class=", fa-regular fa-heart" style="color: #ffffff;"
+									data-movie-id="${movieId}"></i>
 							</div>
 							<div>
 								<i class="fa-solid fa-star" style="color: #FFD43B;"></i> <span
