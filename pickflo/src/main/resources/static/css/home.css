@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "UTF-8";  
 
 .header #logo {
 	font-family: 'PartialSansKR-Regular', Arial, sans-serif;
@@ -105,7 +105,7 @@
 	}
 	
 	.nickname {
-		margin-top: 5px;
+		margin-top: 10px;
 		font-size: 16px;
 	}
 	
