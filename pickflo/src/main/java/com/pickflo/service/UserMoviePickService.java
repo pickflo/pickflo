@@ -47,41 +47,46 @@ public class UserMoviePickService {
 		pickRepo.saveAll(userMoviePicks);
 	}
 
-	//유저가 찜한 영화의 갯수 확인
+	// 유저가 찜한 영화의 갯수 확인
 	@Transactional
 	public int getPickedCountByUserId(Long userId) {
 		return pickRepo.countByUserId(userId);
 	}
-	
-	//찜상태 유무 체크 확인
+
+	// 찜상태 유무 체크 확인
 	public Boolean getFavoriteCheck(Long userId, Long movieId) {
 		Movie movie = movieRepo.findById(movieId).orElseThrow();
 		log.info("movie: {}", movie);
 		boolean isFavorite = pickRepo.existsByUserIdAndMovieId(userId, movieId);
-	
+
 		return isFavorite;
 	}
-	
+
 	@Transactional
-    public void addPick(Long userId, Long movieId) {
-        User user = userRepo.findById(userId).orElseThrow();
+	public void addPick(Long userId, Long movieId) {
+		User user = userRepo.findById(userId).orElseThrow();
 
-        Movie movie = movieRepo.findById(movieId).orElseThrow();
+		Movie movie = movieRepo.findById(movieId).orElseThrow();
 
-        UserMoviePick userMoviePick = UserMoviePick.builder()
-                .userId(user.getId())
-                .movieId(movie.getId())
-                .user(user)
-                .movie(movie)
-                .build();
+		UserMoviePick userMoviePick = UserMoviePick.builder().userId(user.getId()).movieId(movie.getId()).user(user)
+				.movie(movie).build();
 
-        pickRepo.save(userMoviePick);
-    }
-	
+		pickRepo.save(userMoviePick);
+	}
+
 	@Transactional
-    public void removePick(Long userId, Long movieId) {
-        if (pickRepo.existsByUserIdAndMovieId(userId, movieId)) {
-            pickRepo.deleteByUserIdAndMovieId(userId, movieId);
-        }
-    }
+	public void removePick(Long userId, Long movieId) {
+		if (pickRepo.existsByUserIdAndMovieId(userId, movieId)) {
+			// 현재 사용자의 영화 좋아요 갯수 확인
+			int likeCount = pickRepo.countByUserId(userId);
+
+			// 영화 갯수가 3개 이상일 때만 삭제
+			if (likeCount > 3) {
+				pickRepo.deleteByUserIdAndMovieId(userId, movieId);
+			} else {
+				// 영화 갯수가 3개 미만이면 중단
+				throw new IllegalStateException("Cannot remove pick, user must have more than 3 liked movies.");
+			}
+		}
+	}
 }
