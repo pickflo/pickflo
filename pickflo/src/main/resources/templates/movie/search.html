@@ -85,12 +85,12 @@
 		<div class="list-wrap">
 			<div class="movie-list">
 				<div class="movie-card" th:each="movie : ${searchMovies}">
-				  <img class="poster-image" th:src="@{${movie.movieImg}}">
+				  <img class="poster-image" th:src="@{${movie.movieImg}}" th:data-movie-id="${movie.id}" data-bs-toggle="modal" data-bs-target="#modalMovieDetails">
 				</div> 
 			</div>
 			<div id="loading" style="display: none;">로딩중</div>
 		</div>
-		<th:block th:replace="~{/layout/fragments :: modalMovieDetails}">
+		<th:block th:replace="~{/layout/fragments :: modalMovieDetails}"></th:block>
 		</div>
 		
 		
