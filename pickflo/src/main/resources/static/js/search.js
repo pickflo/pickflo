@@ -4,6 +4,8 @@
 
  document.addEventListener('DOMContentLoaded', function() {
 
+	bindPosterImageClickEvent();
+	
     const clearInput = document.getElementById('clear-input');
 	const searchInput = document.getElementById('search-input');
 	const genreButtons = document.querySelectorAll('.searching-category[data-type="genre"] .btn');
