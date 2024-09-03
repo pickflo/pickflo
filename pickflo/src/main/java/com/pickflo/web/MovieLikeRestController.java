@@ -9,6 +9,8 @@ import com.pickflo.service.UserMoviePickService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,8 +35,14 @@ public class MovieLikeRestController {
 	}
 
 	@GetMapping("/unlike")
-	public void unlikeMovie(@RequestParam Long userId, @RequestParam Long movieId) {
-		userMoviePickSvc.removePick(userId, movieId);
+	public ResponseEntity<String> unlikeMovie(@RequestParam Long userId, @RequestParam Long movieId) {
+	    try {
+	        userMoviePickSvc.removePick(userId, movieId);
+	        // 정상적으로 삭제된 경우 응답
+	        return ResponseEntity.ok("success");
+	    } catch (IllegalStateException e) {
+	        // 영화 갯수가 3개 미만인 경우 "no" 응답을 보냅니다.
+	        return ResponseEntity.ok("no");
+	    }
 	}
-
 }
