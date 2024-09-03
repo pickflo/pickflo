@@ -22,32 +22,9 @@ public class MoviePickerRestController {
 
 	private final MoviePickerService svc;
 
-//	@GetMapping("/list")
-//	public ResponseEntity<List<MoviePickerDto>> readMovies(  @RequestParam(defaultValue = "0") int page, 
-//            @RequestParam(defaultValue = "20") int size) {
-//		Double rating=6.0;
-//		List<MoviePickerDto> list = svc.readMovies(rating,page,size);
-//		return ResponseEntity.ok(list);
-//	}
-	
 	 @GetMapping("/listByGenre")
-	 public ResponseEntity<List<MoviePickerDto>> readRandomMoviesByGenre(
-				@RequestParam(defaultValue = "6.0") double rating
-//				@RequestParam(defaultValue = "1") int size,
-//				@RequestParam int page,
-//				@RequestParam(required = false) String excludedMovieIds, @RequestParam int offset,
-//				@RequestParam int limit
-			) {
+	 public ResponseEntity<List<MoviePickerDto>> readRandomMoviesByGenre(@RequestParam(defaultValue = "6.0") double rating) {
 		 
-//		  제외할 영화 ID를 리스트로 변환
-//        List<Long> excludedIds = new ArrayList<>();
-//        log.info("-----------list={}",excludedIds);
-//        if (excludedMovieIds != null && !excludedMovieIds.isEmpty()) {
-//            excludedIds = Arrays.stream(excludedMovieIds.split(","))
-//                    .map(Long::valueOf)
-//                    .collect(Collectors.toList());
-//        }
-	        
 		List<MoviePickerDto> list = svc.readRandomMoviesByGenre(rating);
         return ResponseEntity.ok(list);
     }

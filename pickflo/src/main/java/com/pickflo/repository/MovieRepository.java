@@ -25,7 +25,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieQueryd
             + "from Movie m "
             + "join m.movieGenres mg "
             + "where mg.genre.id = :genreId")
-      List<SearchGenreCountryDto> findMoviesByGenreId(@Param("genreId") Long genreId);
+    List<SearchGenreCountryDto> findMoviesByGenreId(@Param("genreId") Long genreId);
     
     @Query(value = "WITH RankedMovies AS ( " +
             "    SELECT m.movie_id AS movieId, " +
