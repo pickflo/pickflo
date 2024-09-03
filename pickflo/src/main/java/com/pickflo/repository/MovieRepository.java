@@ -2,8 +2,6 @@ package com.pickflo.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,23 +25,26 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieQueryd
             + "where mg.genre.id = :genreId")
     List<SearchGenreCountryDto> findMoviesByGenreId(@Param("genreId") Long genreId);
     
-    @Query(value = "WITH RankedMovies AS ( " +
-            "    SELECT m.movie_id AS movieId, " +
-            "           m.movie_title AS movieTitle, " +
-            "           m.movie_img AS movieImg, " +
-            "           g.genre_name AS genreName, " +
-            "           m.movie_rating AS movieRating, " +
-            "           ROW_NUMBER() OVER (PARTITION BY g.genre_name ORDER BY DBMS_RANDOM.VALUE) AS rn " +
-            "    FROM movies m " +
-            "    JOIN movies_genres mg ON m.movie_id = mg.movie_id " +
-            "    JOIN genres g ON mg.genre_id = g.genre_id " +
-            "    WHERE m.movie_rating >= :rating " +
-            ") " +
-            "SELECT movieId, movieTitle, movieImg, genreName, movieRating " +
-            "FROM RankedMovies " +
-            "WHERE rn <= 10 " +
-            "ORDER BY genreName, rn", 
-    nativeQuery = true)
-    List<MoviePickerDto> findMoviesByGenreAndRating(@Param("rating") double rating);
+    @Query(value = "SELECT * FROM (" +
+	            "    SELECT m.movie_id AS movieId, m.movie_title AS movieTitle, m.movie_img AS movieImg, " +
+//	            "           g.genre_name AS genreName, m.movie_rating AS movieRating, " +
+	            "           ROW_NUMBER() OVER (PARTITION BY g.genre_id ORDER BY DBMS_RANDOM.VALUE) AS rn " +
+	            "    FROM movies m " +
+	            "    JOIN movies_genres mg ON m.movie_id = mg.movie_id " +
+	            "    JOIN genres g ON mg.genre_id = g.genre_id " +
+	            "    WHERE m.movie_rating >= :rating " +
+	            ") " +
+	            "WHERE rn IN (:rn1, :rn2)", nativeQuery = true)
+	List<MoviePickerDto> findMoviesByGenreAndRating(
+	 @Param("rating") double rating, 
+	 @Param("rn1") int rn1, 
+	 @Param("rn2") int rn2
+	);
+
+
+
+
+
+
 
 }
