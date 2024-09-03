@@ -29,7 +29,7 @@
 					<div class="input-container">
 						<input type="password" class="form-control" id="password"
 							name="password" placeholder="비밀번호" required /> <i
-							class="fa-solid fa-check" style="color: #4caf50;"></i> <input
+							class="fa-solid fa-check d-none" style="color: #4caf50;"></i> <input
 							type="password" class="form-control" id="confirmPassword"
 							placeholder="비밀번호 확인" required />
 						<div id="checkPasswordResult" style="color: green;">대소문자,특수문자,숫자
@@ -38,11 +38,11 @@
 					<div class="input-container">
 						<input type="text" class="form-control" id="nickname"
 							name="nickname" placeholder="닉네임" required  autocomplete="off" /> <i
-							class="fa-solid fa-check" style="color: #4caf50;"></i>
+							class="fa-solid fa-check d-none" style="color: #4caf50;"></i>
 						<div id="checkNicknameResult" style="color: green;">영문자,숫자,한글,밑줄 및 점을 포함, 15자이내</div>
 					</div>
 					<div class="input-container">
-						<input type="date" class="form-control" id="birthdate"
+						<input type="text" class="form-control" id="birthdate"
 							name="birth" placeholder="생년월일" required />
 					</div>
 					<div class="input-radio-container">
@@ -71,7 +71,8 @@
                 dateFormat: "Y-m-d", // 원하는 날짜 형식
                 maxDate: "today", // 오늘 날짜까지 선택 가능
                 placeholder: "생년월일", // 플레인 텍스트 플레인 텍스트 사용
-                locale: "ko" // 한국어 설정
+                locale: "ko", // 한국어 설정
+                disableMobile: true 
             });
         });
    		</script>

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					isEmailChecked = true;
 					checkEmailResult.style.color = 'green';
 					checkEmailResult.innerHTML = '사용가능한 이메일입니다.';
-					icon.classList.remove("d-none");
+					icon.classList.add("d-none");
 				} else {
 					isEmailChecked = false;
 					checkEmailResult.style.color = 'red';
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			isPasswordChecked = true;
 			checkPasswordResult.style.color = 'green';
 			checkPasswordResult.innerHTML = '비밀번호가 일치합니다.';
-			icon.classList.remove("d-none");
+			icon.classList.add("d-none");
 		} else {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
