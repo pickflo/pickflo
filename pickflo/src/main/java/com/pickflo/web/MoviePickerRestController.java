@@ -1,12 +1,7 @@
 package com.pickflo.web;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,27 +32,23 @@ public class MoviePickerRestController {
 	
 	 @GetMapping("/listByGenre")
 	 public ResponseEntity<List<MoviePickerDto>> readRandomMoviesByGenre(
-			 @RequestParam(defaultValue = "6.0") double rating, 
-				/*
-				 * @RequestParam(defaultValue = "1") int size,
-				 * 
-				 * @RequestParam int page,
-				 */
-		     @RequestParam(required = false) String excludedMovieIds,
-		     @RequestParam int offset,
-	         @RequestParam int limit
+				@RequestParam(defaultValue = "6.0") double rating
+//				@RequestParam(defaultValue = "1") int size,
+//				@RequestParam int page,
+//				@RequestParam(required = false) String excludedMovieIds, @RequestParam int offset,
+//				@RequestParam int limit
 			) {
-		 log.info("-----------String={}",excludedMovieIds);
-		// 제외할 영화 ID를 리스트로 변환
-        List<Long> excludedIds = new ArrayList<>();
-        log.info("-----------list={}",excludedIds);
-        if (excludedMovieIds != null && !excludedMovieIds.isEmpty()) {
-            excludedIds = Arrays.stream(excludedMovieIds.split(","))
-                    .map(Long::valueOf)
-                    .collect(Collectors.toList());
-        }
+		 
+//		  제외할 영화 ID를 리스트로 변환
+//        List<Long> excludedIds = new ArrayList<>();
+//        log.info("-----------list={}",excludedIds);
+//        if (excludedMovieIds != null && !excludedMovieIds.isEmpty()) {
+//            excludedIds = Arrays.stream(excludedMovieIds.split(","))
+//                    .map(Long::valueOf)
+//                    .collect(Collectors.toList());
+//        }
 	        
-		List<MoviePickerDto> list = svc.readRandomMoviesByGenre(rating, /* size, page, */ excludedIds, offset, limit);
+		List<MoviePickerDto> list = svc.readRandomMoviesByGenre(rating);
         return ResponseEntity.ok(list);
     }
 }

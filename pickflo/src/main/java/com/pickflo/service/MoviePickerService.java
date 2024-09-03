@@ -1,18 +1,11 @@
 package com.pickflo.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pickflo.domain.Movie;
 import com.pickflo.dto.MoviePickerDto;
-import com.pickflo.repository.MoviePickerRepository;
 import com.pickflo.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -36,11 +29,11 @@ public class MoviePickerService {
 //	}
 	
 	@Transactional(readOnly = true)
-	public List<MoviePickerDto> readRandomMoviesByGenre(double rating, List<Long> excludedIds, int offset, int limit) {
+	public List<MoviePickerDto> readRandomMoviesByGenre(double rating) {
 		/*
 		 * int startRow = page * size; int endRow = startRow + size;
 		 */
-        List<MoviePickerDto> movies  = repo.findMoviesByGenreAndRating(rating, excludedIds, offset, limit);
+        List<MoviePickerDto> movies  = repo.findMoviesByGenreAndRating(rating);
  
         //List<MoviePickerDto> movies = moviePage.getContent();
 		return movies;
