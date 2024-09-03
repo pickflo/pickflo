@@ -52,6 +52,7 @@
 	</th:block>
 
 	<th:block th:fragment="modalMovieDetails">
+	<input id="userId" class="d-none" th:value="${#authentication.principal.id}">
 		<div class="modal fade" id="modalMovieDetails" tabindex="-1"
 			aria-labelledby="labelMovieDetails" aria-hidden="true">
 			<div

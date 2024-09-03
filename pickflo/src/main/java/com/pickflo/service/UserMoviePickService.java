@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pickflo.domain.Movie;
 import com.pickflo.domain.User;
 import com.pickflo.domain.UserMoviePick;
+import com.pickflo.domain.UserMoviePickId;
 import com.pickflo.dto.UserMoviePickDto;
 import com.pickflo.repository.MovieRepository;
 import com.pickflo.repository.UserMoviePickRepository;
@@ -50,5 +51,14 @@ public class UserMoviePickService {
 	@Transactional
 	public int getPickedCountByUserId(Long userId) {
 		return pickRepo.countByUserId(userId);
+	}
+	
+	//찜상태 유무 체크 확인
+	public Boolean getFavoriteCheck(Long userId, Long movieId) {
+		Movie movie = movieRepo.findById(movieId).orElseThrow();
+		log.info("movie: {}", movie);
+		boolean isFavorite = pickRepo.existsByUserIdAndMovieId(userId, movieId);
+	
+		return isFavorite;
 	}
 }
