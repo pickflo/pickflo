@@ -100,23 +100,18 @@ a.back-btn:hover {
 
 #clear-input {
     position: absolute;
-    right: 10px;
-    top: 100%;
+    right: 20px;
+    top: 90%;
     transform: translateY(-50%);
     z-index: 10;
     display: none; 
     background: transparent;
     border: none;
-    
+    color: #aaa;
 }
 
-#clear-input i {
-    color: #aaa;
-    font-size: 20px;
-}
-
-#clear-input:hover i {
-    color: #aaa;
+#clear-input:hover {
+ 	color: #ffff;  
  	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
