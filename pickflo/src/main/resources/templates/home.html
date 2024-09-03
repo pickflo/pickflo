@@ -21,6 +21,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<div class="header row">
@@ -30,7 +31,7 @@
 		<div class="header-user col-6 col-md-3">
 				<div class="nickname" th:text="${#authentication.principal.nickname} + '님'"></div>
 				<button class="menu-text" onclick="toggleMenu()">
-					<i class="bi bi-person-lines-fill" style="font-size: 1.5rem; color: white;"></i>
+					<i class="bi bi-person-lines-fill" style="font-size: 30px; color: white;"></i>
 				</button>
 				<div class="dropdown-menu" id="menu">
 					<a id="homeLink" href="/pickflo">홈</a> <a href="/pickflo/movie/like">찜한
