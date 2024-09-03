@@ -62,5 +62,29 @@ function bindPosterImageClickEvent() {
 			.catch(error => {
 				console.error('Error fetching movie details:', error);
 			});
+
+		// 찜 상태 확인
+		const userId = document.getElementById('userId').value;
+		console.log('User ID:', userId); // 로그를 통해 userId 확인
+		axios.get(`/pickflo/api/movie/like-status`, { params: { userId: userId, movieId: movieId } })
+			.then(response => {
+				const isFavorite = response.data;
+
+				const iconHeart = document.getElementById('iconHeart');
+				if (isFavorite) {
+					// 찜 상태일 때
+					iconHeart.classList.remove('fa-regular', 'fa-heart');
+					iconHeart.classList.add('fa-solid', 'fa-heart');
+					iconHeart.style.color = 'red'; // 찜 상태일 때 색상 변경
+				} else {
+					// 찜 상태가 아닐 때
+					iconHeart.classList.remove('fa-solid', 'fa-heart');
+					iconHeart.classList.add('fa-regular', 'fa-heart');
+					iconHeart.style.color = 'white'; // 찜 상태가 아닐 때 색상 변경
+				}
+			})
+			.catch(error => {
+				console.error('Error checking favorite status:', error);
+			});
 	}
 }
