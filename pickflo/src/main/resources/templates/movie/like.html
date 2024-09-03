@@ -10,10 +10,26 @@
 
 </head>
 <body>
-	<th:block th:replace="~{/layout/fragments :: userHeader}"></th:block>
+	<div class="header row">
+		<div class="header-logo col-6 col-md-8">
+			<h1 id="logo">PICKFLO</h1>
+		</div>
+		<div class="header-user col-6 col-md-3">
+				<div class="nickname" th:text="${#authentication.principal.nickname} + '님'"></div>
+				<button class="menu-text" onclick="toggleMenu()">
+					<i class="bi bi-person-lines-fill" style="font-size: 1.5rem; color: white;"></i>
+				</button>
+				<div class="dropdown-menu" id="menu">
+					<a id="homeLink" href="/pickflo">홈</a> <a href="/pickflo/movie/like">찜한
+						영화</a> <a href="/pickflo/user/logout">로그아웃</a>
+				</div>
+		</div>
+	</div>
 	<div class="container-like">
 		<main>
-			<h2>찜한 콘텐츠</h2>
+				<h2>찜한 콘텐츠</h2>
+			
+			<div class="list-wrap">
 			<div class="movie-list">
 				<input id="userId" class="d-none" th:value="${#authentication.principal.id}">
 				<div th:each="movie : ${movies}">
@@ -21,6 +37,7 @@
 						<img th:src="@{${movie.movieImg}}" class="poster-image" th:data-movie-id="${movie.movieId}" data-bs-toggle="modal" data-bs-target="#modalMovieDetails">
 					</div>
 				</div>
+			</div>
 			</div>
 		</main>
 
