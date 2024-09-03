@@ -26,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class HomeRestController {
 	
 	private final HomeService homeSvc;	
-	
-	/*@PreAuthorize("isAuthenticated()")
+	/*
+	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
     public ResponseEntity<?> homeRecMovies(
             @RequestParam(defaultValue = "1") int page,
@@ -46,8 +46,9 @@ public class HomeRestController {
         } catch (Exception e) {
             e.printStackTrace(); // Log the stack trace for debugging
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching movies");
-        }
-    }*/
+        } 
+    } 
+    */
 	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
@@ -57,5 +58,7 @@ public class HomeRestController {
         Long userId = ((CustomUserDetails) userDetails).getId();
 
         return homeSvc.getMoviesByUserId(userId);
-    }
+    } 
+	
 }
+

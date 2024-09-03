@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.error('Error fetching movies:', error);
 		});
 }); 
+
 /*
 document.addEventListener('DOMContentLoaded', function() {
     let page = 1;
