@@ -1,13 +1,10 @@
 package com.pickflo.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-
-@Getter
-@Builder
-public class MoviePickerDto {
+public interface MoviePickerDto {
 	
-	private Long id;
-	private String title;
-	private String img;
+	Long getMovieId();
+	String getMovieTitle();
+	String getGenreName();
+	String getMovieImg();
+	Double getMovieRating();
 }

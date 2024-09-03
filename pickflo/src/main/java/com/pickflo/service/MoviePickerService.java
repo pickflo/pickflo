@@ -1,16 +1,12 @@
 package com.pickflo.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pickflo.domain.Movie;
 import com.pickflo.dto.MoviePickerDto;
-import com.pickflo.repository.MoviePickerRepository;
+import com.pickflo.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,23 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MoviePickerService {
 
-	private final MoviePickerRepository repo;
-
-	@Transactional(readOnly = true)
-	public List<MoviePickerDto> readMovies(int limit) {
-		Page<Movie> page = repo.findAll(PageRequest.of(0, limit));
-		return page.getContent().stream().map(movie -> 
-				MoviePickerDto.builder()
-				.id(movie.getId()).title(movie.getMovieTitle()).img(movie.getMovieImg())
-				.build())
-				.collect(Collectors.toList());
-	}
+	private final MovieRepository repo;
 	
-//	//정희테스트
-//	@Transactional(readOnly = true)
-//	public List<Movie> readMovies(int limit) {
-//		List<Movie> list= repo.findAllMoviesRandomly();
-//		return list.stream().limit(limit).toList();
-//
-//	}
+	@Transactional(readOnly = true)
+	public List<MoviePickerDto> readRandomMoviesByGenre(double rating) {
+        List<MoviePickerDto> movies  = repo.findMoviesByGenreAndRating(rating);
+ 
+		return movies;
+    }
+	
 }
