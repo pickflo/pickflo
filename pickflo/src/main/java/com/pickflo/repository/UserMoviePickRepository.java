@@ -23,4 +23,5 @@ public interface UserMoviePickRepository extends JpaRepository<UserMoviePick, Us
            "FROM UserMoviePick ump JOIN ump.movie m WHERE ump.user.id = :userId")
     List<UserMovieLikeDto> findByUserId(@Param("userId") Long userId);
  
+    void deleteByUserIdAndMovieId(Long userId, Long movieId);
 }

@@ -61,4 +61,27 @@ public class UserMoviePickService {
 	
 		return isFavorite;
 	}
+	
+	@Transactional
+    public void addPick(Long userId, Long movieId) {
+        User user = userRepo.findById(userId).orElseThrow();
+
+        Movie movie = movieRepo.findById(movieId).orElseThrow();
+
+        UserMoviePick userMoviePick = UserMoviePick.builder()
+                .userId(user.getId())
+                .movieId(movie.getId())
+                .user(user)
+                .movie(movie)
+                .build();
+
+        pickRepo.save(userMoviePick);
+    }
+	
+	@Transactional
+    public void removePick(Long userId, Long movieId) {
+        if (pickRepo.existsByUserIdAndMovieId(userId, movieId)) {
+            pickRepo.deleteByUserIdAndMovieId(userId, movieId);
+        }
+    }
 }
