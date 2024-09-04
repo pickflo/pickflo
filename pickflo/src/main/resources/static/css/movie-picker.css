@@ -5,7 +5,6 @@ body, html {
 	color: #e5e5e5;
 	margin: 0;
 	padding: 0;
-	font-family: Arial, sans-serif;
 	align-items: center;
 	justify-content: center;
 	display: flex;
@@ -41,7 +40,7 @@ main {
 }
 
 .intro-text {
-	font-size: 16px;
+	font-size: 18px;
 	margin-bottom: 10px; /* intro-text와 홈으로 가기 사이의 여백을 줄임 */
 	text-align: center;
 	white-space: normal; /* 텍스트가 자동으로 줄 바꿈 되도록 설정 */
@@ -57,7 +56,7 @@ main {
 }
 
 #home p {
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	color: #E50913;
 	margin: 0;
@@ -104,6 +103,7 @@ main {
 
 .movie .overlay i { /* 아이콘 스타일 추가 */
 	font-size: 2rem;
+	pointer-events: none; /* 클릭 이벤트가 오버레이를 통해 전달되도록 설정 */
 }
 
 .movie.selected .overlay {
@@ -144,6 +144,10 @@ main {
 	.poster-image {
 		height: 150px; /* 모바일에서는 포스터 이미지 높이를 줄임 */
 	}
+	.intro-title {
+		font-size: 22px; /* 모바일에서 텍스트 크기 줄임 */
+		line-height: 1.4;
+	}
 	.intro-text {
 		font-size: 15px; /* 모바일에서 텍스트 크기 줄임 */
 		line-height: 1.4;
@@ -152,4 +156,16 @@ main {
 		display: block; /* span 태그를 블록 요소로 변경하여 두 줄로 나누기 */
 		margin-bottom: 5px;
 	}
+}
+/* 태블릿 화면에서 포스터 크기와 레이아웃 조정 */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	main {
+		padding: 10px;
+	}
+    #layout {
+        grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 열을 설정 */
+        gap: 13px;
+    }
+    
+    
 }
