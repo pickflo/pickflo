@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			event.preventDefault();
 		}
 	});
-	
+
 
 	let successMessage = '회원가입이 완료되었습니다.';
 	let errorMessage = '회원가입이 실패했습니다.';
@@ -46,15 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
+	const btnSignUp = document.querySelector('button#btnSignUp');
+	btnSignUp.classList.add('disabled');
+	btnSignUp.disabled = true;
 	
 	function changeButtonState() {
 		const btnSignUp = document.querySelector('button#btnSignUp');
 
 		if (isEmailChecked && isPasswordChecked && isNicknameChecked
-			&& isBirthChecked && isGenderChecked ) {
+			&& isBirthChecked && isGenderChecked) {
 			btnSignUp.classList.remove('disabled');
+			btnSignUp.disabled = false;
 		} else {
 			btnSignUp.classList.add('disabled');
+			btnSignUp.disabled = true;
 		}
 	}
 
@@ -166,29 +171,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function checkBirth(event) {
-	    // `inputBirth`를 사용하여 생년월일 값이 있는지 확인하고 `isBirthChecked`를 설정
-	    if (inputBirth.value) {
-	        isBirthChecked = true;
-	    } else {
-	        isBirthChecked = false;
-	    }
-	    changeButtonState(); // 버튼 상태 업데이트
+		// `inputBirth`를 사용하여 생년월일 값이 있는지 확인하고 `isBirthChecked`를 설정
+		if (inputBirth.value) {
+			isBirthChecked = true;
+		} else {
+			isBirthChecked = false;
+		}
+		changeButtonState(); // 버튼 상태 업데이트
 	}
 
 	function checkRadioBtn(event) {
-	    // `radioBtn` 내의 라디오 버튼들이 선택되었는지 확인
-	    const genderInputs = document.querySelectorAll('input[name="gender"]');
-	    let isChecked = false;
-	    
-	    for (let i = 0; i < genderInputs.length; i++) {
-	        if (genderInputs[i].checked) {
-	            isChecked = true;
-	            break;
-	        }
-	    }
+		// `radioBtn` 내의 라디오 버튼들이 선택되었는지 확인
+		const genderInputs = document.querySelectorAll('input[name="gender"]');
+		let isChecked = false;
 
-	    isGenderChecked = isChecked; // isGenderChecked를 업데이트
-	    changeButtonState(); // 버튼 상태 업데이트
+		for (let i = 0; i < genderInputs.length; i++) {
+			if (genderInputs[i].checked) {
+				isChecked = true;
+				break;
+			}
+		}
+
+		isGenderChecked = isChecked; // isGenderChecked를 업데이트
+		changeButtonState(); // 버튼 상태 업데이트
 	}
 
 })
