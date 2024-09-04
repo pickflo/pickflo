@@ -131,7 +131,10 @@ main {
 /* 모바일 화면에서 포스터 크기와 레이아웃 조정 */
 @media only screen and (max-width: 768px) {
 	main {
-		padding: 5px;
+		padding: 0;
+		margin-top: 25px;
+		margin-left: 10px;
+		margin-right: 10px;
 	}
 	#layout {
 		grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 열을 설정 */
@@ -160,7 +163,10 @@ main {
 /* 태블릿 화면에서 포스터 크기와 레이아웃 조정 */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
 	main {
-		padding: 10px;
+		padding: 0;
+		margin-top: 10px;
+		margin-left: 20px;
+		margin-right: 20px;
 	}
     #layout {
         grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 열을 설정 */
