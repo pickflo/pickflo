@@ -19,20 +19,11 @@ public class HomeService {
 	
 	private final HomeRecMovieRepository homeRecMovieRepo;
 	
-	/*
-	public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
-        List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
+	public List<HomeRecMovieDto> getMoviesByUserId(Long userId, int page, int limit) {
+        int startRow = (page - 1) * limit + 1;
+        int endRow = page * limit;
 
-        return results.stream()
-            .map(result -> new HomeRecMovieDto(
-                ((Number) result[0]).longValue(),
-                (String) result[1] 
-            ))
-            .collect(Collectors.toList());
-    } */
-	
-	public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
-        List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
+        List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId, startRow, endRow);
 
         return results.stream()
             .map(result -> new HomeRecMovieDto(
@@ -41,6 +32,22 @@ public class HomeService {
                 (String) result[2]                
             ))
             .collect(Collectors.toList());
-    } 
+    }
 	
 }
+
+/*
+public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
+    List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
+
+    return results.stream()
+        .map(result -> new HomeRecMovieDto(
+            ((Number) result[0]).longValue(),  
+            (String) result[1],                
+            (String) result[2]                
+        ))
+        .collect(Collectors.toList());
+} 
+
+}
+*/
