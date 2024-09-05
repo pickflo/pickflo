@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,4 +48,11 @@ public class UserMoviePick {
 	@JoinColumn(name = "movie_id", insertable = false, updatable = false)
 	private Movie movie;
 
+	@Column(name = "created_time")
+	private LocalDateTime createdTime;
+
+	@PrePersist
+	protected void onCreate() {
+		this.createdTime = LocalDateTime.now();
+	}
 }
