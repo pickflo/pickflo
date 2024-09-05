@@ -29,12 +29,14 @@ public class HomeRestController {
 	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
-    public List<HomeRecMovieDto> homeRecMovies() {
+    public Page<HomeRecMovieDto> homeRecMovies(  
+    		@RequestParam(value = "page") int page,
+            @RequestParam(value = "size", defaultValue = "21") int size) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Long userId = ((CustomUserDetails) userDetails).getId();
 
-        return homeSvc.getMoviesByUserId(userId);
+        return homeSvc.getMoviesByUserId(userId,page,size);
     } 
 	
 }

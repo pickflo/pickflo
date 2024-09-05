@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,16 +32,18 @@ public class HomeService {
             .collect(Collectors.toList());
     } */
 	
-	public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
-        List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
+	public Page<HomeRecMovieDto> getMoviesByUserId(Long userId, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+        Page<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId,pageable);
 
-        return results.stream()
+        List<HomeRecMovieDto> dtoList = results.stream()
             .map(result -> new HomeRecMovieDto(
                 ((Number) result[0]).longValue(),  
                 (String) result[1],                
                 (String) result[2]                
             ))
             .collect(Collectors.toList());
+        return new PageImpl<>(dtoList, pageable, results.getTotalElements());
     } 
 	
 }

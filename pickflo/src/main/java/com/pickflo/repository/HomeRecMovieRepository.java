@@ -119,7 +119,7 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 		    FROM MatchingMovies m
 		    ORDER BY m.genre_count DESC, m.movie_title
 		    """, nativeQuery = true)
-	List<Object[]> findMoviesByUserId(@Param("userId") Long userId);
+	Page<Object[]> findMoviesByUserId(@Param("userId") Long userId,Pageable pageable);
 }
 
 
