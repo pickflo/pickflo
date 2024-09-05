@@ -168,10 +168,21 @@ main {
 		margin-left: 20px;
 		margin-right: 20px;
 	}
-    #layout {
-        grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 열을 설정 */
-        gap: 13px;
-    }
-    
-    
+	#layout {
+		grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 열을 설정 */
+		gap: 13px;
+	}
+}
+/* iPad Pro 화면에서 5줄로 조정 */
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+	main {
+		padding: 0;
+		margin-top: 10px;
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#layout {
+		grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 열을 설정 */
+		gap: 13px;
+	}
 }
