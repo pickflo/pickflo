@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HomeRecMovieDto {
 	private Long movieId;
+	private String movieTitle;
 	private String movieImg;
 	// private LocalDate movieReleaseDate;
 }

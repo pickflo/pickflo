@@ -22,17 +22,19 @@
 
 #logo h1 {
 	font-family: 'PartialSansKR-Regular', Arial, sans-serif; /* 폰트 적용 */
-	font-size: 3em; /* 글자 크기 */
+	font-size: 3rem; /* 글자 크기 */
 	font-weight: normal; /* 굵게 */
 	background-color: #000; /* 배경 검정색 */
 	color: #E50913; /* 기본 폰트 색상 흰색 */
 }
 
 html, body, main {
-	margin-top: 5px;
-	margin-bottom: 100px;
 	background-color: #000; /* 배경 검정색 */
 	color: #fff; /* 기본 폰트 색상 흰색 */
+}
+
+main {
+	margin-top: 70px;
 }
 
 body {
@@ -69,6 +71,7 @@ form input {
 }
 
 .card {
+	margin: 0px;
 	background-color: black;
 	color: white;
 }
@@ -120,4 +123,10 @@ form input {
     height: auto; 
     width: auto; 
     vertical-align: middle;
+}
+
+@media ( max-width : 768px) {
+	.card {
+		width: 300px;
+	}	
 }

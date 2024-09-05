@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					isEmailChecked = true;
 					checkEmailResult.style.color = 'green';
 					checkEmailResult.innerHTML = '사용가능한 이메일입니다.';
-					icon.classList.remove("d-none");
+					icon.classList.add("d-none");
 				} else {
 					isEmailChecked = false;
 					checkEmailResult.style.color = 'red';
@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	function checkPassword() {
 		const password = inputPassword.value;
 		const confirmPassword = inputConfirmPassword.value;
-		const icon = inputPassword.nextElementSibling;
 		const checkPasswordResult = document.querySelector('div#checkPasswordResult');
 		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
@@ -117,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
 			checkPasswordResult.innerHTML = '최소 8자 이상이며, 소문자, 대문자, 숫자, 특수문자가 각각 하나 이상 포함되어야 합니다.';
-			icon.classList.add("d-none");
 			changeButtonState();
 
 			return;
@@ -130,12 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			isPasswordChecked = true;
 			checkPasswordResult.style.color = 'green';
 			checkPasswordResult.innerHTML = '비밀번호가 일치합니다.';
-			icon.classList.remove("d-none");
 		} else {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
 			checkPasswordResult.innerHTML = '비밀번호가 일치하지 않습니다.';
-			icon.classList.add("d-none");
 		}
 
 		changeButtonState();
@@ -165,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	}
 
-	function checkBirth(event) {
+	function checkBirth() {
 	    // `inputBirth`를 사용하여 생년월일 값이 있는지 확인하고 `isBirthChecked`를 설정
 	    if (inputBirth.value) {
 	        isBirthChecked = true;
@@ -175,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	    changeButtonState(); // 버튼 상태 업데이트
 	}
 
-	function checkRadioBtn(event) {
+	function checkRadioBtn() {
 	    // `radioBtn` 내의 라디오 버튼들이 선택되었는지 확인
 	    const genderInputs = document.querySelectorAll('input[name="gender"]');
 	    let isChecked = false;

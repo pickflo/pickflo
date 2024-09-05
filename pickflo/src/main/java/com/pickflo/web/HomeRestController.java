@@ -26,29 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class HomeRestController {
 	
 	private final HomeService homeSvc;	
-	/*
-	@PreAuthorize("isAuthenticated()")
-    @GetMapping("/recMovies")
-    public ResponseEntity<?> homeRecMovies(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            Long userId = ((CustomUserDetails) userDetails).getId();
-            
-            Page<HomeRecMovieDto> moviePage = homeSvc.getMoviesByUserId(userId, page, limit);
-            if (moviePage.hasContent()) {
-                return ResponseEntity.ok(moviePage);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No movies found for the given criteria");
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the stack trace for debugging
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching movies");
-        } 
-    } 
-    */
 	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
@@ -61,4 +38,3 @@ public class HomeRestController {
     } 
 	
 }
-

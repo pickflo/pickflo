@@ -36,6 +36,7 @@
     display: flex;
     justify-content: start;
     font-size: 25px;
+    font-weight: bold;
 }
 
 .searchBtn {
@@ -69,7 +70,10 @@
 	font-size: 20px;
 }
 
-/* 반응형 스타일 */
+a {
+	text-decoration: none;
+}
+
 @media ( max-width : 768px) {
 	.header { 
 		margin-top: 10px; 
@@ -98,6 +102,10 @@
 		margin-left: 35px;
 		font-size: 18px;
 	}
+	
+	.rec-movies > h3 {
+		font-size: 18px;
+	}
 
 	#searchBtn {
 		margin-top: 0px;
@@ -105,9 +113,41 @@
 	}
 	
 	.nickname {
-		margin-top: 10px;
+		margin-top: 5px;
+		font-size: 16px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width : 1024px) {
+	.rec-movies {
+		margin-left: 30px;
+		font-size: 18px;
+	}
+	
+	.rec-movies > h3 {
+		font-size: 18px;
+	}
+	
+	#searchBtn {
+		margin-top: 0px;
 		font-size: 16px;
 	}
 	
+}
+
+
+@media only screen and (min-width: 1024px) and (max-width : 1366px) {
+	.rec-movies {
+		margin-left: 35px;
+		font-size: 18px;
+	}
 	
+	.rec-movies > h3 {
+		font-size: 18px;
+	}
+
+	#searchBtn {
+		margin-top: 0px;
+		font-size: 16px;
+	}
 }

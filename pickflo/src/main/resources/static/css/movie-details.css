@@ -121,6 +121,10 @@ body.modal-open {
 
 
 @media (max-width: 768px) {
+	.closeBtn {
+		margin-top: 20px;
+	}
+	
 	.modal h6 {
 		font-size: 16px;
 	}
