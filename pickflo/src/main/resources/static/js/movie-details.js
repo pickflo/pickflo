@@ -91,59 +91,94 @@ function bindPosterImageClickEvent() {
 		iconHeart.addEventListener('click', FavoriteBtn);
 
 		function FavoriteBtn() {
-			//const movieId = iconHeart.getAttribute('data-movie-id'); // 영화 ID 가져오기
-			//const userId = document.getElementById('userId').value; // 유저 ID 가져오기
-
-			// 영화 ID를 로그로 확인
 			console.log("Movie ID:", movieId);
-			//유저 ID 확인
 			console.log("User ID:", userId);
 
-			// 현재 하트 아이콘 상태에 따라 AJAX 요청을 보냅니다.
 			if (iconHeart.classList.contains('fa-regular')) {
-				// 찜 추가
 				axios.get('/pickflo/api/movie/like', {
 					params: {
 						movieId: movieId,
 						userId: userId
 					},
-					/*headers: {
-						'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-					}*/
 				})
 					.then(response => {
 						iconHeart.classList.remove('fa-regular', 'fa-heart');
 						iconHeart.classList.add('fa-solid', 'fa-heart');
-						iconHeart.style.color = 'red'; // 찜 상태일 때 색상
+						iconHeart.style.color = 'red';
+
+						if (window.location.pathname === '/pickflo/movie/like') {
+							updateMovieList();
+						}
 					})
 					.catch(error => console.error('Error:', error));
 			} else {
-				// 찜 해제
 				axios.get('/pickflo/api/movie/unlike', {
 					params: {
 						movieId: movieId,
 						userId: userId
 					},
-					/*headers: {
-						'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
-					}*/
 				})
 					.then(response => {
-						// 서버에서 "no" 응답이 오면 경고창을 띄웁니다.
 						if (response.data === 'no') {
-							alert('찜한 콘텐츠는 3개이상이어야 합니다.');
+							alert('찜한 콘텐츠는 3개 이상이어야 합니다.');
 						} else {
-							// 정상적으로 해제되었을 때 아이콘 업데이트
 							iconHeart.classList.remove('fa-solid', 'fa-heart');
 							iconHeart.classList.add('fa-regular', 'fa-heart');
-							iconHeart.style.color = '#ffffff'; // 찜 해제 상태일 때 색상
+							iconHeart.style.color = '#ffffff'
+
+							if (window.location.pathname === '/pickflo/movie/like') {
+								removeMovieFromLikePage(movieId);
+							}
 						}
 					})
 					.catch(error => console.error('Error:', error));
 			}
 		}
-
 	}
-
-
 }
+
+function updateMovieList() {
+	// 서버에서 찜한 영화 목록 다시 불러오기
+	const userId = document.getElementById('userId').value;
+
+	axios.get('/pickflo/api/movie/updated-movie-list', {
+		params: {
+			userId: userId
+		}
+	})
+		.then(response => {
+			const movies = response.data;
+			const movieListContainer = document.getElementById('movieListContainer');
+
+			// 기존 영화 목록 비우기
+			movieListContainer.innerHTML = '';
+
+			// 새로 받은 영화 목록으로 다시 그리기
+			movies.forEach(movie => {
+				const movieCard = document.createElement('div');
+				movieCard.classList.add('movie-card');
+
+				const movieImg = document.createElement('img');
+				movieImg.src = movie.movieImg;
+				movieImg.classList.add('poster-image');
+				movieImg.setAttribute('data-movie-id', movie.movieId);
+				movieImg.setAttribute('data-bs-toggle', 'modal');
+				movieImg.setAttribute('data-bs-target', '#modalMovieDetails');
+
+				movieCard.appendChild(movieImg);
+				movieListContainer.appendChild(movieCard);
+			});
+
+			// 바인딩 새로 하기
+			bindPosterImageClickEvent();
+		})
+		.catch(error => console.error('Error fetching updated movie list:', error));
+}
+
+function removeMovieFromLikePage() {
+	// 영화 목록을 다시 불러와서 그리기
+	updateMovieList();
+}
+
+
+

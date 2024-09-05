@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MovieUserId {
-	
+
 	private Long userId;
 	private Long movieId;
 

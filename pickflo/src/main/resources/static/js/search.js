@@ -3,6 +3,21 @@
  */
 
  document.addEventListener('DOMContentLoaded', function() {
+	
+	//뒤로가기버튼 동적으로 페이지이동
+	const backButton = document.getElementById('back-btn');
+
+	    // 백 버튼 클릭 시 처리
+	    backButton.addEventListener('click', function(event) {
+	        event.preventDefault(); // 기본 앵커 동작 방지
+	        
+	        // 히스토리 엔트리가 있는지 확인
+	        if (window.history.length > 1) {
+	            window.history.back(); // 이전 페이지로 이동
+	        } else {
+	            window.location.href = '/'; // 루트 페이지로 이동 (히스토리가 없을 때)
+	        }
+	    });
 
 	bindPosterImageClickEvent();
 	
