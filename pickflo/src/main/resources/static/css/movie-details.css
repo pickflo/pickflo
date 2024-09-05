@@ -13,7 +13,6 @@
 }
 
 body.modal-open {
-	padding-right: 0 !important;
 	overflow: hidden;
     overflow-y: hidden;
 }
@@ -115,10 +114,9 @@ body.modal-open {
 }
 
 .modal-body::-webkit-scrollbar-thumb {
-    background: #888 url('your-icon-url.png') no-repeat center;
+    background: #888 no-repeat center;
     background-size: 16px 16px;
 }
-
 
 @media (max-width: 768px) {
 	.closeBtn {
@@ -154,6 +152,12 @@ body.modal-open {
 	}
 	
 	.modal-body::-webkit-scrollbar {
-	    width: 4px;
+	    width: 2px;
+	}
+	
+	body.modal-open {
+		overflow-x: hidden; /* 수평 오버플로우만 숨김 */
+		overflow-y: auto;   /* 수직 오버플로우는 유지 */
+		/* overflow 속성 제거로 인해 원치 않는 레이아웃 변화 방지 */
 	}
 }

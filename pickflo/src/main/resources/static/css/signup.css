@@ -24,21 +24,21 @@
 	font-family: 'PartialSansKR-Regular', Arial, sans-serif; /* 폰트 적용 */
 	font-size: 3rem; /* 글자 크기 */
 	font-weight: normal; /* 굵게 */
-	background-color: #000; /* 배경 검정색 */
+	background-color: #141414; /* 배경 검정색 */
 	color: #E50913; /* 기본 폰트 색상 흰색 */
 }
 
 html, body, main {
-	background-color: #000; /* 배경 검정색 */
+	background-color: #141414; /* 배경 검정색 */
 	color: #fff; /* 기본 폰트 색상 흰색 */
 }
 
 main {
-	margin-top: 70px;
+	margin-top: 100px;
 }
 
 body {
-	background-color: #000 !important; /* 배경 검정색 */
+	background-color: #141414 !important; /* 배경 검정색 */
 	color: #fff; /* 기본 폰트 색상 흰색 */
 }
 
@@ -46,7 +46,7 @@ main .card {
 	width: 400px;
 	padding: 30px;
 	border: none;
-	background-color: #000; /* 배경 검정색 */
+	background-color: #141414; /* 배경 검정색 */
 	color: #fff; /* 기본 폰트 색상 흰색 */
 }
 
@@ -56,7 +56,7 @@ main .card {
 	margin-bottom: 5px;
 	border: none;
 	border-radius: 0;
-	background-color: #000; /* 입력 필드 배경 검정색 */
+	background-color: #141414; /* 입력 필드 배경 검정색 */
     color: #fff; /* 입력 필드 텍스트 색상 흰색 */
 }
 
@@ -71,8 +71,8 @@ form input {
 }
 
 .card {
-	margin: 0px;
-	background-color: black;
+	margin: 0;
+	background-color: #141414;
 	color: white;
 }
 
@@ -85,7 +85,7 @@ form input {
 	border: none;
 	border-radius: 0;
 	border-bottom: 2px solid #fff;
-	background-color: #000; /* 배경 검정색 */
+	background-color: #141414; /* 배경 검정색 */
 	color: #fff; /* 기본 폰트 색상 흰색 */
 }
 
@@ -125,8 +125,14 @@ form input {
     vertical-align: middle;
 }
 
-@media ( max-width : 768px) {
-	.card {
-		width: 300px;
-	}	
+@media(max-width: 768px) {
+	main .card {
+		width: 90%;
+		padding: 20px;
+	}
+	
+	main {
+		margin-top: 80px;
+	}
+	
 }

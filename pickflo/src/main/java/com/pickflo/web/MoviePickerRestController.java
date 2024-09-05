@@ -22,10 +22,14 @@ public class MoviePickerRestController {
 
 	private final MoviePickerService svc;
 
-	 @GetMapping("/listByGenre")
-	 public ResponseEntity<List<MoviePickerDto>> readRandomMoviesByGenre(@RequestParam(defaultValue = "6.0") double rating) {
-		 
-		List<MoviePickerDto> list = svc.readRandomMoviesByGenre(rating);
-        return ResponseEntity.ok(list);
-    }
+	@GetMapping("/listByGenre")
+	public ResponseEntity<List<MoviePickerDto>> readMoviesByGenreAndRating(
+			@RequestParam double rating,
+			@RequestParam int rn1,
+			@RequestParam int rn2) {
+
+		List<MoviePickerDto> list = svc.readMoviesByGenreAndRating(rating, rn1, rn2);
+		return ResponseEntity.ok(list);
+	}
+
 }

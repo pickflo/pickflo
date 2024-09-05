@@ -128,10 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			isPasswordChecked = true;
 			checkPasswordResult.style.color = 'green';
 			checkPasswordResult.innerHTML = '비밀번호가 일치합니다.';
+			icon.classList.add("d-none");
+
 		} else {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
 			checkPasswordResult.innerHTML = '비밀번호가 일치하지 않습니다.';
+			icon.classList.add("d-none");
 		}
 
 		changeButtonState();

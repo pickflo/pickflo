@@ -22,7 +22,7 @@ public class UserMoviePickRestController {
 
 	private final UserMoviePickService svc;
 
-	@PostMapping("/save")
+	@PostMapping("/saveAll")
 	public ResponseEntity<?> save(@RequestBody List<UserMoviePickDto> list) {
 		try {
 			svc.create(list);
