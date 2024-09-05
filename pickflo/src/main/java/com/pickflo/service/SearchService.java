@@ -30,10 +30,6 @@ public class SearchService {
         return moviePage.getContent();
     }
 	
-//	public List<SearchGenreDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode) {
-//        return searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode);
-//	}
-	
 	public List<SearchMovieListDto> search(SearchMovieRequestDto dto) {
 		log.info("SearchService(dto={})", dto);
 		

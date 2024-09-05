@@ -116,7 +116,7 @@
         }
 
         if (queryParams.length > 0) {
-            fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=18`)
+            fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=21`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);

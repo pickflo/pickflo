@@ -3,15 +3,12 @@
 <head>
 	<link rel="stylesheet" href="/pickflo/css/fragments.css">
 	<link rel="stylesheet" href="/pickflo/css/signup.css">
-
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
-	    
+		    
 	<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
 	
 <body>
-		<div>
+	
 		<main>
 			<div id="logo">
 				<a href="/pickflo/user/signin" class="home-link">
@@ -59,12 +56,14 @@
 				</form>
 			</div>
 		</main>
-	</div>
+
 		<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 		<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
 		<script th:src="@{/js/signup.js}"></script>
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 		<script>
         document.addEventListener('DOMContentLoaded', () => {
             flatpickr("#birthdate", {
@@ -72,9 +71,10 @@
                 maxDate: "today", // 오늘 날짜까지 선택 가능
                 placeholder: "생년월일", // 플레인 텍스트 플레인 텍스트 사용
                 locale: "ko", // 한국어 설정
-                disableMobile: true 
+                	disableMobile: true
+
             });
-        });
+        }); 
    		</script>
     
 	</body>
