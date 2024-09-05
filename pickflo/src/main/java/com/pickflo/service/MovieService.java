@@ -67,15 +67,15 @@ public class MovieService {
 	 * 미스터리 "9648" , 로맨스 "10749" , SF "878" , 스릴러 "53" , 전쟁 "10752"
 	 */
 
-	/* 대한민국 "KR" , 미국 "US" , 대만 "TW" , 일본 "JP" , 중국 "CN" */
+	/* 대한민국 "KR" , 미국 "US" , 대만 "TW" , 일본 "JP" , 중국 "CN"  "KR","TW","JP","CN"*/
 	// 장르와 국가 데이터 배열 정의
-	private final String[] with_genres = { "10749" };
+	private final String[] with_genres = { "28","12","16","35","80","99","18","10751","14","36","27","10402","9648","878","53","10752", };
 	private final String[] with_origin_country = { "KR" };
 
 	@Transactional
 	public void saveMoviesByGenres() {
 		for (String genreCode : with_genres) {
-			for (int page = 1; page <= 10; page++) {
+			for (int page = 3; page <=10; page++) {
 				List<Long> movieIds = getMovieIdsByGenre(genreCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}

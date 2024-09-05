@@ -1,5 +1,8 @@
 package com.pickflo.domain;
 
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,9 +20,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter 
-@Builder @ToString
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Builder
+@ToString
 @EqualsAndHashCode
 @Entity
 @Table(name = "USERS_MOVIES")
