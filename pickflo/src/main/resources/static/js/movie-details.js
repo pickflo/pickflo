@@ -186,4 +186,6 @@ function updateMovieList() {
 function removeMovieFromLikePage() {
 	// 영화 목록을 다시 불러와서 그리기
 	updateMovieList();
+
 }
+
