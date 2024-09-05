@@ -20,7 +20,8 @@ public interface UserMoviePickRepository extends JpaRepository<UserMoviePick, Us
 
 	// 유저의 찜한 영화리스트
 	@Query("SELECT new com.pickflo.dto.UserMovieLikeDto(ump.user.id, m.id, m.movieImg) "
-			+ "FROM UserMoviePick ump JOIN ump.movie m WHERE ump.user.id = :userId")
+			+ "FROM UserMoviePick ump JOIN ump.movie m " + "WHERE ump.user.id = :userId "
+			+ "ORDER BY ump.createdTime DESC")
 	List<UserMovieLikeDto> findByUserId(@Param("userId") Long userId);
 
 	void deleteByUserIdAndMovieId(Long userId, Long movieId);
