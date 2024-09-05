@@ -31,8 +31,7 @@
     border-radius: 10px;
 }
 
-@media ( max-width : 768px) {
-	
+@media only screen and (max-width: 768px) {
 	.list-wrap {
 		display: flex;
 	    justify-content: center; 
@@ -48,7 +47,35 @@
     
     .movie-card {
     		width: 110px;
-    		height: 160px;
+    		height: auto;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width : 1024px) {
+	.movie-list {
+        grid-template-columns: repeat(5, 1fr); 
+        column-gap: 10px; 
+    		row-gap: 10px;
     }
     
+    .movie-card {
+    		width: 130px;
+    		height: auto;
+    }
+	
 }
+
+@media only screen and (min-width: 1024px) and (max-width : 1366px) {
+    .movie-card {
+    		width: 150px;
+    		height: auto;
+    }
+}
+
+@media only screen and (min-width : 1366px) {
+    .movie-card {
+    		width: 200px;
+    		height: auto;
+    }
+}
+

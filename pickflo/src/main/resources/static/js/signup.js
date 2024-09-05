@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			event.preventDefault();
 		}
 	});
-
+	
 
 	let successMessage = '회원가입이 완료되었습니다.';
 	let errorMessage = '회원가입이 실패했습니다.';
@@ -46,20 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	const btnSignUp = document.querySelector('button#btnSignUp');
-	btnSignUp.classList.add('disabled');
-	btnSignUp.disabled = true;
 	
 	function changeButtonState() {
 		const btnSignUp = document.querySelector('button#btnSignUp');
 
 		if (isEmailChecked && isPasswordChecked && isNicknameChecked
-			&& isBirthChecked && isGenderChecked) {
+			&& isBirthChecked && isGenderChecked ) {
 			btnSignUp.classList.remove('disabled');
-			btnSignUp.disabled = false;
 		} else {
 			btnSignUp.classList.add('disabled');
-			btnSignUp.disabled = true;
 		}
 	}
 
@@ -114,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	function checkPassword() {
 		const password = inputPassword.value;
 		const confirmPassword = inputConfirmPassword.value;
-		const icon = inputPassword.nextElementSibling;
 		const checkPasswordResult = document.querySelector('div#checkPasswordResult');
 		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
@@ -122,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
 			checkPasswordResult.innerHTML = '최소 8자 이상이며, 소문자, 대문자, 숫자, 특수문자가 각각 하나 이상 포함되어야 합니다.';
-			icon.classList.add("d-none");
 			changeButtonState();
 
 			return;
@@ -136,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			checkPasswordResult.style.color = 'green';
 			checkPasswordResult.innerHTML = '비밀번호가 일치합니다.';
 			icon.classList.add("d-none");
+
 		} else {
 			isPasswordChecked = false;
 			checkPasswordResult.style.color = 'red';
@@ -170,30 +164,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	}
 
-	function checkBirth(event) {
-		// `inputBirth`를 사용하여 생년월일 값이 있는지 확인하고 `isBirthChecked`를 설정
-		if (inputBirth.value) {
-			isBirthChecked = true;
-		} else {
-			isBirthChecked = false;
-		}
-		changeButtonState(); // 버튼 상태 업데이트
+	function checkBirth() {
+	    // `inputBirth`를 사용하여 생년월일 값이 있는지 확인하고 `isBirthChecked`를 설정
+	    if (inputBirth.value) {
+	        isBirthChecked = true;
+	    } else {
+	        isBirthChecked = false;
+	    }
+	    changeButtonState(); // 버튼 상태 업데이트
 	}
 
-	function checkRadioBtn(event) {
-		// `radioBtn` 내의 라디오 버튼들이 선택되었는지 확인
-		const genderInputs = document.querySelectorAll('input[name="gender"]');
-		let isChecked = false;
+	function checkRadioBtn() {
+	    // `radioBtn` 내의 라디오 버튼들이 선택되었는지 확인
+	    const genderInputs = document.querySelectorAll('input[name="gender"]');
+	    let isChecked = false;
+	    
+	    for (let i = 0; i < genderInputs.length; i++) {
+	        if (genderInputs[i].checked) {
+	            isChecked = true;
+	            break;
+	        }
+	    }
 
-		for (let i = 0; i < genderInputs.length; i++) {
-			if (genderInputs[i].checked) {
-				isChecked = true;
-				break;
-			}
-		}
-
-		isGenderChecked = isChecked; // isGenderChecked를 업데이트
-		changeButtonState(); // 버튼 상태 업데이트
+	    isGenderChecked = isChecked; // isGenderChecked를 업데이트
+	    changeButtonState(); // 버튼 상태 업데이트
 	}
 
 })

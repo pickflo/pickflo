@@ -4,7 +4,7 @@ public interface MoviePickerDto {
 	
 	Long getMovieId();
 	String getMovieTitle();
-	String getGenreName();
+//	String getGenreName();
 	String getMovieImg();
-	Double getMovieRating();
+//	Double getMovieRating();
 }
