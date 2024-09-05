@@ -32,18 +32,18 @@ public class HomeService {
             .collect(Collectors.toList());
     } */
 	
-	public Page<HomeRecMovieDto> getMoviesByUserId(Long userId, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId,pageable);
+	public List<HomeRecMovieDto> getMoviesByUserId(Long userId, int startRow, int endRow) {
+		//Pageable pageable = PageRequest.of(page, size);
+        List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId,startRow,endRow);
 
-        List<HomeRecMovieDto> dtoList = results.stream()
+       return results.stream()
             .map(result -> new HomeRecMovieDto(
                 ((Number) result[0]).longValue(),  
                 (String) result[1],                
                 (String) result[2]                
             ))
             .collect(Collectors.toList());
-        return new PageImpl<>(dtoList, pageable, results.getTotalElements());
+        //return new PageImpl<>(dtoList, pageable, results.getTotalElements());
     } 
 	
 }
