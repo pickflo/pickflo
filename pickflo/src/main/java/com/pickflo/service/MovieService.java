@@ -57,25 +57,27 @@ public class MovieService {
 
 	@Value("${tmdb.image.base.url}")
 	private String imageBaseUrl;
-	
+
 	// 배우 저장 수 제한
 	private static final int MAX_CAST = 10;
 
 	/*
-	 * 액션 "28" , 모험 "12" , 애니메이션 "16" , 코미디 "35" , 범죄 "80" , 다큐멘터리 "99" , 
-	 * 드라마 "18" , 가족 "10751" , 판타지 "14" , 역사 "36" , 공포 "27", 음악 "10402" , 
-	 * 미스터리 "9648" , 로맨스 "10749" , SF "878" , 스릴러 "53" , 전쟁 "10752"
+	 * 액션 "28" , 모험 "12" , 애니메이션 "16" , 코미디 "35" , 범죄 "80" , 다큐멘터리 "99" , 드라마 "18" ,
+	 * 가족 "10751" , 판타지 "14" , 역사 "36" , 공포 "27", 음악 "10402" , 미스터리 "9648" , 로맨스
+	 * "10749" , SF "878" , 스릴러 "53" , 전쟁 "10752"
 	 */
 
-	/* 대한민국 "KR" , 미국 "US" , 대만 "TW" , 일본 "JP" , 중국 "CN" */
+	/* 대한민국 "KR" , 미국 "US" , 대만 "TW" , 일본 "JP" , 중국 "CN" "KR","TW","JP","CN" */
 	// 장르와 국가 데이터 배열 정의
-	private final String[] with_genres = { "10749" };
+
+	private final String[] with_genres = { "28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "27", "10402",
+			"9648", "878", "53", "10752", };
 	private final String[] with_origin_country = { "KR" };
 
 	@Transactional
 	public void saveMoviesByGenres() {
 		for (String genreCode : with_genres) {
-			for (int page = 1; page <= 10; page++) {
+			for (int page = 3; page <= 10; page++) {
 				List<Long> movieIds = getMovieIdsByGenre(genreCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
@@ -85,7 +87,7 @@ public class MovieService {
 	@Transactional
 	public void saveMoviesByCountries() {
 		for (String countryCode : with_origin_country) {
-			for (int page = 21; page <= 50; page++) {
+			for (int page = 1; page <= 50; page++) {
 				List<Long> movieIds = getMovieIdsByCountry(countryCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
@@ -120,55 +122,49 @@ public class MovieService {
 //    }
 
 	public void getAndSaveMovieAndGenres(Long id) {
-	    // 영화 상세 정보를 API로부터 가져옴
-	    MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
+		// 영화 상세 정보를 API로부터 가져옴
+		MovieDetailResponse movieData = movieClient.getMovie(apiKey, id, language);
 
-	    if (movieData != null) {
-	        // adult:true and genres id: 10749가 포함된 경우 저장하지 않음
-	        boolean isAdultAndContainsGenreId10749 = movieData.isAdult() && 
-	            movieData.getGenres().stream().anyMatch(genre -> genre.getId() == 10749);
+		if (movieData != null) {
+			// adult:true and genres id: 10749가 포함된 경우 저장하지 않음
+			boolean isAdultAndContainsGenreId10749 = movieData.isAdult()
+					&& movieData.getGenres().stream().anyMatch(genre -> genre.getId() == 10749);
 
-	        if (isAdultAndContainsGenreId10749) {
-	            log.info("adult:true and genres id: 10749가 포함된 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
-	            return; 
-	        }
-	        
-	     // vote_count 미만인 경우 저장하지 않음
-	        if (movieData.getVoteCount() < 500) {
-	            log.info("vote_count 미만인 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
-	            return; 
-	        }
-	        
-	        // 영화가 이미 존재하는지 확인
-	        boolean exists = movieRepo.existsByMovieCode(movieData.getId());
-	        
-	        if (!exists) {
-	            // 이미지 경로 및 출시일 파싱
-	            String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
-	            LocalDate releaseDate = parseReleaseDate(movieData.getRelease_date());
+			if (isAdultAndContainsGenreId10749) {
+				log.info("adult:true and genres id: 10749가 포함된 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
+				return;
+			}
 
-	            // Movie 객체 생성 및 저장
-	            Movie movie = Movie.builder()
-	                    .movieCode(movieData.getId())
-	                    .movieTitle(movieData.getTitle())
-	                    .movieImg(imgPath)
-	                    .movieOverview(movieData.getOverview())
-	                    .movieRating(movieData.getVote_average())
-	                    .movieReleaseDate(releaseDate)
-	                    .movieRuntime(movieData.getRuntime())
-	                    .build();
-	            movieRepo.save(movie);
+			// vote_count 미만인 경우 저장하지 않음
+			if (movieData.getVoteCount() < 500) {
+				log.info("vote_count 미만인 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
+				return;
+			}
 
-	            // 관련 정보 저장
-	            saveMovieGenres(movie.getId(), movieData.getGenres());
-	            saveMovieCountries(movie.getId(), movieData.getOriginCountry());
-	            savePersonByMovieId(movie.getId());
-	        } else {
-	            log.info("MovieUserRepository with code {} already exists in the database.", movieData.getId());
-	        }
-	    }
+			// 영화가 이미 존재하는지 확인
+			boolean exists = movieRepo.existsByMovieCode(movieData.getId());
+
+			if (!exists) {
+				// 이미지 경로 및 출시일 파싱
+				String imgPath = movieData.getPoster_path() == null ? "" : imageBaseUrl + movieData.getPoster_path();
+				LocalDate releaseDate = parseReleaseDate(movieData.getRelease_date());
+
+				// Movie 객체 생성 및 저장
+				Movie movie = Movie.builder().movieCode(movieData.getId()).movieTitle(movieData.getTitle())
+						.movieImg(imgPath).movieOverview(movieData.getOverview())
+						.movieRating(movieData.getVote_average()).movieReleaseDate(releaseDate)
+						.movieRuntime(movieData.getRuntime()).build();
+				movieRepo.save(movie);
+
+				// 관련 정보 저장
+				saveMovieGenres(movie.getId(), movieData.getGenres());
+				saveMovieCountries(movie.getId(), movieData.getOriginCountry());
+				savePersonByMovieId(movie.getId());
+			} else {
+				log.info("MovieUserRepository with code {} already exists in the database.", movieData.getId());
+			}
+		}
 	}
-
 
 	private LocalDate parseReleaseDate(String releaseDateStr) {
 		if (releaseDateStr == null || releaseDateStr.trim().isEmpty()) {
@@ -223,11 +219,10 @@ public class MovieService {
 			}
 		}
 	}
-	
 
 	public Optional<MovieDetailsDto> getMovieDetails(Long movieId) {
-        return movieRepo.findMovieDetailsById(movieId);
-    }
+		return movieRepo.findMovieDetailsById(movieId);
+	}
 
 	@Transactional
 	public void savePersonByMovieId(Long id) {
@@ -256,7 +251,7 @@ public class MovieService {
 					Person newPerson = Person.builder().personName(data.getName()).build();
 					return personRepo.save(newPerson);
 				});
-				
+
 				// MoviePerson 엔티티 db 저장
 				saveMoviePerson(movieId, person, department);
 
@@ -271,16 +266,14 @@ public class MovieService {
 
 	// 배우 또는 감독이 있으면 true 리턴
 	private boolean isDepartmentOrJob(String department, PersonData data) {
-		return department.equalsIgnoreCase(data.getKnown_for_department()) || department.equalsIgnoreCase(data.getJob());
+		return department.equalsIgnoreCase(data.getKnown_for_department())
+				|| department.equalsIgnoreCase(data.getJob());
 	}
-	
+
 	private void saveMoviePerson(Long movieId, Person person, String department) {
-        MoviePerson moviePerson = MoviePerson
-                .builder()
-                .movieId(movieId).personId(person.getId()).job(department)
-                .movie(movieRepo.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found")))
-                .person(person)
-                .build();
+		MoviePerson moviePerson = MoviePerson.builder().movieId(movieId).personId(person.getId()).job(department)
+				.movie(movieRepo.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found")))
+				.person(person).build();
 		moviePersonRepo.save(moviePerson);
 	}
 

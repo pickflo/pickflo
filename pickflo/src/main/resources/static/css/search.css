@@ -149,7 +149,7 @@ a.back-btn:hover {
 	outline: none;
 }
 
-@media ( max-width : 768px) {
+@media only screen and (max-width: 768px) {
 	.close-btn .material-icons {
 	    top: 35px;
 	    color: #ffffff; 
@@ -166,7 +166,6 @@ a.back-btn:hover {
 		white-space: nowrap;
 		margin-top: 10px;
 		padding: 0px 10px;
-		/* 스크롤바 숨기기 */
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 		justify-content: start;
@@ -194,6 +193,23 @@ a.back-btn:hover {
 	}
 }
 
+@media only screen and (min-width: 768px) and (max-width : 1024px) {
+	.searching-category {
+		display: flex;
+		flex-wrap: nowrap !important;
+		overflow-x: auto;
+		white-space: nowrap;
+		margin-top: 10px;
+		padding: 0px 10px;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		justify-content: start;
+	}
+	
+}
 
+@media only screen and (min-width: 1024px) and (max-width : 1366px) {
+	
+}
 
 

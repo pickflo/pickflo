@@ -17,12 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MoviePickerService {
 
 	private final MovieRepository repo;
-	
+
 	@Transactional(readOnly = true)
-	public List<MoviePickerDto> readRandomMoviesByGenre(double rating) {
-        List<MoviePickerDto> movies  = repo.findMoviesByGenreAndRating(rating);
- 
-		return movies;
-    }
-	
+	public List<MoviePickerDto> readMoviesByGenreAndRating(double rating, int rn1, int rn2) {
+
+		List<MoviePickerDto> result = repo.findMoviesByGenreAndRating(rating, rn1, rn2);
+
+		return result;
+	}
+
 }
