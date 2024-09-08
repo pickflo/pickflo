@@ -27,6 +27,22 @@ public class HomeRestController {
 	
 	private final HomeService homeSvc;	
 	
+	
+	@PreAuthorize("isAuthenticated()")
+    @GetMapping("/recMovies")
+    public List<HomeRecMovieDto> homeRecMovies(  
+    		@RequestParam int startRow, 
+    		@RequestParam int endRow) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Long userId = ((CustomUserDetails) userDetails).getId();
+
+        return homeSvc.getMoviesByUserId(userId,startRow,endRow);
+    } 
+	
+}
+
+	/*
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
     public ResponseEntity<List<HomeRecMovieDto>> homeRecMovies(@RequestParam(defaultValue = "1") int page,
@@ -40,7 +56,7 @@ public class HomeRestController {
         return new ResponseEntity<>(recommendedMovies, HttpStatus.OK);
     }
 }
-	
+*/
 	/*
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
@@ -70,3 +86,4 @@ public List<HomeRecMovieDto> homeRecMovies() {
 
 }
 */
+
