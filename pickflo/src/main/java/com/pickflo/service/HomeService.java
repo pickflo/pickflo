@@ -2,10 +2,6 @@ package com.pickflo.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pickflo.dto.HomeRecMovieDto;
@@ -19,9 +15,7 @@ public class HomeService {
 	
 	private final HomeRecMovieRepository homeRecMovieRepo;
 	
-	/*
 	public List<HomeRecMovieDto> getMoviesByUserId(Long userId, int startRow, int endRow) {
-		//Pageable pageable = PageRequest.of(page, size);
         List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId,startRow,endRow);
 
        return results.stream()
@@ -31,13 +25,9 @@ public class HomeService {
                 (String) result[2]                
             ))
             .collect(Collectors.toList());
-        //return new PageImpl<>(dtoList, pageable, results.getTotalElements());
     } 
-	
 }
-*/
-	
-	
+	/*
 	public List<HomeRecMovieDto> getMoviesByUserId(Long userId, int page, int limit) {
         int startRow = (page - 1) * limit + 1;
         int endRow = page * limit;
@@ -51,10 +41,10 @@ public class HomeService {
                 (String) result[2]                
             ))
             .collect(Collectors.toList());
-    }
-	
+    }	
 }
-
+*/
+	
 /*
 public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
     List<Object[]> results = homeRecMovieRepo.findMoviesByUserId(userId);
@@ -70,3 +60,4 @@ public List<HomeRecMovieDto> getMoviesByUserId(Long userId) {
 
 }
 */
+

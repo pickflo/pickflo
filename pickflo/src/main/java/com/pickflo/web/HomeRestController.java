@@ -27,7 +27,7 @@ public class HomeRestController {
 	
 	private final HomeService homeSvc;	
 	
-	/*
+	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
     public List<HomeRecMovieDto> homeRecMovies(  
@@ -41,8 +41,8 @@ public class HomeRestController {
     } 
 	
 }
-*/
-	
+
+	/*
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
     public ResponseEntity<List<HomeRecMovieDto>> homeRecMovies(@RequestParam(defaultValue = "1") int page,
@@ -56,7 +56,7 @@ public class HomeRestController {
         return new ResponseEntity<>(recommendedMovies, HttpStatus.OK);
     }
 }
-
+*/
 	/*
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/recMovies")
@@ -86,3 +86,4 @@ public List<HomeRecMovieDto> homeRecMovies() {
 
 }
 */
+

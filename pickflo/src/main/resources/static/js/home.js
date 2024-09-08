@@ -1,7 +1,7 @@
 /**
  * home.html
  */
-/*
+
 document.addEventListener('DOMContentLoaded', function() {
 	let startRow = 0;
 	let endRow = startRow + 21;
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		axios.get(`/pickflo/api/home/recMovies?startRow=${startRow}&endRow=${endRow}`)
 			.then(response => {
-				console.log('API 응답 데이터:', response.data); // 응답 데이터 구조 확인
 				const movies = response.data;
 				//const movies = data.movies; // 배열을 포함하는 속성 추출
 				const movieListDiv = document.querySelector('.movie-list');
@@ -43,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					});
 					startRow = endRow+1;
                     endRow = startRow + 20;
+                    bindPosterImageClickEvent();
 				} else {
 					console.error('Error: 응답 데이터의 content가 배열이 아닙니다.');
 				}
@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 });
-*/
 
+/*
 document.addEventListener('DOMContentLoaded', function() {
     const movieListDiv = document.querySelector('.movie-list');
     const loading = document.getElementById('loading');
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadMoreMovies();
 });
-
+*/
 
 
 /*
@@ -276,5 +276,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 }); 
 */
-
-
