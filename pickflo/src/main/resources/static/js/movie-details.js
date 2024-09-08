@@ -12,7 +12,6 @@ function bindPosterImageClickEvent() {
 		const movieId = this.getAttribute('data-movie-id');
 		currentMovieId = movieId;
 		currentUserId = document.getElementById('userId').value;
-	console.log("Movie ID:", currentMovieId);
 
 		axios.get(`/pickflo/api/movie/details`, { params: { movieId: movieId } })
 			.then(response => {
