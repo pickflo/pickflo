@@ -89,8 +89,10 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 		    nativeQuery = true)
 		List<Object[]> findMoviesByUserId(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("endRow") int endRow);
 
-		/*
-		 * @Query(value = """
+}
+
+	/*
+	@Query(value = """
 	        SELECT * FROM (
 	            SELECT inner_query.*, ROWNUM rnum FROM (
 	                WITH MovieGenres AS (
@@ -161,8 +163,49 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 	        """, 
 	    nativeQuery = true)
 	List<Object[]> findMoviesByUserId(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("endRow") int endRow);
-}
 
-		 * 
-		 */
 }
+*/
+
+/*
+@Query(value = """
+        WITH AllMovies AS (
+            SELECT 
+                m.movie_id,
+                m.movie_title,
+                m.movie_img,
+                LISTAGG(g.genre_name, ', ') WITHIN GROUP (ORDER BY g.genre_name) AS genres
+            FROM movies m
+            JOIN movies_genres mg ON m.movie_id = mg.movie_id
+            JOIN genres g ON mg.genre_id = g.genre_id
+            GROUP BY m.movie_id, m.movie_title, m.movie_img
+        ),
+
+        UserMoviesGenres AS (
+            SELECT 
+                m.movie_id,
+                m.movie_title,
+                m.movie_img,
+                LISTAGG(g.genre_name, ', ') WITHIN GROUP (ORDER BY g.genre_name) AS genres
+            FROM users_movies um
+            JOIN movies m ON m.movie_id = um.movie_id
+            JOIN movies_genres mg ON um.movie_id = mg.movie_id
+            JOIN genres g ON mg.genre_id = g.genre_id
+            WHERE um.user_id = :userId
+            GROUP BY m.movie_id, m.movie_title, m.movie_img
+        )
+
+        SELECT 
+            am.movie_id AS all_movie_id,
+            am.movie_title AS all_movie_title,
+            am.movie_img AS all_movie_img,
+            am.genres AS all_movie_genres
+        FROM AllMovies am
+        JOIN UserMoviesGenres um ON am.genres = um.genres
+        WHERE am.movie_id != um.movie_id
+        ORDER BY am.genres, am.movie_title
+    """, nativeQuery = true)
+	List<Object[]> findMoviesByUserId(@Param("userId") Long userId);
+}
+*/
+
