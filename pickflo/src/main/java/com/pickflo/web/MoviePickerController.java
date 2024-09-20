@@ -16,6 +16,6 @@ public class MoviePickerController {
     @GetMapping()
     public String pickerPage() {     
 		// 정상적인 접근 시 picker 페이지로 이동
-        return "/movie/picker";
+        return "movie/picker";
     }
 }

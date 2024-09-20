@@ -17,12 +17,13 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 		        SELECT 
 		            m.movie_id,
 		            m.movie_title,
-		            m.movie_img,  
+		            m.movie_img,
+		            m.movie_release_date,
 		            LISTAGG(g.genre_name, ', ') WITHIN GROUP (ORDER BY g.genre_name) AS genres
 		        FROM movies m
 		        JOIN movies_genres mg ON m.movie_id = mg.movie_id
 		        JOIN genres g ON mg.genre_id = g.genre_id
-		        GROUP BY m.movie_id, m.movie_title, m.movie_img
+		        GROUP BY m.movie_id, m.movie_title, m.movie_img, m.movie_release_date
 		    ),
 		    
 		    UserMovieGenres AS (
@@ -56,39 +57,31 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 		    ),
 		    
 		    MatchingMovies AS (
-		        SELECT DISTINCT 
+		        SELECT 
 		            mg.movie_id,
 		            mg.movie_title,
 		            mg.movie_img,
+		            mg.movie_release_date,
 		            mg.genres,
 		            LENGTH(mg.genres) - LENGTH(REPLACE(mg.genres, ',', '')) + 1 AS genre_count
 		        FROM MovieGenres mg
 		        JOIN GenreOverlap go ON mg.genres = go.overlap_genres
-		    ),
-		    
-		    RankedMovies AS (
-		        SELECT 
-		            m.movie_id,
-		            m.movie_title,
-		            m.movie_img,
-		            m.genres,
-		            m.genre_count,
-		            ROW_NUMBER() OVER (ORDER BY m.genre_count DESC, m.movie_title) AS row_num
-		        FROM MatchingMovies m
 		    )
-
-		    SELECT 
-		        rm.movie_id,
-		        rm.movie_title,
-		        rm.movie_img,
-		        rm.genres,
-		        rm.genre_count
-		    FROM RankedMovies rm
-		    WHERE rm.row_num BETWEEN :startRow AND :endRow
+		    
+		    SELECT DISTINCT 
+		        m.movie_id,
+		        m.movie_title,
+		        m.movie_img,
+		        m.movie_release_date,
+		        m.genres,
+		        m.genre_count
+		    FROM MatchingMovies m
+		    ORDER BY m.genre_count DESC, m.movie_release_date DESC
+		    OFFSET :startRow ROWS
+		    FETCH NEXT :endRow - :startRow + 1 ROWS ONLY
 		    """, 
 		    nativeQuery = true)
 		List<Object[]> findMoviesByUserId(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("endRow") int endRow);
-
 }
 
 	/*
@@ -208,4 +201,3 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 	List<Object[]> findMoviesByUserId(@Param("userId") Long userId);
 }
 */
-
