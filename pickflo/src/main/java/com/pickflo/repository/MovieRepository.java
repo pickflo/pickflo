@@ -19,23 +19,13 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieQueryd
     
     Movie findByMovieCode(Long movieCode);
 
-    @Query(value = "SELECT * FROM (" +
-            "    SELECT m.movie_id AS movieId, m.movie_title AS movieTitle, m.movie_img AS movieImg, " +
-            "           ROW_NUMBER() OVER (PARTITION BY g.genre_id ORDER BY RAND()) AS rn " +
-            "    FROM movies m " +
-            "    JOIN movies_genres mg ON m.movie_id = mg.movie_id " +
-            "    JOIN genres g ON mg.genre_id = g.genre_id " +
-            "    WHERE m.movie_rating >= :rating " +
-            ") AS subquery " +
-            "WHERE rn IN (:rn1, :rn2)", nativeQuery = true)
-   List<MoviePickerDto> findMoviesByGenreAndRating(
-   @Param("rating") double rating, 
-   @Param("rn1") int rn1, 
-   @Param("rn2") int rn2
-   );
-}
-   
-/*
+    @Query("select new com.pickflo.dto.SearchGenreCountryDto(m.movieCode, m.movieImg) "
+            + "from Movie m "
+            + "join m.movieGenres mg "
+            + "where mg.genre.id = :genreId")
+    List<SearchGenreCountryDto> findMoviesByGenreId(@Param("genreId") Long genreId);
+    
+    /*
     @Query(value = "SELECT * FROM (" +
 	            "    SELECT m.movie_id AS movieId, m.movie_title AS movieTitle, m.movie_img AS movieImg, " +
 	            "           ROW_NUMBER() OVER (PARTITION BY g.genre_id ORDER BY DBMS_RANDOM.VALUE) AS rn " +
@@ -50,7 +40,23 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieQueryd
 	 @Param("rn1") int rn1, 
 	 @Param("rn2") int rn2
 	);
-}
 */
+    @Query(value = "SELECT * FROM (" +
+            "    SELECT m.movie_id AS movieId, m.movie_title AS movieTitle, m.movie_img AS movieImg, " +
+            "           ROW_NUMBER() OVER (PARTITION BY g.genre_id ORDER BY RAND()) AS rn " +
+            "    FROM movies m " +
+            "    JOIN movies_genres mg ON m.movie_id = mg.movie_id " +
+            "    JOIN genres g ON mg.genre_id = g.genre_id " +
+            "    WHERE m.movie_rating >= :rating " +
+            ") AS subquery " +
+            "WHERE rn IN (:rn1, :rn2)", nativeQuery = true)
+	List<MoviePickerDto> findMoviesByGenreAndRating(
+	@Param("rating") double rating, 
+	@Param("rn1") int rn1, 
+	@Param("rn2") int rn2
+	);
 
 
+
+
+}
