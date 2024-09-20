@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="/pickflo/css/signup.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 		    
-	<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+	<th:block th:replace="~{layout/fragments :: documentHeader}"></th:block>
 	
 <body>
 	
@@ -57,9 +57,9 @@
 			</div>
 		</main>
 
-		<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
-		<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
-		<script th:src="@{/js/signup.js}"></script>
+		<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
+		<th:block th:replace="~{layout/fragments :: footerContents}"></th:block>
+		<script src="/pickflo/js/signup.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		
 		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

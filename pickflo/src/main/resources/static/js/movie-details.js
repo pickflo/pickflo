@@ -1,16 +1,17 @@
-/**
- * 
- */
+let currentMovieId = null;
+let currentUserId = null;
 
 function bindPosterImageClickEvent() {
 	const posterImages = document.querySelectorAll('.poster-image');
-
+	
 	posterImages.forEach(image => {
 		image.addEventListener('click', clickPosterImage);
 	});
 
 	function clickPosterImage() {
 		const movieId = this.getAttribute('data-movie-id');
+		currentMovieId = movieId;
+		currentUserId = document.getElementById('userId').value;
 
 		axios.get(`/pickflo/api/movie/details`, { params: { movieId: movieId } })
 			.then(response => {
@@ -64,12 +65,15 @@ function bindPosterImageClickEvent() {
 			});
 
 		// 찜 상태 확인
-		const userId = document.getElementById('userId').value;
-		axios.get(`/pickflo/api/movie/like-status`, { params: { userId: userId, movieId: movieId } })
+		axios.get(`/pickflo/api/movie/like-status`, { params: { userId: currentUserId, movieId: movieId } })
 			.then(response => {
 				const isFavorite = response.data;
 
 				const iconHeart = document.getElementById('iconHeart');
+				
+				// 기존 핸들러 제거
+				iconHeart.removeEventListener('click', handleFavoriteClick);
+				
 				if (isFavorite) {
 					// 찜 상태일 때
 					iconHeart.classList.remove('fa-regular', 'fa-heart');
@@ -81,59 +85,63 @@ function bindPosterImageClickEvent() {
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = 'white'; // 찜 상태가 아닐 때 색상 변경
 				}
+
+				// 새 핸들러 등록
+				iconHeart.addEventListener('click', handleFavoriteClick);
 			})
 			.catch(error => {
 				console.error('Error checking favorite status:', error);
 			});
+	}
+}
 
-		// 하트 아이콘 클릭 시 호출되는 함수
-		const iconHeart = document.getElementById('iconHeart');
-		iconHeart.addEventListener('click', FavoriteBtn);
+// 하트 아이콘 클릭 시 호출되는 함수
+function handleFavoriteClick() {
+	const iconHeart = document.getElementById('iconHeart');
+	
+	console.log("Movie ID:", currentMovieId);
+	console.log("User ID:", currentUserId);
 
-		function FavoriteBtn() {
-			console.log("Movie ID:", movieId);
-			console.log("User ID:", userId);
+	if (iconHeart.classList.contains('fa-regular')) {
+		axios.get('/pickflo/api/movie/like', {
+			params: {
+				movieId: currentMovieId,
+				userId: currentUserId
+			},
+		})
+			.then(response => {
+				iconHeart.classList.remove('fa-regular', 'fa-heart');
+				iconHeart.classList.add('fa-solid', 'fa-heart');
+				iconHeart.style.color = 'red';
+				console.log("추가 성공");
 
-			if (iconHeart.classList.contains('fa-regular')) {
-				axios.get('/pickflo/api/movie/like', {
-					params: {
-						movieId: movieId,
-						userId: userId
-					},
-				})
-					.then(response => {
-						iconHeart.classList.remove('fa-regular', 'fa-heart');
-						iconHeart.classList.add('fa-solid', 'fa-heart');
-						iconHeart.style.color = 'red';
+				if (window.location.pathname === '/pickflo/movie/like') {
+					updateMovieList();
+				}
+			})
+			.catch(error => console.error('Error:', error));
+	} else {
+		axios.get('/pickflo/api/movie/unlike', {
+			params: {
+				movieId: currentMovieId,
+				userId: currentUserId
+			},
+		})
+			.then(response => {
+				if (response.data === 'no') {
+					alert('찜한 콘텐츠는 3개 이상이어야 합니다.');
+				} else {
+					iconHeart.classList.remove('fa-solid', 'fa-heart');
+					iconHeart.classList.add('fa-regular', 'fa-heart');
+					iconHeart.style.color = '#ffffff';
+					console.log("해제 성공");
 
-						if (window.location.pathname === '/pickflo/movie/like') {
-							updateMovieList();
-						}
-					})
-					.catch(error => console.error('Error:', error));
-			} else {
-				axios.get('/pickflo/api/movie/unlike', {
-					params: {
-						movieId: movieId,
-						userId: userId
-					},
-				})
-					.then(response => {
-						if (response.data === 'no') {
-							alert('찜한 콘텐츠는 3개 이상이어야 합니다.');
-						} else {
-							iconHeart.classList.remove('fa-solid', 'fa-heart');
-							iconHeart.classList.add('fa-regular', 'fa-heart');
-							iconHeart.style.color = '#ffffff'
-
-							if (window.location.pathname === '/pickflo/movie/like') {
-								removeMovieFromLikePage(movieId);
-							}
-						}
-					})
-					.catch(error => console.error('Error:', error));
-			}
-		}
+					if (window.location.pathname === '/pickflo/movie/like') {
+						removeMovieFromLikePage(currentMovieId);
+					}
+				}
+			})
+			.catch(error => console.error('Error:', error));
 	}
 }
 
@@ -178,7 +186,6 @@ function updateMovieList() {
 function removeMovieFromLikePage() {
 	// 영화 목록을 다시 불러와서 그리기
 	updateMovieList();
+
 }
-
-
 
