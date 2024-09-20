@@ -40,10 +40,11 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	testImplementation 'org.springframework.security:spring-security-test'
 	
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	//runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
 	
 	// Querydsl 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -53,6 +54,11 @@ dependencies {
 	
 	// Feign client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    
+	// MySQL Connector
+	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+
+
     
 }
 

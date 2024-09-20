@@ -78,7 +78,7 @@ public class MovieService {
 	public void saveMoviesByGenres() {
 		for (String genreCode : with_genres) {
 
-			for (int page = 101; page <= 130; page++) {
+			for (int page = 1; page <= 5; page++) {
 
 				List<Long> movieIds = getMovieIdsByGenre(genreCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
@@ -89,7 +89,7 @@ public class MovieService {
 	@Transactional
 	public void saveMoviesByCountries() {
 		for (String countryCode : with_origin_country) {
-			for (int page = 1; page <= 30; page++) {
+			for (int page = 1; page <= 10; page++) {
 				List<Long> movieIds = getMovieIdsByCountry(countryCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
@@ -138,7 +138,7 @@ public class MovieService {
 			}
 
 			// vote_count 미만인 경우 저장하지 않음
-			if (movieData.getVoteCount() < 50) {
+			if (movieData.getVoteCount() < 500) {
 				log.info("vote_count 미만인 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
 				return;
 			}
