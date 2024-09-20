@@ -70,7 +70,7 @@ public class MovieService {
 	/* 대한민국 "KR" , 미국 "US" , 대만 "TW" , 일본 "JP" , 중국 "CN" "KR","TW","JP","CN" */
 	// 장르와 국가 데이터 배열 정의
 
-	private final String[] with_genres = { "28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "10749", "27", "10402", "9648", "878", "53", "10752" };
+	private final String[] with_genres = {  "12", "16", "35", "80", "99", "18", "10751", "14", "36", "10749", "27", "10402", "9648", "878", "53", "10752" };
 
 	private final String[] with_origin_country = {"KR"};
 
@@ -78,7 +78,7 @@ public class MovieService {
 	public void saveMoviesByGenres() {
 		for (String genreCode : with_genres) {
 
-			for (int page = 1; page <= 5; page++) {
+			for (int page = 1; page <= 2; page++) {
 
 				List<Long> movieIds = getMovieIdsByGenre(genreCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
@@ -89,7 +89,7 @@ public class MovieService {
 	@Transactional
 	public void saveMoviesByCountries() {
 		for (String countryCode : with_origin_country) {
-			for (int page = 1; page <= 10; page++) {
+			for (int page = 1; page <= 30; page++) {
 				List<Long> movieIds = getMovieIdsByCountry(countryCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
@@ -138,7 +138,7 @@ public class MovieService {
 			}
 
 			// vote_count 미만인 경우 저장하지 않음
-			if (movieData.getVoteCount() < 500) {
+			if (movieData.getVoteCount() < 50) {
 				log.info("vote_count 미만인 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
 				return;
 			}
