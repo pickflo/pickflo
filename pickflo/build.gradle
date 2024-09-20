@@ -40,7 +40,6 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	testImplementation 'org.springframework.security:spring-security-test'
 	
-	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -53,6 +52,9 @@ dependencies {
 	
 	// Feign client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    
+    // MySQL Connector
+    runtimeOnly 'mysql:mysql-connector-java:8.0.33'
     
 }
 
