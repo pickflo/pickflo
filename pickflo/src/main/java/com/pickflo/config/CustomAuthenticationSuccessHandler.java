@@ -38,7 +38,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (pickedCount < 3) {
             response.sendRedirect("/pickflo/movie/picker");
         } else {
-            response.sendRedirect("/pickflo/");
+            response.sendRedirect("/pickflo");
         }
     }
 
