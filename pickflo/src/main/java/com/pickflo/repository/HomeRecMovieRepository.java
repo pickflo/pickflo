@@ -160,3 +160,4 @@ nativeQuery = true)
 List<Object[]> findMoviesByUserId(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("endRow") int endRow);
 }
 */
+

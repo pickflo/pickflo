@@ -43,7 +43,7 @@
 	</div>
 	<div class="center-container row">
 		<div class="rec-movies col-8 col-md-5">
-			<h3 th:text="${#authentication.principal.nickname} + '님을 위한 영화 추천'"></h3>	
+			<h3 th:text="${#authentication.principal.nickname} + '님을 위한 취향저격 영화'"></h3>	
 		</div>
 		<div class="searchBtn col-2 col-md-6">
 			<a href="/pickflo/movie/search" class="btn" id="searchBtn">
@@ -56,11 +56,11 @@
 			<div class="movie-list"></div>
 			<div id="loading" style="display: none;">로딩중</div>
 		</div>
-		<th:block th:replace="~{/layout/fragments :: modalMovieDetails}"></th:block>
+		<th:block th:replace="~{layout/fragments :: modalMovieDetails}"></th:block>
 	</div>
-	<th:block th:replace="~{/layout/fragments :: userHeaderJS}"></th:block>
-	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
-	<th:block th:replace="~{/layout/fragments :: footerContents}"></th:block>
+	<th:block th:replace="~{layout/fragments :: userHeaderJS}"></th:block>
+	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
+	<th:block th:replace="~{layout/fragments :: footerContents}"></th:block>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script th:src="@{/js/home.js}"></script>
 	<script src="/pickflo/js/movie-details.js"></script>

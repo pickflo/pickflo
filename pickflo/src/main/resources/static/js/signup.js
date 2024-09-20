@@ -84,16 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		const uri = `/pickflo/api/check-email?email=${encodeURIComponent(email)}`;
+		console.log('@@@@@@uri=', uri);
 		axios
 			.get(uri)
 			.then((response) => {
-				console.log('signup(response={})', response);
+				console.log('@@@@@@response=', response);
 				if (response.data === 'Y') {
+					console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY')
 					isEmailChecked = true;
 					checkEmailResult.style.color = 'green';
 					checkEmailResult.innerHTML = '사용가능한 이메일입니다.';
 					icon.classList.add("d-none");
 				} else {
+					console.log('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNn')
 					isEmailChecked = false;
 					checkEmailResult.style.color = 'red';
 					checkEmailResult.innerHTML = '사용할 수 없는 이메일입니다.';
