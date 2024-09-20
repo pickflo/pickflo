@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		axios
 			.get(uri)
 			.then((response) => {
+				console.log('signup(response={})', response);
 				if (response.data === 'Y') {
 					isEmailChecked = true;
 					checkEmailResult.style.color = 'green';
