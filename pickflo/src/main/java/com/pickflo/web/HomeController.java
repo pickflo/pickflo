@@ -22,6 +22,35 @@ public class HomeController {
 	
 	private final UserMoviePickService userMoviePickSvc;
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/")
+	public String home() {
+	    // SecurityContext에서 현재 로그인한 사용자 정보 가져오기
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+	    // 로그인한 사용자의 userId를 얻기
+	    Long userId = ((CustomUserDetails) userDetails).getId();
+
+	    // 사용자 역할 확인
+	    String userRole = ((CustomUserDetails) userDetails).getUserRole(); 
+
+	    int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
+	    
+	    // 사용자 역할에 따라 리다이렉트
+	    if ("admin".equals(userRole)) {
+	        return "admin/home"; // 관리자 대시보드로 리다이렉트
+	    } else {
+	        if (pickedCount < 3) {
+	            return "redirect:/movie/picker"; // 일반 사용자 홈으로 리다이렉트
+	        } else {
+	            return "home"; // 일반 사용자 홈으로 리다이렉트
+	        }
+	    }
+	}
+
+	
+	/*
 	@PreAuthorize("isAuthenticated()") //-> role에 상관없이 아이디/비밀번호로만 인증.
     @GetMapping("/")
     public String home() {
@@ -44,6 +73,7 @@ public class HomeController {
 		}
         
     }
+    */
       
 }
 

@@ -59,6 +59,10 @@ public class User implements UserDetails {
 	@Column(name = "USER_GENDER")
 	private Integer gender;   //0:남성 1:여성
 	
+	@Basic(optional = false)
+	@Column(name = "USER_ROLE")
+	private String userRole; 
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Collections.emptyList();
