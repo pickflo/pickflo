@@ -1,7 +1,7 @@
 @charset "UTF-8";  
 
 body {
-	background-color: #141414 !important;
+	background-color: white !important;
 }
 
 .header #logo {
@@ -40,6 +40,7 @@ body {
     display: flex;
     justify-content: start;
     font-size: 25px;
+    color: #141414;
     font-weight: bold;
 }
 
@@ -54,7 +55,7 @@ body {
 	margin-right: 0px;
 	font-size: 25px;
 	background-color: transparent;
-	color: white;
+	color: #141414;
 	border: none;
 	cursor: pointer;
 }

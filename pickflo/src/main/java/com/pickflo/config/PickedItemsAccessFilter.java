@@ -25,12 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PickedItemsAccessFilter extends GenericFilterBean  {
+public class PickedItemsAccessFilter extends GenericFilterBean {
 
-    private final UserMoviePickService userMoviePickService;
-    private final UserService userService;
-
-    @Override
+	private final UserMoviePickService userMoviePickService;
+	private final UserService userService;
+	
+	@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -45,27 +45,39 @@ public class PickedItemsAccessFilter extends GenericFilterBean  {
             User user = userService.findByEmail(email); // 이메일로 사용자 정보 조회
 
             if (user != null) {
+                // 사용자 역할 확인
+                String userRole = user.getUserRole(); // User 엔티티에서 역할 가져오기
                 int pickedCount = userMoviePickService.getPickedCountByUserId(user.getId()); // 사용자의 찜한 영화 수 조회
 
                 log.info("pickedCount={}, referer={}", pickedCount, httpRequest.getHeader("Referer"));
                 
-                if (pickedCount >= 3) {
-                	if (requestURI.equals("/pickflo/movie/picker")) {
-                		httpResponse.sendRedirect("/pickflo"); // context root 페이지로
-                	} else {
-                		chain.doFilter(request, response); // 가던 곳 그대로
-                	}
+                // 관리자와 일반 사용자 처리 로직 통합
+                if ("admin".equals(userRole)) {
+                    httpResponse.sendRedirect("/pickflo"); // 관리자도 일반 사용자 홈으로 리다이렉트
                 } else {
-                	if (requestURI.equals("/pickflo/movie/picker")) {
-                		chain.doFilter(request, response); // 가던 곳 그대로
-                	} else {
-                		httpResponse.sendRedirect("/pickflo"); // context root 페이지로 -> /pickflo/movie/picker로 다시 redirect
-                	}
+                    // 일반 사용자 처리
+                    if (pickedCount >= 3) {
+                        if (requestURI.equals("/pickflo/movie/picker")) {
+                            httpResponse.sendRedirect("/pickflo"); // context root 페이지로
+                        } else {
+                            chain.doFilter(request, response); // 가던 곳 그대로
+                        }
+                    } else {
+                        if (requestURI.equals("/pickflo/movie/picker")) {
+                            chain.doFilter(request, response); // 가던 곳 그대로
+                        } else {
+                            httpResponse.sendRedirect("/pickflo"); // context root 페이지로
+                        }
+                    }
                 }
-                
+            } else {
+                // 사용자 정보가 없는 경우 처리 (선택 사항)
+                httpResponse.sendRedirect("/login"); // 로그인 페이지로 리디렉션
             }
+        } else {
+            // 인증 정보가 없는 경우 처리 (선택 사항)
+            httpResponse.sendRedirect("/login"); // 로그인 페이지로 리디렉션
         }
-        
-        //chain.doFilter(request, response); // 필터 체인의 다음 필터로 요청 전달
     }
 }
+	
