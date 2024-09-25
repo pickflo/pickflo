@@ -61,8 +61,7 @@ public class User implements UserDetails {
 	
 	@Basic(optional = false)
 	@Column(name = "USER_ROLE")
-	private String userRole;
-
+	private String userRole; 
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
