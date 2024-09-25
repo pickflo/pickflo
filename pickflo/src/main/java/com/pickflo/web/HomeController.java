@@ -34,7 +34,6 @@ public class HomeController {
 
 	    // 사용자 역할 확인
 	    String userRole = ((CustomUserDetails) userDetails).getUserRole(); 
-	    log.info("@@@@@@@@@@@@@@@@@@@userRole={}", userRole);
 
 	    int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
 	    
@@ -45,8 +44,13 @@ public class HomeController {
 	        if (pickedCount < 3) {
 	            return "redirect:/movie/picker"; // 일반 사용자 홈으로 리다이렉트
 	        } else {
-	            return "home"; // 일반 사용자 홈으로 리다이렉트
+	        		if (userId % 2 == 0) {
+	        			return "home_B";
+	        		} else {
+	        			return "home_A"; // 일반 사용자 홈으로 리다이렉트
+	        		}
 	        }
 	    }
-	}     
+	}
 }
+
