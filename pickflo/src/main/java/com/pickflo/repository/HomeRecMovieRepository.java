@@ -81,8 +81,7 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 	    """, 
 	    nativeQuery = true)
 	List<Object[]> findMoviesByUserId(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
-
-	
+}	
 	/*
 	@Query(value = """
 		    WITH MovieGenres AS (

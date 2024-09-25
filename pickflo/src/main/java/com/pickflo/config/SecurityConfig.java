@@ -32,7 +32,7 @@ public class SecurityConfig {
 	            .authorizeHttpRequests(requests -> 
 	                requests.requestMatchers("/user/signin/**", "/user/signup/**", "/css/**", "/js/**", "/images/**", "/api/**").permitAll() // 로그인/회원가입 페이지와 정적 자원에 대한 접근 허용
 	                        .requestMatchers("/movie/picker").authenticated() // /movie/picker 페이지 접근은 인증된 사용자만 허용
-	                        .requestMatchers("/movie/like", "/movie/search", "/").authenticated() // /movie/like와 / 페이지 접근은 인증된 사용자만 허용
+	                        .requestMatchers("/movie/like", "/movie/search", "/").authenticated() // /movie/like와 / 페이지 접근은 인증된 사용자만 허용                   
 	                        .anyRequest().authenticated()) // 나머지 모든 요청도 인증된 사용자만 접근 가능
 	            .formLogin(form -> form.loginPage("/user/signin")
 	                                .usernameParameter("email") // 로그인 시 이메일을 사용자 이름으로 사용

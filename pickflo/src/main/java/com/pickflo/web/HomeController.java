@@ -33,17 +33,24 @@ public class HomeController {
 		// 로그인한 사용자의 userId를 얻기
 		Long userId = ((CustomUserDetails) userDetails).getId();
 		
+		String userRole = ((CustomUserDetails) userDetails).getUserRole();
+		
         // 현재 인증된 사용자정보 가져오기 -> url로 접속 막기위해
         String email = null;
 
         int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
-		if (pickedCount < 3) {
-			return "redirect:/movie/picker";
+        if ("admin".equals(userRole)) {
+        	return "admin/home";
+        } else {
+        		if (pickedCount < 3) {
+     return "redirect:/movie/picker";
 		} else {
 			return "home";
 		}
         
     }
+	
       
+}
 }
 
