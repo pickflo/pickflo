@@ -13,6 +13,10 @@ import lombok.Data;
 @Data
 public class CustomUserDetails implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 	
 	public CustomUserDetails (User user) {
@@ -40,6 +44,10 @@ public class CustomUserDetails implements UserDetails {
 	
 	public Long getId() {
 		return user.getId();
+	}
+	
+	public String getUserRole() {
+		return user.getUserRole();
 	}
 	
 }
