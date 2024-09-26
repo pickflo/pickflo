@@ -23,6 +23,7 @@
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B13VV2XTXW"></script>
 </head>
 <body>
 	<div class="header row">
@@ -63,6 +64,15 @@
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 	<th:block th:replace="~{layout/fragments :: footerContents}"></th:block>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'G-B13VV2XTXW');
+	</script>
 	<script th:src="@{/js/home.js}"></script>
 	<script src="/pickflo/js/movie-details.js"></script>
 

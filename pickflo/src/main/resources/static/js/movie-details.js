@@ -114,6 +114,12 @@ function handleFavoriteClick() {
 				iconHeart.classList.add('fa-solid', 'fa-heart');
 				iconHeart.style.color = 'red';
 				console.log("추가 성공");
+				
+				// Google Analytics 이벤트 추적(선호 영화 선택 시)
+				gtag('event', 'like_movie', {
+					'event_category': 'movie',
+					'event_label': `Movie ID: ${currentMovieId}, User ID: ${currentUserId}`,
+				});
 
 				if (window.location.pathname === '/pickflo/movie/like') {
 					updateMovieList();
@@ -135,6 +141,12 @@ function handleFavoriteClick() {
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = '#ffffff';
 					console.log("해제 성공");
+					
+					// Google Analytics 이벤트 추적(선호 영화 해제 시)
+					gtag('event', 'unlike_movie', {
+						'event_category': 'movie',
+						'event_label': `Movie ID: ${currentMovieId}, User ID: ${currentUserId}`,
+					});
 
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);
