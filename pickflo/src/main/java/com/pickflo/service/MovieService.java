@@ -89,7 +89,7 @@ public class MovieService {
 	@Transactional
 	public void saveMoviesByCountries() {
 		for (String countryCode : with_origin_country) {
-			for (int page = 1; page <= 30; page++) {
+			for (int page = 31; page <= 100; page++) {
 				List<Long> movieIds = getMovieIdsByCountry(countryCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
