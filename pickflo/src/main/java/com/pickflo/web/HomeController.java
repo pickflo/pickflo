@@ -39,6 +39,7 @@ public class HomeController {
 
 	    int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
 	    
+	    /*
 	    // 사용자 역할에 따라 리다이렉트
 	    if ("admin".equals(userRole)) {
 	        return "admin/home"; // 관리자 대시보드로 리다이렉트
@@ -53,5 +54,17 @@ public class HomeController {
 	        		}
 	        }
 	    }
+	    */
+	    
+	    if ("admin".equals(userRole)) {
+	        return "admin/home"; // 관리자 대시보드로 리다이렉트
+	    } else {
+	        if (pickedCount < 3) {
+	            return "redirect:/movie/picker"; // 일반 사용자 홈으로 리다이렉트
+	        } else {
+	        		return "home";	
+	        }
+	    }
+	    
 	}
 }
