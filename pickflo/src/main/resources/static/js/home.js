@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const apiUrl = userId % 2 === 0 ? '/pickflo/api/recMovies/home_B' : '/pickflo/api/recMovies/home_A';
 	
 	if (userId % 2 === 0) {
-		document.body.style.background = 'linear-gradient(to bottom, #141414, #8A2BE2)';
+		document.body.style.background = 'linear-gradient(to top, #141414, #8A2BE2)';
 	} else {
 		document.body.style.backgroundColor = '#141414'; // 기본 배경색
 	}
