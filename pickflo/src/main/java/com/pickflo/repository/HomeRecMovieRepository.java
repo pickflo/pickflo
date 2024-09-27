@@ -83,49 +83,31 @@ public interface HomeRecMovieRepository extends JpaRepository<Movie, Long>, Sear
 	List<Object[]> findMoviesByUserIdAndGenres(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
 
 	@Query(value = """
-	        WITH UserWatchedPeople AS (
-	            SELECT DISTINCT
-	                mp.person_id,
-	                mp.movie_person_job
-	            FROM users_movies um
-	            JOIN movies_people mp ON um.movie_id = mp.movie_id
+	        SELECT DISTINCT m.movie_id, 
+	                        m.movie_title, 
+	                        m.movie_img, 
+	                        GROUP_CONCAT(DISTINCT p.person_name SEPARATOR ', ') AS people_names
+	        FROM movies m
+	        LEFT JOIN movies_people mp ON m.movie_id = mp.movie_id 
+	        LEFT JOIN people p ON mp.person_id = p.person_id 
+	        WHERE p.person_id IN (
+	            SELECT DISTINCT p.person_id
+	            FROM people p 
+	            JOIN movies_people mp ON p.person_id = mp.person_id 
+	            JOIN movies m ON m.movie_id = mp.movie_id 
+	            JOIN users_movies um ON um.movie_id = m.movie_id 
 	            WHERE um.user_id = :userId
-	        ),
-	        
-	        RecommendedMovies AS (
-	            SELECT 
-	                m.movie_id,
-	                m.movie_title,
-	                m.movie_img,
-	                m.movie_release_date,
-	                m.movie_rating,
-	                mp.movie_person_job,
-	                GROUP_CONCAT(DISTINCT p.person_name ORDER BY p.person_name SEPARATOR ', ') AS people
-	            FROM movies_people mp
-	            JOIN movies m ON mp.movie_id = m.movie_id
-	            JOIN people p ON mp.person_id = p.person_id
-	            JOIN UserWatchedPeople uwp ON mp.person_id = uwp.person_id AND mp.movie_person_job = uwp.movie_person_job
-	            WHERE m.movie_id NOT IN (
-	                SELECT movie_id 
-	                FROM users_movies 
-	                WHERE user_id = :userId
-	            )
-	            GROUP BY m.movie_id, m.movie_title, m.movie_img, m.movie_release_date, m.movie_rating, mp.movie_person_job
 	        )
-	        
-	        SELECT 
-	            rm.movie_id,
-	            rm.movie_title,
-	            rm.movie_img,
-	            rm.movie_release_date,
-	            rm.movie_rating,
-	            rm.movie_person_job,
-	            rm.people
-	        FROM RecommendedMovies rm
-	        ORDER BY rm.movie_rating DESC, rm.movie_release_date DESC
+	        GROUP BY m.movie_id
+	        ORDER BY COUNT(DISTINCT p.person_id) DESC
 	        LIMIT :startRow, :pageSize
-	    """, 
-	    nativeQuery = true)
+	        """, 
+	        nativeQuery = true)
 	List<Object[]> findMoviesByUserIdAndPeople(@Param("userId") Long userId, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
 
 }
+
+
+
+
+
