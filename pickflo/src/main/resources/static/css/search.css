@@ -1,9 +1,7 @@
 @charset "UTF-8";
 
-body {
-	background-color: #141414;
-	color: #ffffff;
-	margin: 0;
+body, html {
+    overflow-x: hidden;
 }
 
 a.back-btn {
