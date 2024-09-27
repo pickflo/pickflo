@@ -72,13 +72,13 @@ public class MovieService {
 
 	private final String[] with_genres = {  "12", "16", "35", "80", "99", "18", "10751", "14", "36", "10749", "27", "10402", "9648", "878", "53", "10752" };
 
-	private final String[] with_origin_country = {"KR"};
+	private final String[] with_origin_country = {"TW", "CN"};
 
 	@Transactional
 	public void saveMoviesByGenres() {
 		for (String genreCode : with_genres) {
 
-			for (int page = 1; page <= 2; page++) {
+			for (int page = 1; page <= 100; page++) {
 
 				List<Long> movieIds = getMovieIdsByGenre(genreCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
@@ -89,7 +89,7 @@ public class MovieService {
 	@Transactional
 	public void saveMoviesByCountries() {
 		for (String countryCode : with_origin_country) {
-			for (int page = 1; page <= 30; page++) {
+			for (int page = 101; page <= 200; page++) {
 				List<Long> movieIds = getMovieIdsByCountry(countryCode, page);
 				movieIds.forEach(this::getAndSaveMovieAndGenres);
 			}
@@ -138,7 +138,7 @@ public class MovieService {
 			}
 
 			// vote_count 미만인 경우 저장하지 않음
-			if (movieData.getVoteCount() < 50) {
+			if (movieData.getVoteCount() < 5) {
 				log.info("vote_count 미만인 경우 저장하지 않음. 영화 ID: {}", movieData.getId());
 				return;
 			}
