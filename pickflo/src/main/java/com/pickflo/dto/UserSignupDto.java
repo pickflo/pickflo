@@ -16,6 +16,7 @@ public class UserSignupDto {
 	private String nickname;
 	private LocalDate birth;
 	private Integer gender; // 0:남성 1:여성
+
 	private String userRole = "member"; 
 	
 	public User toEntity(PasswordEncoder encoder) {

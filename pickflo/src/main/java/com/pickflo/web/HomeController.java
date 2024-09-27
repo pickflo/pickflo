@@ -34,8 +34,6 @@ public class HomeController {
 
 	    // 사용자 역할 확인
 	    String userRole = ((CustomUserDetails) userDetails).getUserRole(); 
-	    
-	    log.info("Logged in user's role: {}", userRole);
 
 	    int pickedCount = userMoviePickSvc.getPickedCountByUserId(userId);
 	    
@@ -68,3 +66,4 @@ public class HomeController {
 	    
 	}
 }
+
