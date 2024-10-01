@@ -1,6 +1,7 @@
 package com.pickflo.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -43,4 +44,8 @@ public class UserStatisticsService {
         // DB에 저장
         repo.save(userStatistics);
     }
+
+	public List<UserStatistics> getUserStatistics() {
+		return repo.findAll();
+	}
 }
