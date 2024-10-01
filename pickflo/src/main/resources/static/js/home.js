@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.addEventListener('scroll', () => {
 		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
 			loadMovies();
+			saveUserData(userGroup, 'scroll');
 		}
 	});
 	
@@ -99,16 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 페이지 방문 이벤트 전송
 	saveUserData(userGroup, 'page_view');
 
-	// 스크롤 이벤트 추적
-	/*
-	window.addEventListener('scroll', () => {
-		const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-		trackEvent('scroll_depth', { 'depth': scrollDepth, 'user_group': userGroup });
-		saveUserData(userGroup, 'scroll_depth');
+	
 
-		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-			loadMovies();
-		}
-	});
-	*/
 });
