@@ -14,32 +14,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
 
-	// 페이지 방문 이벤트
-	trackEvent('page_view', { 'user_group': userGroup });
+  // 페이지 방문 이벤트 전송
+    trackEvent('page_view', { 'user_group': userGroup });
 
-	// 웹페이지 유지 시간 이벤트
-	let pageLoadTime = Date.now();
-	window.addEventListener('beforeunload', () => {
-		const timeSpent = Math.round((Date.now() - pageLoadTime) / 1000); // 초 단위
-		trackEvent('page_time_spent', { 'duration': timeSpent, 'user_group': userGroup });
-	});
+    // 스크롤 이벤트 추적
+    window.addEventListener('scroll', () => {
+        const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        trackEvent('scroll_depth', { 'depth': scrollDepth, 'user_group': userGroup });
 
-	// 스크롤 이벤트
-	window.addEventListener('scroll', () => {
-		const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-		trackEvent('scroll_depth', { 'depth': scrollDepth, 'user_group': userGroup });
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            loadMovies();
+        }
+    });
 
-		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-			loadMovies();
-		}
-	});
+    // Google Analytics로 이벤트 전송하는 함수
+    function trackEvent(eventName, params) {
+        if (typeof gtag === 'function') {
+            gtag('event', eventName, params);
+            console.log(`Tracking event: ${eventName}`, params);
+        } else {
+            console.error('gtag function is not defined');
+        }
+    }
 
-	// 이벤트 추적 함수
-	function trackEvent(eventName, params) {
-		gtag('event', eventName, params);
-	}
 
-	/*
+
+	
 		if (userGroup === 'aGroup') {
 			document.body.style.background = 'linear-gradient(to bottom, #141414, #8A2BE2)';
 			
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			
 		}
-		*/
+		
 	
 	function loadMovies() {
 		if (isLoading) return;
@@ -108,4 +108,5 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	*/
+	
 });

@@ -129,14 +129,14 @@ function handleFavoriteClick() {
 						'abGroup': abGroup // A그룹 또는 B그룹 추가
 					});
 					
-/*
+
 				// Google Analytics 이벤트 추적(선호 영화 선택 시)
 				gtag('event', 'like_movie', {
 					'event_category': 'movie',
 					'event_label': `Movie ID: ${currentMovieId}, User ID: ${userId}`,
 					'abGroup': abGroup // A그룹 또는 B그룹 추가
 				});
-*/
+
 				if (window.location.pathname === '/pickflo/movie/like') {
 					updateMovieList();
 				}
