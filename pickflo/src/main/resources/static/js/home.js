@@ -14,42 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
 
-  // 페이지 방문 이벤트 전송
-    trackEvent('page_view', { 'user_group': userGroup });
-
-    // 스크롤 이벤트 추적
-    window.addEventListener('scroll', () => {
-        const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        trackEvent('scroll_depth', { 'depth': scrollDepth, 'user_group': userGroup });
-
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            loadMovies();
-        }
-    });
-
-    // Google Analytics로 이벤트 전송하는 함수
-    function trackEvent(eventName, params) {
-        if (typeof gtag === 'function') {
-            gtag('event', eventName, params);
-            console.log(`Tracking event: ${eventName}`, params);
-        } else {
-            console.error('gtag function is not defined');
-        }
-    }
-
-
-
-	
 		if (userGroup === 'aGroup') {
 			document.body.style.background = 'linear-gradient(to bottom, #141414, #8A2BE2)';
-			
 			
 		} else {
 			document.body.style.backgroundColor = '#141414'; // 기본 배경색
 			
-			
 		}
-		
 	
 	function loadMovies() {
 		if (isLoading) return;
@@ -100,13 +71,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 초기 로드
 	loadMovies();
-/*
+
 	// 스크롤 이벤트 리스너
 	window.addEventListener('scroll', () => {
 		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
 			loadMovies();
 		}
 	});
-	*/
 	
+
+	function saveUserData(userGroup, actionType) {
+		const userData = {
+			userGroup: userGroup,
+			actionType: actionType
+		};
+
+		// 서버에 POST 요청
+		axios.post('/pickflo/api/chart/saveUserData', userData)
+			.then(response => {
+				console.log('User data saved successfully:', response.data);
+			})
+			.catch(error => {
+				console.error('Error saving user data:', error);
+			});
+	}
+
+	// 페이지 방문 이벤트 전송
+	saveUserData(userGroup, 'page_view');
+
+	// 스크롤 이벤트 추적
+	/*
+	window.addEventListener('scroll', () => {
+		const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+		trackEvent('scroll_depth', { 'depth': scrollDepth, 'user_group': userGroup });
+		saveUserData(userGroup, 'scroll_depth');
+
+		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+			loadMovies();
+		}
+	});
+	*/
 });
