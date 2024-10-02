@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function fetchUserData() {
-	fetch('/pickflo/api/chart/getUserData') // 데이터 API를 호출합니다.
+	fetch('/pickflo/api/chart/getUserData') // 데이터 API를 호출
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
@@ -11,7 +11,7 @@ function fetchUserData() {
 			return response.json();
 		})
 		.then(data => {
-			// 데이터를 가져와서 차트를 그립니다.
+			// 데이터를 가져와서 차트를 그린다
 			drawChart(data, 'pageView', 'pageViewChart');
             drawChart(data, 'scrollCount', 'scrollCountChart');
             drawChart(data, 'likeCount', 'likeCountChart');
@@ -40,19 +40,25 @@ function drawChart(userStatistics, metric, elementId) {
     data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
 
     sortedGroups.forEach(group => {
-		const displayGroup = group === 'aGroup' ? 'A그룹' : group === 'bGroup' ? 'B그룹' : group;
+		const displayGroup = group === 'A' ? 'A그룹' : group === 'B' ? 'B그룹' : group;
         data.addRow([displayGroup, groups[group][metric]]);
     });
 
-    const options = {
-        title: `${metric.charAt(0).toUpperCase() + metric.slice(1)}`, // 제목 설정
-        backgroundColor: '#141414', // 검정 배경
-        colors: ['#ff9999', '#66b3ff'], // 파스텔 톤 색상
-        titleTextStyle: { color: '#FFFFFF' }, // 폰트 색상 흰색
-        legend: {
-            textStyle: { color: '#FFFFFF' } // 범례 색상 흰색
-        }
-    };
+	const options = {
+		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)}`, // 제목 설정
+		backgroundColor: '#141414',
+		colors: ['#ff9999', '#66b3ff'],
+		titleTextStyle: {
+			color: '#FFFFFF',
+			fontSize: 24
+		},
+		legend: {
+			textStyle: {
+				color: '#FFFFFF',
+				fontSize: 18
+			}
+		}
+	};
 
     const chart = new google.visualization.PieChart(document.getElementById(elementId));
     chart.draw(data, options);

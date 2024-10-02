@@ -99,7 +99,7 @@ function bindPosterImageClickEvent() {
 function handleFavoriteClick() {
 	const iconHeart = document.getElementById('iconHeart');
 	const userId = parseInt(document.getElementById('userId').value);
-	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
+	let userGroup = (userId % 2 === 0) ? 'B' : 'A';
 	
 	console.log("Movie ID:", currentMovieId);
 	console.log("User ID:", currentUserId);

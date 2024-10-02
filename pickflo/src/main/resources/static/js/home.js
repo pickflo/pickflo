@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	const apiUrl = userId % 2 === 0 ? '/pickflo/api/recMovies/home_B' : '/pickflo/api/recMovies/home_A';
 
 
-	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
+	let userGroup = (userId % 2 === 0) ? 'B' : 'A';
 
-		if (userGroup === 'aGroup') {
+		if (userGroup === 'A') {
 			document.body.style.background = 'linear-gradient(to bottom, #141414, #8A2BE2)';
 			
 		} else {
