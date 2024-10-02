@@ -49,7 +49,7 @@ function drawChart(userStatistics) {
 	}
 
 	// 차트 생성
-	createCharts(labels, datasets, 500);
+	createCharts(labels, datasets);
 }
 
 // 차트 색상 정의
