@@ -27,6 +27,6 @@ public class UserStatistics {
 	private int pageView;
 	private int scrollCount;
 	private int likeCount;
-	
+	private int unlikeCount;
     private Timestamp lastUpdated; // 마지막 업데이트 시간
 }

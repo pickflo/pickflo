@@ -38,6 +38,8 @@ public class UserStatisticsService {
 			userStatistics.setScrollCount(userStatistics.getScrollCount() + 1);
 		} else if ("like".equals(userData.getActionType())) {
 			userStatistics.setLikeCount(userStatistics.getLikeCount()+1);
+		}else if ("unlike".equals(userData.getActionType())) {
+			userStatistics.setUnlikeCount(userStatistics.getUnlikeCount()+1);
 		}
 
         // 마지막 업데이트 시간 갱신

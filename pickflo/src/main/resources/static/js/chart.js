@@ -15,6 +15,7 @@ function fetchUserData() {
 			drawChart(data, 'pageView', 'pageViewChart');
             drawChart(data, 'scrollCount', 'scrollCountChart');
             drawChart(data, 'likeCount', 'likeCountChart');
+            drawChart(data, 'unlikeCount', 'unlikeCountChart');
 		})
 		.catch(error => {
 			console.error('Error fetching user data:', error);
@@ -26,7 +27,7 @@ function fetchUserData() {
 function drawChart(userStatistics, metric, elementId) {
     const groups = userStatistics.reduce((acc, stat) => {
         if (!acc[stat.userGroup]) {
-            acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0 };
+            acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0, unlikeCount: 0 };
         }
         acc[stat.userGroup][metric] += stat[metric]; // 동적으로 메트릭에 따라 값 업데이트
         return acc;
@@ -39,7 +40,8 @@ function drawChart(userStatistics, metric, elementId) {
     data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
 
     sortedGroups.forEach(group => {
-        data.addRow([group, groups[group][metric]]);
+		const displayGroup = group === 'aGroup' ? 'A그룹' : group === 'bGroup' ? 'B그룹' : group;
+        data.addRow([displayGroup, groups[group][metric]]);
     });
 
     const options = {

@@ -100,7 +100,6 @@ function handleFavoriteClick() {
 	const iconHeart = document.getElementById('iconHeart');
 	const userId = parseInt(document.getElementById('userId').value);
 	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
-	console.log('userGroup');
 	
 	console.log("Movie ID:", currentMovieId);
 	console.log("User ID:", currentUserId);
@@ -140,6 +139,8 @@ function handleFavoriteClick() {
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = '#ffffff';
 					console.log("해제 성공");
+					
+					saveUserData(userGroup, 'unlike');
 					
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);
