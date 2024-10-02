@@ -1,13 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
-	
-
-	const userId = parseInt(document.getElementById('userId').value);
-	//let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
-
-});
-
 let currentMovieId = null;
 let currentUserId = null;
+
 function bindPosterImageClickEvent() {
 	const posterImages = document.querySelectorAll('.poster-image');
 	
@@ -105,6 +98,9 @@ function bindPosterImageClickEvent() {
 // 하트 아이콘 클릭 시 호출되는 함수
 function handleFavoriteClick() {
 	const iconHeart = document.getElementById('iconHeart');
+	const userId = parseInt(document.getElementById('userId').value);
+	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
+	console.log('userGroup');
 	
 	console.log("Movie ID:", currentMovieId);
 	console.log("User ID:", currentUserId);
@@ -121,21 +117,8 @@ function handleFavoriteClick() {
 				iconHeart.classList.add('fa-solid', 'fa-heart');
 				iconHeart.style.color = 'red';
 				console.log("추가 성공");
-
-	// Google Analytics 이벤트 추적(선호 영화 선택 시)
-				gtag('event', 'unlike_movie', {
-						'event_category': 'movie',
-						'event_label': `Movie ID: ${currentMovieId}, User ID: ${userId}`,
-						'abGroup': abGroup // A그룹 또는 B그룹 추가
-					});
-					
-
-				// Google Analytics 이벤트 추적(선호 영화 선택 시)
-				gtag('event', 'like_movie', {
-					'event_category': 'movie',
-					'event_label': `Movie ID: ${currentMovieId}, User ID: ${userId}`,
-					'abGroup': abGroup // A그룹 또는 B그룹 추가
-				});
+				
+				saveUserData(userGroup, 'like');
 
 				if (window.location.pathname === '/pickflo/movie/like') {
 					updateMovieList();
@@ -157,13 +140,6 @@ function handleFavoriteClick() {
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = '#ffffff';
 					console.log("해제 성공");
-					
-					// Google Analytics 이벤트 추적(선호 영화 해제 시)
-					gtag('event', 'unlike_movie', {
-						'event_category': 'movie',
-						'event_label': `Movie ID: ${currentMovieId}, User ID: ${userId}`,
-						'abGroup': abGroup // A그룹 또는 B그룹 추가
-					});
 					
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);

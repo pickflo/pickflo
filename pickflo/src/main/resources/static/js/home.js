@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	
-
-	function saveUserData(userGroup, actionType) {
+	//movie-details.js에서도 호출하는 함수
+	window.saveUserData = function saveUserData(userGroup, actionType) {
 		const userData = {
 			userGroup: userGroup,
 			actionType: actionType

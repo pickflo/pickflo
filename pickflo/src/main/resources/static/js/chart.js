@@ -14,6 +14,7 @@ function fetchUserData() {
 			// 데이터를 가져와서 차트를 그립니다.
 			drawPageViewChart(data);
 			drawScrollCountChart(data);
+			drawLikeCountChart(data);
 		})
 		.catch(error => {
 			console.error('Error fetching user data:', error);
@@ -24,7 +25,7 @@ function fetchUserData() {
 function drawPageViewChart(userStatistics) {
 	const groups = userStatistics.reduce((acc, stat) => {
 		if (!acc[stat.userGroup]) {
-			acc[stat.userGroup] = { pageView: 0, scrollCount: 0 };
+			acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0  };
 		}
 		acc[stat.userGroup].pageView += stat.pageView;
 		return acc;
@@ -52,7 +53,7 @@ function drawPageViewChart(userStatistics) {
 function drawScrollCountChart(userStatistics) {
 	const groups = userStatistics.reduce((acc, stat) => {
 		if (!acc[stat.userGroup]) {
-			acc[stat.userGroup] = { pageView: 0, scrollCount: 0 };
+			acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0  };
 		}
 		acc[stat.userGroup].scrollCount += stat.scrollCount;
 		return acc;
@@ -73,6 +74,34 @@ function drawScrollCountChart(userStatistics) {
 	};
 
 	const chart = new google.visualization.PieChart(document.getElementById('scrollCountChart'));
+	chart.draw(data, options);
+}
+
+// 좋아요 수 차트를 그리는 함수
+function drawLikeCountChart(userStatistics) {
+	const groups = userStatistics.reduce((acc, stat) => {
+		if (!acc[stat.userGroup]) {
+			acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0 }; // likeCount 초기화
+		}
+		acc[stat.userGroup].likeCount += stat.likeCount; // likeCount 합산
+		return acc;
+	}, {});
+
+	const sortedGroups = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+
+	const data = new google.visualization.DataTable();
+	data.addColumn('string', 'User Group');
+	data.addColumn('number', 'Like Counts');
+
+	sortedGroups.forEach(group => {
+		data.addRow([group, groups[group].likeCount]);
+	});
+
+	const options = {
+		title: 'Like Counts by User Group',
+	};
+
+	const chart = new google.visualization.PieChart(document.getElementById('likeCountChart'));
 	chart.draw(data, options);
 }
 

@@ -26,6 +26,7 @@ public class UserStatistics {
 	private String userGroup;
 	private int pageView;
 	private int scrollCount;
+	private int likeCount;
 	
     private Timestamp lastUpdated; // 마지막 업데이트 시간
 }

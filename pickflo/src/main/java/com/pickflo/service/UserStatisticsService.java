@@ -31,12 +31,14 @@ public class UserStatisticsService {
         	        .build();
         }
 
-        // actionType에 따라 페이지 방문 또는 스크롤 횟수 증가
-        if ("page_view".equals(userData.getActionType())) {
-            userStatistics.setPageView(userStatistics.getPageView() + 1);
-        } else if ("scroll".equals(userData.getActionType())) {
-            userStatistics.setScrollCount(userStatistics.getScrollCount() + 1);
-        }
+		// actionType에 따라 페이지 방문 또는 스크롤 횟수 증가
+		if ("page_view".equals(userData.getActionType())) {
+			userStatistics.setPageView(userStatistics.getPageView() + 1);
+		} else if ("scroll".equals(userData.getActionType())) {
+			userStatistics.setScrollCount(userStatistics.getScrollCount() + 1);
+		} else if ("like".equals(userData.getActionType())) {
+			userStatistics.setLikeCount(userStatistics.getLikeCount()+1);
+		}
 
         // 마지막 업데이트 시간 갱신
         userStatistics.setLastUpdated(new Timestamp(System.currentTimeMillis()));
