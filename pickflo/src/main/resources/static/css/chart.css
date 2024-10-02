@@ -1,3 +1,21 @@
 @charset "UTF-8";
 
 
+.chart-container {
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 세로 방향으로 배치 */
+    margin: 0 100px; /* 중앙 정렬 */
+}
+
+.chart-row {
+    display: flex; /* 각 행을 Flexbox로 설정 */
+    justify-content: space-between; /* 차트 간격 조정 */
+    margin-bottom: 20px; /* 행 간의 아래쪽 여백 */
+}
+
+.chart {
+    flex: 0 0 calc(50% - 10px); /* 차트 너비를 50%로 설정하고 간격 조정 */
+    height: 400px; /* 차트 높이 설정 */
+    background-color: #222; /* 차트 배경 색상 (선택 사항) */
+}
+
