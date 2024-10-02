@@ -6,12 +6,27 @@
 </head>
 <body>
 	<h1>방문 및 스크롤 통계</h1>
-	<canvas id="userStatsChart" width="400" height="200"></canvas>
+	 <div id="chart_div" style="width: 900px; height: 500px;"></div>
+	<!-- Container for Page View Chart -->
+	<div id="pageViewChart_div" style="width: 900px; height: 500px;"></div>
 
+	<!-- Container for Scroll Count Chart -->
+	<div id="scrollCountChart_div" style="width: 900px; height: 500px;"></div>
+
+	<canvas id="userStatsChart" width="400" height="200"></canvas>
+	
+	<!-- 
 	<div id="chart_div"></div>
-	 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js 포함 -->
+		 -->
+
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/pickflo/js/chart.js"></script>
+	
+	<script src="/pickflo/js/chart.js" defer></script>
 </body>
+
+
 </html>
 
