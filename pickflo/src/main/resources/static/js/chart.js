@@ -45,7 +45,7 @@ function drawChart(userStatistics, metric, elementId) {
     const options = {
         title: `${metric.charAt(0).toUpperCase() + metric.slice(1)} by User Group`, // 제목 설정
         backgroundColor: '#141414', // 검정 배경
-        colors: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0'], // 파스텔 톤 색상
+        colors: ['#ff9999', '#66b3ff'], // 파스텔 톤 색상
         titleTextStyle: { color: '#FFFFFF' }, // 폰트 색상 흰색
         legend: {
             textStyle: { color: '#FFFFFF' } // 범례 색상 흰색
