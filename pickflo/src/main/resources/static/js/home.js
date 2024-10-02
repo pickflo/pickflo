@@ -10,12 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 페이지에서 userId를 전달받아 설정
 	const userId = parseInt(document.getElementById('userId').value);
 	const apiUrl = userId % 2 === 0 ? '/pickflo/api/recMovies/home_B' : '/pickflo/api/recMovies/home_A';
-	
-	if (userId % 2 === 0) {
-		document.body.style.background = 'linear-gradient(to top, #141414, #8A2BE2)';
-	} else {
-		document.body.style.backgroundColor = '#141414'; // 기본 배경색
-	}
+
+
+	let userGroup = (userId % 2 === 0) ? 'bGroup' : 'aGroup';
+
+		if (userGroup === 'aGroup') {
+			document.body.style.backgroundColor = '#141414'; // 기본 배경색
+			
+		} else {
+			document.body.style.background = 'linear-gradient(to bottom, #141414, #8A2BE2)';
+
+			
+		}
 	
 	function loadMovies() {
 		if (isLoading) return;
@@ -71,6 +77,30 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.addEventListener('scroll', () => {
 		if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
 			loadMovies();
+			saveUserData(userGroup, 'scroll');
 		}
 	});
+	
+
+	function saveUserData(userGroup, actionType) {
+		const userData = {
+			userGroup: userGroup,
+			actionType: actionType
+		};
+
+		// 서버에 POST 요청
+		axios.post('/pickflo/api/chart/saveUserData', userData)
+			.then(response => {
+				console.log('User data saved successfully:', response.data);
+			})
+			.catch(error => {
+				console.error('Error saving user data:', error);
+			});
+	}
+
+	// 페이지 방문 이벤트 전송
+	saveUserData(userGroup, 'page_view');
+
+	
+
 });

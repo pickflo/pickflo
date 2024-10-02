@@ -1,3 +1,4 @@
+
 let currentMovieId = null;
 let currentUserId = null;
 
@@ -95,9 +96,27 @@ function bindPosterImageClickEvent() {
 	}
 }
 
+function saveUserData(userGroup, actionType) {
+			const userData = {
+				userGroup: userGroup,
+				actionType: actionType
+			};
+
+			// 서버에 POST 요청
+			axios.post('/pickflo/api/chart/saveUserData', userData)
+				.then(response => {
+					console.log('User data saved successfully:', response.data);
+				})
+				.catch(error => {
+					console.error('Error saving user data:', error);
+				});
+		}
+
 // 하트 아이콘 클릭 시 호출되는 함수
 function handleFavoriteClick() {
+	
 	const iconHeart = document.getElementById('iconHeart');
+	let userGroup = (currentUserId % 2 === 0) ? 'bGroup' : 'aGroup';
 	
 	console.log("Movie ID:", currentMovieId);
 	console.log("User ID:", currentUserId);
@@ -113,6 +132,7 @@ function handleFavoriteClick() {
 				iconHeart.classList.remove('fa-regular', 'fa-heart');
 				iconHeart.classList.add('fa-solid', 'fa-heart');
 				iconHeart.style.color = 'red';
+				saveUserData(userGroup, 'like_event');				
 				console.log("추가 성공");
 
 				if (window.location.pathname === '/pickflo/movie/like') {
@@ -134,8 +154,9 @@ function handleFavoriteClick() {
 					iconHeart.classList.remove('fa-solid', 'fa-heart');
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = '#ffffff';
+					saveUserData(userGroup, 'unlike_event'); 
 					console.log("해제 성공");
-
+									
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);
 					}
@@ -188,4 +209,3 @@ function removeMovieFromLikePage() {
 	updateMovieList();
 
 }
-
