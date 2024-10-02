@@ -42,7 +42,13 @@ function drawPageViewChart(userStatistics) {
 	});
 
 	const options = {
-		title: 'Page Views by User Group',
+		title: 'Like Counts by User Group',
+		backgroundColor: '#141414', // 검정 배경
+		colors: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0'], // 파스텔 톤 색상
+		titleTextStyle: { color: '#FFFFFF' }, // 폰트 색상 흰색
+		legend: {
+			textStyle: { color: '#FFFFFF' } // 범례 색상 흰색
+		}
 	};
 
 	const chart = new google.visualization.PieChart(document.getElementById('pageViewChart'));
@@ -70,7 +76,13 @@ function drawScrollCountChart(userStatistics) {
 	});
 
 	const options = {
-		title: 'Scroll Counts by User Group',
+		title: 'Like Counts by User Group',
+		backgroundColor: '#141414', // 검정 배경
+		colors: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0'], // 파스텔 톤 색상
+		titleTextStyle: { color: '#FFFFFF' }, // 폰트 색상 흰색
+		legend: {
+			textStyle: { color: '#FFFFFF' } // 범례 색상 흰색
+		}
 	};
 
 	const chart = new google.visualization.PieChart(document.getElementById('scrollCountChart'));
@@ -99,6 +111,12 @@ function drawLikeCountChart(userStatistics) {
 
 	const options = {
 		title: 'Like Counts by User Group',
+		backgroundColor: '#141414', // 검정 배경
+		colors: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0'], // 파스텔 톤 색상
+		titleTextStyle: { color: '#FFFFFF' }, // 폰트 색상 흰색
+		legend: {
+			textStyle: { color: '#FFFFFF' } // 범례 색상 흰색
+		}
 	};
 
 	const chart = new google.visualization.PieChart(document.getElementById('likeCountChart'));
