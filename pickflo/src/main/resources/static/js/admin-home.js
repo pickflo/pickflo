@@ -102,19 +102,20 @@ function createCharts(labels, datasets) {
 				plugins: {
 					title: {
 						display: true,
-						text: chartTitles[index], // 차트 제목 설정
+						text: chartTitles[index], 
 						color: 'white',
 						font: {
-							size: 25, // 제목 폰트 크기 설정
+							size: 25, 
 							weight: 'bold'
 						}
 					},
-					// 레이블 설정 (A그룹, B그룹)
-					labels: {
-						color: 'white', // 레이블 색상
-						font: {
-							size: 15, // 레이블 글자 크기
-							weight: 'bold' // 레이블 폰트 굵기
+					// 범례 설정 (A그룹, B그룹)
+					legend: { // legend 추가
+						labels: {
+							color: 'white',
+							font: {
+								size: 13, 
+							}
 						}
 					},
 					// Datalabels plugin 설정
@@ -124,9 +125,9 @@ function createCharts(labels, datasets) {
 							const percentage = ((value / total) * 100).toFixed(2) + '%';
 							return percentage; // 퍼센트 포맷으로 리턴
 						},
-						color: 'black', // 레이블 색상
+						color: 'black',
 						font: {
-							size: 12,
+							size: 20,
 							weight: 'bold',
 						},
 						anchor: 'centet',
