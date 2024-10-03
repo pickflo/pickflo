@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 	fetchUserData();
+	fetchWeeklyData();
 });
 
 function fetchUserData() {
@@ -16,6 +17,11 @@ function fetchUserData() {
             drawChart(data, 'scrollCount', 'scrollCountChart');
             drawChart(data, 'likeCount', 'likeCountChart');
             drawChart(data, 'unlikeCount', 'unlikeCountChart');
+            
+            drawWeeklyChart(data, 'pageView', 'pageViewChartWeek');
+            drawWeeklyChart(data, 'scrollCount', 'scrollCountChartWeek');
+            drawWeeklyChart(data, 'likeCount', 'likeCountChartWeek');
+            drawWeeklyChart(data, 'unlikeCount', 'unlikeCountChartWeek');
 		})
 		.catch(error => {
 			console.error('Error fetching user data:', error);
@@ -61,6 +67,87 @@ function drawChart(userStatistics, metric, elementId) {
 	};
 
     const chart = new google.visualization.PieChart(document.getElementById(elementId));
+    chart.draw(data, options);
+}
+
+function drawWeeklyChart(weeklyStatistics, metric, elementId) {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', '주');
+    data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
+
+    weeklyStatistics.forEach(stat => {
+        const weekLabel = `${stat.weekStartDate} ~ ${stat.weekEndDate}`;
+        data.addRow([weekLabel, stat[metric]]);
+    });
+
+	const options = {
+		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)} 주간 통계`, // 제목 설정
+		backgroundColor: '#141414',
+		colors: ['#ff9999', '#66b3ff'],
+		titleTextStyle: {
+			color: '#FFFFFF',
+			fontSize: 24
+		},
+		legend: {
+			textStyle: {
+				color: '#FFFFFF',
+				fontSize: 18
+			}
+		}
+	};
+
+    const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); // 변경: 막대 차트로 변경
+    chart.draw(data, options);
+}
+
+
+function fetchWeeklyData() {
+	fetch('/pickflo/api/chart/getUserData') // 주간 통계 데이터 API 호출
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			// 주간 통계로 차트를 그린다
+			drawWeeklyChart(data, 'pageView', 'pageViewChart');
+            drawWeeklyChart(data, 'scrollCount', 'scrollCountChart');
+            drawWeeklyChart(data, 'likeCount', 'likeCountChart');
+            drawWeeklyChart(data, 'unlikeCount', 'unlikeCountChart');
+		})
+		.catch(error => {
+			console.error('Error fetching weekly data:', error);
+		});
+}
+
+function drawWeeklyChart(weeklyStatistics, metric, elementId) {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', '주');
+    data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
+
+    weeklyStatistics.forEach(stat => {
+        const weekLabel = `${stat.weekStartDate} ~ ${stat.weekEndDate}`;
+        data.addRow([weekLabel, stat[metric]]);
+    });
+
+	const options = {
+		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)} 주간 통계`, // 제목 설정
+		backgroundColor: '#141414',
+		colors: ['#ff9999', '#66b3ff'],
+		titleTextStyle: {
+			color: '#FFFFFF',
+			fontSize: 24
+		},
+		legend: {
+			textStyle: {
+				color: '#FFFFFF',
+				fontSize: 18
+			}
+		}
+	};
+
+    const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); // 막대 차트로 변경
     chart.draw(data, options);
 }
 

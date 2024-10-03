@@ -49,7 +49,8 @@
 			<h3 th:text="${#authentication.principal.nickname} + '님의 관리자 페이지'"></h3>	
 		</div>
 	</div>
-	
+	<button>전주</button>
+	<button>다음주</button>
 	<div class="chart-container">
         <div class="chart-row">
             <div id="pageViewChart" class="chart"></div>
@@ -58,6 +59,16 @@
         <div class="chart-row">
             <div id="likeCountChart" class="chart"></div>
             <div id="unlikeCountChart" class="chart"></div>
+        </div>
+    </div>
+	<div class="chart-container">
+        <div class="chart-row">
+            <div id="pageViewChartWeek" class="chart"></div>
+            <div id="scrollCountChartWeek" class="chart"></div>
+        </div>
+        <div class="chart-row">
+            <div id="likeCountChartWeek" class="chart"></div>
+            <div id="unlikeCountChartWeek" class="chart"></div>
         </div>
     </div>
     
