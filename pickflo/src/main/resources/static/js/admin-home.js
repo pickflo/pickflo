@@ -1,156 +1,123 @@
+let currentWeekOffset = 0; // 0은 현재 주, -1은 이전 주, 1은 다음 주를 의미합니다.
+
 document.addEventListener("DOMContentLoaded", function() {
-	fetchUserData();
-	fetchWeeklyData();
+    // 페이지 로드 시 이번 주 통계 가져오기
+    updateWeekInfo(currentWeekOffset); // 주차 정보 표시
+    fetchUserData(currentWeekOffset);
+
+    // 버튼에 이벤트 리스너 추가
+    document.getElementById('prevWeekBtn').addEventListener('click', () => {
+        currentWeekOffset--; // 이전 주로 설정 (weekOffset 감소)
+        updateWeekInfo(currentWeekOffset); // 주차 정보 업데이트
+        fetchUserData(currentWeekOffset);
+    });
+
+    document.getElementById('nextWeekBtn').addEventListener('click', () => {
+        currentWeekOffset++; // 다음 주로 설정 (weekOffset 증가)
+        updateWeekInfo(currentWeekOffset); // 주차 정보 업데이트
+        fetchUserData(currentWeekOffset);
+    });
 });
 
-function fetchUserData() {
-	fetch('/pickflo/api/chart/getUserData') // 데이터 API를 호출
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then(data => {
-			// 데이터를 가져와서 차트를 그린다
-			drawChart(data, 'pageView', 'pageViewChart');
-            drawChart(data, 'scrollCount', 'scrollCountChart');
-            drawChart(data, 'likeCount', 'likeCountChart');
-            drawChart(data, 'unlikeCount', 'unlikeCountChart');
-            
-            drawWeeklyChart(data, 'pageView', 'pageViewChartWeek');
-            drawWeeklyChart(data, 'scrollCount', 'scrollCountChartWeek');
-            drawWeeklyChart(data, 'likeCount', 'likeCountChartWeek');
-            drawWeeklyChart(data, 'unlikeCount', 'unlikeCountChartWeek');
-		})
-		.catch(error => {
-			console.error('Error fetching user data:', error);
-		});
+// 주차 정보 업데이트 함수
+function updateWeekInfo(weekOffset) {
+    const currentDate = new Date();
+    const currentWeekDate = new Date(currentDate.setDate(currentDate.getDate() + (weekOffset * 7))); // 주차에 맞게 날짜 계산
+
+    const yearStart = new Date(currentWeekDate.getFullYear(), 0, 1);
+    const pastDaysOfYear = (currentWeekDate - yearStart) / 86400000; // 1일 = 86400000ms
+    const weekNumber = Math.ceil((pastDaysOfYear + yearStart.getDay() + 1) / 7); // 주차 계산
+
+    const weekInfoElement = document.getElementById('weekInfo');
+    if (weekOffset === 0) {
+        weekInfoElement.textContent = `이번 주 (주차: ${weekNumber})`;
+    } else if (weekOffset < 0) {
+        weekInfoElement.textContent = `${Math.abs(weekOffset)}주 전 (주차: ${weekNumber})`;
+    } else {
+        weekInfoElement.textContent = `${weekOffset}주 후 (주차: ${weekNumber})`;
+    }
 }
 
+function fetchUserData(weekOffset) {
+    fetch(`/pickflo/api/chart/getUserData?weekOffset=${weekOffset}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다.');
+            }
+            return response.json();
+        })
+        .then(data => {
+			
+            // 데이터를 배열이 아닌 객체로 받아올 경우도 처리
+            if (!Array.isArray(data)) {
+                data = [data]; // 객체를 배열로 변환
+            }
+            clearCharts(); // 새로운 차트를 그리기 전에 이전 차트 지우기
+            updateCharts(data); // 새로운 데이터로 차트 업데이트
+        })
+        .catch(error => {
+            console.error('Fetch 오류:', error);
+        });
+}
 
-// 차트를 그리는 함수
+// 이전 차트를 지우는 함수
+function clearCharts() {
+    document.getElementById('pageViewChart').innerHTML = '';
+    document.getElementById('scrollCountChart').innerHTML = '';
+    document.getElementById('likeCountChart').innerHTML = '';
+    document.getElementById('unlikeCountChart').innerHTML = '';
+}
+
+// 메트릭을 기반으로 차트를 업데이트하는 함수
+function updateCharts(userStatistics) {
+    drawChart(userStatistics, 'pageView', 'pageViewChart');
+    drawChart(userStatistics, 'scrollCount', 'scrollCountChart');
+    drawChart(userStatistics, 'likeCount', 'likeCountChart');
+    drawChart(userStatistics, 'unlikeCount', 'unlikeCountChart');
+}
+
+// 개별 메트릭을 그리는 함수
 function drawChart(userStatistics, metric, elementId) {
-    const groups = userStatistics.reduce((acc, stat) => {
-        if (!acc[stat.userGroup]) {
-            acc[stat.userGroup] = { pageView: 0, scrollCount: 0, likeCount: 0, unlikeCount: 0 };
+    const groups = {}; 
+
+    // userStatistics 배열을 순회하며 각 그룹의 메트릭을 합산
+    userStatistics.forEach(stat => {
+        if (!groups[stat.userGroup]) {
+            groups[stat.userGroup] = { [metric]: 0 };
         }
-        acc[stat.userGroup][metric] += stat[metric]; // 동적으로 메트릭에 따라 값 업데이트
-        return acc;
-    }, {});
+        groups[stat.userGroup][metric] += stat[metric]; // 메트릭에 따라 값 업데이트
+    });
 
-    const sortedGroups = Object.keys(groups).sort((a, b) => a.localeCompare(b));
-
+    // 차트를 그리기 위한 데이터 구성
     const data = new google.visualization.DataTable();
-    data.addColumn('string', 'User Group');
+    data.addColumn('string', '사용자 그룹');
     data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
 
-    sortedGroups.forEach(group => {
-		const displayGroup = group === 'A' ? 'A그룹' : group === 'B' ? 'B그룹' : group;
+    Object.keys(groups).forEach(group => {
+        const displayGroup = group === 'A' ? 'A그룹' : group === 'B' ? 'B그룹' : group;
         data.addRow([displayGroup, groups[group][metric]]);
     });
 
-	const options = {
-		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)}`, // 제목 설정
-		backgroundColor: '#141414',
-		colors: ['#ff9999', '#66b3ff'],
-		titleTextStyle: {
-			color: '#FFFFFF',
-			fontSize: 24
-		},
-		legend: {
-			textStyle: {
-				color: '#FFFFFF',
-				fontSize: 18
-			}
-		}
-	};
+    const options = {
+        title: `${metric.charAt(0).toUpperCase() + metric.slice(1)}`, // 제목
+        backgroundColor: '#141414',
+        colors: ['#ff9999', '#66b3ff'],
+        titleTextStyle: {
+            color: '#FFFFFF',
+            fontSize: 24
+        },
+        legend: {
+            textStyle: {
+                color: '#FFFFFF',
+                fontSize: 18
+            }
+        }
+    };
 
-    const chart = new google.visualization.PieChart(document.getElementById(elementId));
-    chart.draw(data, options);
-}
-
-function drawWeeklyChart(weeklyStatistics, metric, elementId) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', '주');
-    data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
-
-    weeklyStatistics.forEach(stat => {
-        const weekLabel = `${stat.weekStartDate} ~ ${stat.weekEndDate}`;
-        data.addRow([weekLabel, stat[metric]]);
-    });
-
-	const options = {
-		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)} 주간 통계`, // 제목 설정
-		backgroundColor: '#141414',
-		colors: ['#ff9999', '#66b3ff'],
-		titleTextStyle: {
-			color: '#FFFFFF',
-			fontSize: 24
-		},
-		legend: {
-			textStyle: {
-				color: '#FFFFFF',
-				fontSize: 18
-			}
-		}
-	};
-
-    const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); // 변경: 막대 차트로 변경
-    chart.draw(data, options);
-}
-
-
-function fetchWeeklyData() {
-	fetch('/pickflo/api/chart/getUserData') // 주간 통계 데이터 API 호출
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then(data => {
-			// 주간 통계로 차트를 그린다
-			drawWeeklyChart(data, 'pageView', 'pageViewChart');
-            drawWeeklyChart(data, 'scrollCount', 'scrollCountChart');
-            drawWeeklyChart(data, 'likeCount', 'likeCountChart');
-            drawWeeklyChart(data, 'unlikeCount', 'unlikeCountChart');
-		})
-		.catch(error => {
-			console.error('Error fetching weekly data:', error);
-		});
-}
-
-function drawWeeklyChart(weeklyStatistics, metric, elementId) {
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', '주');
-    data.addColumn('number', metric.charAt(0).toUpperCase() + metric.slice(1)); // 첫 글자 대문자
-
-    weeklyStatistics.forEach(stat => {
-        const weekLabel = `${stat.weekStartDate} ~ ${stat.weekEndDate}`;
-        data.addRow([weekLabel, stat[metric]]);
-    });
-
-	const options = {
-		title: `${metric.charAt(0).toUpperCase() + metric.slice(1)} 주간 통계`, // 제목 설정
-		backgroundColor: '#141414',
-		colors: ['#ff9999', '#66b3ff'],
-		titleTextStyle: {
-			color: '#FFFFFF',
-			fontSize: 24
-		},
-		legend: {
-			textStyle: {
-				color: '#FFFFFF',
-				fontSize: 18
-			}
-		}
-	};
-
-    const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); // 막대 차트로 변경
+    const chart = new google.visualization.PieChart(document.getElementById(elementId)); // 원형 차트
     chart.draw(data, options);
 }
 
 // Google Charts 로드 후 차트 그리기
 google.charts.load('current', { packages: ['corechart'] });
-google.charts.setOnLoadCallback(fetchUserData);
+google.charts.setOnLoadCallback(() => fetchUserData(currentWeekOffset)); // 데이터 가져오기 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pickflo.domain.UserStatistics;
@@ -14,7 +15,9 @@ import com.pickflo.dto.ChartDto;
 import com.pickflo.service.UserStatisticsService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/chart")
 @RequiredArgsConstructor
@@ -30,12 +33,21 @@ public class ChartRestController {
 	}
 
 	// 데이터를 가져오는 API
-
+/*
 	@GetMapping("/getUserData")
     public ResponseEntity<List<UserStatistics>> getUserData() {
         List<UserStatistics> data = svc.getUserStatistics();
 
         return ResponseEntity.ok(data);
     }
+*/
+	
+	@GetMapping("/getUserData")
+	public ResponseEntity<List<UserStatistics>> getUserData(@RequestParam int weekOffset) {
+	    List<UserStatistics> stats = svc.getUserStatisticsByWeekStart(weekOffset);
+	    log.info("stats");
+	    return ResponseEntity.ok(stats);
+	}
 
+	
 }

@@ -1,6 +1,7 @@
 package com.pickflo.service;
 
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,6 +19,24 @@ import lombok.RequiredArgsConstructor;
 public class UserStatisticsService {
 
     private final UserStatisticsRepository repo;
+    
+    public LocalDate getWeekStartDate(int weekOffset, LocalDate specificDate) {
+        LocalDate weekStartDate;
+
+        // 특정 날짜를 기반으로 주 시작일 계산
+        if (weekOffset == -1) {
+            // 저번주
+            weekStartDate = specificDate.with(DayOfWeek.MONDAY).minusWeeks(1);
+        } else if (weekOffset == 1) {
+            // 다음주
+            weekStartDate = specificDate.with(DayOfWeek.MONDAY).plusWeeks(1);
+        } else {
+            // 이번주
+            weekStartDate = specificDate.with(DayOfWeek.MONDAY);
+        }
+
+        return weekStartDate;
+    }
 
     public void saveUserData(ChartDto userData) {
         // 현재 날짜
@@ -26,8 +45,14 @@ public class UserStatisticsService {
         // 현재 주의 시작 날짜(월요일)
         LocalDate weekStartDate = today.with(java.time.DayOfWeek.MONDAY);
         
+        //LocalDate testDate = LocalDate.of(2024, 10, 1); // 특정 테스트 날짜 설정
+        LocalDate previousDate = getWeekStartDate(-1, weekStartDate); // 저번주 시작일
+        LocalDate startDateNext = getWeekStartDate(1, weekStartDate); // 다음주 시작일
+        
+      
+        
         // 사용자 그룹에 따른 통계 가져오기
-        UserStatistics userStatistics = repo.findByUserGroupAndWeekStartDate(userData.getUserGroup(), weekStartDate);
+        UserStatistics userStatistics = repo.findByUserGroupAndWeekStartDate(userData.getUserGroup(), previousDate);
 
         if (userStatistics == null) {
             // 새로운 통계 생성
@@ -37,8 +62,8 @@ public class UserStatisticsService {
                     .scrollCount(0)
                     .likeCount(0)
                     .unlikeCount(0)
-                    .weekStartDate(weekStartDate)
-                    .weekEndDate(weekStartDate.plusDays(6)) // 주간 끝 날짜 계산
+                    .weekStartDate(previousDate)
+                    .weekEndDate(previousDate.plusDays(6)) // 주간 끝 날짜 계산
                     .lastUpdated(new Timestamp(System.currentTimeMillis())) // 마지막 업데이트 시간도 초기화
                     .build();
         }
@@ -92,8 +117,18 @@ public class UserStatisticsService {
             repo.save(newStatistics);
         }
     }
+    
+    public List<UserStatistics> getUserStatisticsByWeekStart(int weekOffset) {
+        // 현재 날짜
+        LocalDate today = LocalDate.now();
+        LocalDate weekStartDate = getWeekStartDate(weekOffset, today);
 
-    public List<UserStatistics> getUserStatistics() {
-        return repo.findAll();
+        // 사용자 그룹에 따른 통계 가져오기
+        List<UserStatistics> userStatistics = repo.findByWeekStartDate(weekStartDate);
+
+        return userStatistics;
     }
+
+
+    
 }

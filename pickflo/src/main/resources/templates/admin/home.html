@@ -49,8 +49,9 @@
 			<h3 th:text="${#authentication.principal.nickname} + '님의 관리자 페이지'"></h3>	
 		</div>
 	</div>
-	<button>전주</button>
-	<button>다음주</button>
+	<button id="prevWeekBtn">전주</button>
+	<button id="nextWeekBtn">다음주</button>
+	<h2 id="weekInfo"></h2>
 	<div class="chart-container">
         <div class="chart-row">
             <div id="pageViewChart" class="chart"></div>
