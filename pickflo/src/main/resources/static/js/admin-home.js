@@ -52,6 +52,9 @@ function fetchUserData(period) {
         });
 }
 
+let hourlyAverageSessionChart;
+let averageSessionTimeChart; // 평균 세션 시간 차트
+let conversionRateChart; // 전환율 차트
 let timeSpentComparisonChart;
 let scrollCountChart;
 let likeCountChart;
@@ -76,6 +79,15 @@ function drawChart(userStatistics) {
 
     // 총 체류 시간 비교 차트 생성
     drawTimeSpentComparisonChart(groups);
+    
+    // 시간대별 평균 세션 시간 차트 생성
+    drawHourlyAverageSessionChart(userStatistics);
+    
+    // 평균 세션 시간 차트 생성
+    drawAverageSessionTimeChart(groups);
+
+    // 전환율 차트 생성
+    drawConversionRateChart(groups);
 
     // 원형 차트 데이터 생성
     const labels = ['A', 'B'];
@@ -83,6 +95,8 @@ function drawChart(userStatistics) {
 
     // 각 원형 차트 그리기
     createCharts(labels, datasets);
+    
+    
 }
 
 // 총 사이트 이용시간 차트
@@ -153,6 +167,233 @@ function drawTimeSpentComparisonChart(groups) {
         plugins: [ChartDataLabels] // Datalabels 플러그인 추가
     });
 }
+
+
+
+// 시간대별 평균 세션 시간 그래프
+function drawHourlyAverageSessionChart(userStatistics) {
+    const hourlyData = { A: {}, B: {} }; // 사용자 그룹 A와 B의 데이터 초기화
+
+    // 데이터 그룹화 (시간대별)
+    userStatistics.forEach(item => {
+        const activityHour = new Date(item.activityTimestamp).getHours(); // 활동 시간의 시간대 추출
+        const hourLabel = activityHour.toString().padStart(2, '0') + ":00"; // "00:00" 형식으로 변환
+        
+        // 사용자 그룹에 따라 데이터 저장
+        const userGroup = item.userGroup; // A 또는 B
+        if (!hourlyData[userGroup][hourLabel]) {
+            hourlyData[userGroup][hourLabel] = { sessionCount: 0, totalTimeSpentSeconds: 0 };
+        }
+
+        hourlyData[userGroup][hourLabel].sessionCount++;
+        hourlyData[userGroup][hourLabel].totalTimeSpentSeconds += item.timeSpentSeconds;
+    });
+
+    const labels = Object.keys(hourlyData.A).sort(); // 시간대 레이블 (A 그룹 기준)
+    
+    // 데이터 포인트 생성
+    const dataPointsA = labels.map(hour => {
+        const { sessionCount, totalTimeSpentSeconds } = hourlyData.A[hour] || { sessionCount: 0, totalTimeSpentSeconds: 0 };
+        return (sessionCount === 0) ? 0 : (totalTimeSpentSeconds / sessionCount) / 60; // 초에서 분으로 변환
+    });
+
+    const dataPointsB = labels.map(hour => {
+        const { sessionCount, totalTimeSpentSeconds } = hourlyData.B[hour] || { sessionCount: 0, totalTimeSpentSeconds: 0 };
+        return (sessionCount === 0) ? 0 : (totalTimeSpentSeconds / sessionCount) / 60; // 초에서 분으로 변환
+    });
+
+    // 꺾은선 그래프 그리기
+    const ctx = document.getElementById('hourlyAverageSessionChart').getContext('2d');
+    if (hourlyAverageSessionChart) {
+        hourlyAverageSessionChart.destroy();
+    }
+
+    hourlyAverageSessionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'A',
+                    data: dataPointsA,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                },
+                {
+                    label: 'B',
+                    data: dataPointsB,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // B 그룹을 위한 배경 색상
+                    borderColor: 'rgba(255, 99, 132, 1)', // B 그룹을 위한 경계 색상
+                    borderWidth: 1,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: '시간대별 평균 세션 시간',
+                    color: 'white',
+                    font: {
+                        size: 25,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: 13,
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        callback: function(value) {
+                            return value + '분'; // y축 레이블에 "분" 추가
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white' // x축 레이블 색상 설정
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+// 평균 세션 시간 차트
+function drawAverageSessionTimeChart(groups) {
+    const labels = ['A그룹', 'B그룹'];
+    const data = [
+        ((groups['A']?.timeSpentSeconds || 0) / 60 / (groups['A']?.sessionCount || 1)) || 0, // 초를 분으로 변환
+        ((groups['B']?.timeSpentSeconds || 0) / 60 / (groups['B']?.sessionCount || 1)) || 0
+    ];
+
+    const ctx = document.getElementById('averageSessionTimeChart').getContext('2d');
+
+    // 기존 차트가 있다면 파괴
+    if (averageSessionTimeChart) {
+        averageSessionTimeChart.destroy();
+    }
+
+    averageSessionTimeChart = new Chart(ctx, {
+        type: 'bar', // 막대 차트 유형
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#28a745', '#dc3545'], 
+                borderColor: ['#28a745', '#dc3545'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: '평균 세션 시간',
+                    color: 'white',
+                    font: {
+                        size: 25,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: false // 레전드 숨김
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        callback: function(value) {
+                            return value + '분'; // y축에 '분' 단위 추가
+                        }
+                    },
+                }
+            }
+        }
+    });
+}
+
+// 전환율 차트
+function drawConversionRateChart(groups) {
+    const labels = ['A그룹', 'B그룹'];
+    const conversionRates = [
+        (groups['A']?.likeCount / (groups['A']?.sessionCount || 1)) || 0,
+        (groups['B']?.likeCount / (groups['B']?.sessionCount || 1)) || 0
+    ];
+
+    const ctx = document.getElementById('conversionRateChart').getContext('2d');
+
+    // 기존 차트가 있다면 파괴
+    if (conversionRateChart) {
+        conversionRateChart.destroy();
+    }
+
+    conversionRateChart = new Chart(ctx, {
+        type: 'bar', // 막대 차트 유형
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '전환율 (%)',
+                data: conversionRates.map(rate => rate * 100), // 퍼센트로 변환
+                backgroundColor: ['#28a745', '#dc3545'], 
+                borderColor: ['#28a745', '#dc3545'],
+                // backgroundColor: ['#6f42c1', '#6c757d'], // 보라색과 회색
+                // borderColor: ['#6f42c1', '#6c757d'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: '전환율',
+                    color: 'white',
+                    font: {
+                        size: 25,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: false // 레전드 숨김
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                        callback: function(value) {
+                            return value + '%'; // y축에 '%' 단위 추가
+                        }
+                    },
+                }
+            }
+        }
+    });
+}
+
 
 // 차트 색상 정의
 const CHART_COLORS = {
@@ -269,3 +510,4 @@ function createCharts(labels, datasets) {
         }
     });
 }
+

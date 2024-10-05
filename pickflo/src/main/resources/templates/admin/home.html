@@ -40,23 +40,33 @@
 	</div>
 	
 	<div class="container" style="margin-top:50px;">
-	<h3>A/B 테스트 사용자 통계</h3>
-    
-	<div class="period d-flex justify-content-center">
-		<button id="todayButton">당일</button>
-	    <button id="sevenDaysButton">7일간</button>
-    </div>
-		
-	<div class="chart-container">
-	    <div class="chart-row">
-	        <canvas id="timeSpentComparisonChart"></canvas>
-	        <canvas id="scrollCountChart"></canvas>
+		<h3>A/B 테스트 결과 대시보드</h3>
+	    
+		<div class="period d-flex justify-content-center">
+			<button id="todayButton">당일</button>
+		    <button id="sevenDaysButton">7일간</button>
 	    </div>
-	    <div class="chart-row">
-	        <canvas id="likeCountChart"></canvas>
-	        <canvas id="unlikeCountChart"></canvas>
-	    </div>  
-	</div>
+			
+		<div class="chart-container">
+			<div class="chart-row">
+                <canvas id="hourlyAverageSessionChart"></canvas>
+            </div>
+		
+			<div class="chart-row">
+                <canvas id="averageSessionTimeChart"></canvas>
+                <canvas id="conversionRateChart"></canvas>
+            </div>
+			
+		    <div class="chart-row">
+		        <canvas id="timeSpentComparisonChart"></canvas>
+			    <canvas id="scrollCountChart"></canvas>
+			</div>    
+			<div class="chart-row">
+			    <canvas id="likeCountChart"></canvas>
+			    <canvas id="unlikeCountChart"></canvas>
+		    </div>
+		    
+		</div>
 	</div>
 	
 	
