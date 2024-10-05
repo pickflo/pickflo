@@ -1,5 +1,6 @@
 package com.pickflo.web;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,9 @@ public class ChartRestController {
 */
 	
 	@GetMapping("/getUserData")
-	public ResponseEntity<List<UserStatistics>> getUserData(@RequestParam int weekOffset) {
-	    List<UserStatistics> stats = svc.getUserStatisticsByWeekStart(weekOffset);
+	public ResponseEntity<List<UserStatistics>> getUserData(@RequestParam String date) {
+		LocalDate parsedDate = LocalDate.parse(date); // String을 LocalDate로 변환
+	    List<UserStatistics> stats = svc.getUserStatisticsByDate(parsedDate);
 	    log.info("stats");
 	    return ResponseEntity.ok(stats);
 	}

@@ -1,45 +1,31 @@
-let currentWeekOffset = 0; // 0은 현재 주, -1은 이전 주, 1은 다음 주를 의미합니다.
+let selectedDate = new Date(); 
 
 document.addEventListener("DOMContentLoaded", function() {
     // 페이지 로드 시 이번 주 통계 가져오기
-    updateWeekInfo(currentWeekOffset); // 주차 정보 표시
-    fetchUserData(currentWeekOffset);
+    updateDateInfo(selectedDate); // 주차 정보 표시
+    fetchUserData(selectedDate);
 
-    // 버튼에 이벤트 리스너 추가
-    document.getElementById('prevWeekBtn').addEventListener('click', () => {
-        currentWeekOffset--; // 이전 주로 설정 (weekOffset 감소)
-        updateWeekInfo(currentWeekOffset); // 주차 정보 업데이트
-        fetchUserData(currentWeekOffset);
+/*
+    // 날짜 선택 버튼에 이벤트 리스너 추가
+    document.getElementById('datePicker').addEventListener('change', (event) => {
+        selectedDate = new Date(event.target.value); // 선택한 날짜로 설정
+        updateDateInfo(selectedDate);
+        fetchUserData(selectedDate);
     });
-
-    document.getElementById('nextWeekBtn').addEventListener('click', () => {
-        currentWeekOffset++; // 다음 주로 설정 (weekOffset 증가)
-        updateWeekInfo(currentWeekOffset); // 주차 정보 업데이트
-        fetchUserData(currentWeekOffset);
-    });
+    */
 });
 
-// 주차 정보 업데이트 함수
-function updateWeekInfo(weekOffset) {
-    const currentDate = new Date();
-    const currentWeekDate = new Date(currentDate.setDate(currentDate.getDate() + (weekOffset * 7))); // 주차에 맞게 날짜 계산
-
-    const yearStart = new Date(currentWeekDate.getFullYear(), 0, 1);
-    const pastDaysOfYear = (currentWeekDate - yearStart) / 86400000; // 1일 = 86400000ms
-    const weekNumber = Math.ceil((pastDaysOfYear + yearStart.getDay() + 1) / 7); // 주차 계산
-
-    const weekInfoElement = document.getElementById('weekInfo');
-    if (weekOffset === 0) {
-        weekInfoElement.textContent = `이번 주 (주차: ${weekNumber})`;
-    } else if (weekOffset < 0) {
-        weekInfoElement.textContent = `${Math.abs(weekOffset)}주 전 (주차: ${weekNumber})`;
-    } else {
-        weekInfoElement.textContent = `${weekOffset}주 후 (주차: ${weekNumber})`;
-    }
+// 날짜 정보 업데이트 함수
+function updateDateInfo(date) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formattedDate = date.toLocaleDateString(undefined, options); // 날짜 형식화
+    const dateInfoElement = document.getElementById('dateInfo');
+    dateInfoElement.textContent = `선택된 날짜: ${formattedDate}`; // 선택한 날짜 정보 표시
 }
 
 function fetchUserData(weekOffset) {
-    fetch(`/pickflo/api/chart/getUserData?weekOffset=${weekOffset}`)
+ const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식으로 변환
+    fetch(`/pickflo/api/chart/getUserData?date=${formattedDate}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('네트워크 응답이 올바르지 않습니다.');

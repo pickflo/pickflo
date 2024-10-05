@@ -14,11 +14,11 @@ public interface UserStatisticsRepository extends JpaRepository<UserStatistics, 
 	//UserStatistics findByUserGroup(String userGroup);
 	
 	// 사용자 그룹과 주 시작일로 통계 검색
-    UserStatistics findByUserGroupAndWeekStartDate(String userGroup, LocalDate weekStartDate);
+    UserStatistics findByUserGroupAndDate(String userGroup, LocalDate date);
 
     
-    @Query("SELECT us FROM UserStatistics us WHERE us.weekStartDate = :weekStartDate")
-    List<UserStatistics> findByWeekStartDate(@Param("weekStartDate") LocalDate weekStartDate);
+    @Query("SELECT us FROM UserStatistics us WHERE us.date = :date")
+    List<UserStatistics> findByDate(@Param("date") LocalDate date);
 
     
     List<UserStatistics> findAll();

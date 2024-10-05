@@ -40,19 +40,19 @@ public class UserStatisticsService {
 
     public void saveUserData(ChartDto userData) {
         // 현재 날짜
-        LocalDate today = LocalDate.now();
+        LocalDate date = LocalDate.now();
         
         // 현재 주의 시작 날짜(월요일)
-        LocalDate weekStartDate = today.with(java.time.DayOfWeek.MONDAY);
+        //LocalDate weekStartDate = today.with(java.time.DayOfWeek.MONDAY);
         
         //LocalDate testDate = LocalDate.of(2024, 10, 1); // 특정 테스트 날짜 설정
-        LocalDate previousDate = getWeekStartDate(-1, weekStartDate); // 저번주 시작일
-        LocalDate startDateNext = getWeekStartDate(1, weekStartDate); // 다음주 시작일
+        //LocalDate previousDate = getWeekStartDate(-1, weekStartDate); // 저번주 시작일
+        //LocalDate startDateNext = getWeekStartDate(1, weekStartDate); // 다음주 시작일
         
       
         
         // 사용자 그룹에 따른 통계 가져오기
-        UserStatistics userStatistics = repo.findByUserGroupAndWeekStartDate(userData.getUserGroup(), previousDate);
+        UserStatistics userStatistics = repo.findByUserGroupAndDate(userData.getUserGroup(), date);
 
         if (userStatistics == null) {
             // 새로운 통계 생성
@@ -62,8 +62,9 @@ public class UserStatisticsService {
                     .scrollCount(0)
                     .likeCount(0)
                     .unlikeCount(0)
-                    .weekStartDate(previousDate)
-                    .weekEndDate(previousDate.plusDays(6)) // 주간 끝 날짜 계산
+                    .totalTimeSpent(0) 
+                    .actionCompleted("N")
+                    .date(date)
                     .lastUpdated(new Timestamp(System.currentTimeMillis())) // 마지막 업데이트 시간도 초기화
                     .build();
         }
@@ -90,45 +91,56 @@ public class UserStatisticsService {
         // DB에 저장
         repo.save(userStatistics);
     }
-
+/*
     @Scheduled(cron = "0 0 0 * * MON") // 매주 월요일 자정에 실행
     public void createWeeklyStatistics() {
         // A그룹과 B그룹 통계 확인 및 새로운 행 생성
         createGroupStatistics("A");
         createGroupStatistics("B");
     }
-
+*/
     private void createGroupStatistics(String group) {
-        LocalDate weekStartDate = LocalDate.now().with(java.time.DayOfWeek.MONDAY);
-        LocalDate weekEndDate = weekStartDate.plusDays(6);
+       // LocalDate weekStartDate = LocalDate.now().with(java.time.DayOfWeek.MONDAY);
+       // LocalDate weekEndDate = weekStartDate.plusDays(6);
+
+       LocalDate date = LocalDate.now();
+       
 
         // 이미 해당 주의 통계가 존재하는지 확인
-        if (repo.findByUserGroupAndWeekStartDate(group, weekStartDate) == null) {
+        if (repo.findByUserGroupAndDate(group, date) == null) {
             UserStatistics newStatistics = UserStatistics.builder()
                     .userGroup(group)
                     .pageView(0)
                     .scrollCount(0)
                     .likeCount(0)
                     .unlikeCount(0)
-                    .weekStartDate(weekStartDate)
-                    .weekEndDate(weekEndDate)
+                    .totalTimeSpent(0) 
+                    .actionCompleted("N")
+                    .date(date)
                     .lastUpdated(new Timestamp(System.currentTimeMillis())) // 마지막 업데이트 시간도 초기화
                     .build();
             repo.save(newStatistics);
         }
     }
     
+    public List<UserStatistics> getUserStatisticsByDate(LocalDate date) {
+        // 사용자가 지정한 날짜의 통계 가져오기
+        List<UserStatistics> userStatistics = repo.findByDate(date);
+        return userStatistics;
+    }
+    
+    /*
     public List<UserStatistics> getUserStatisticsByWeekStart(int weekOffset) {
         // 현재 날짜
         LocalDate today = LocalDate.now();
         LocalDate weekStartDate = getWeekStartDate(weekOffset, today);
 
         // 사용자 그룹에 따른 통계 가져오기
-        List<UserStatistics> userStatistics = repo.findByWeekStartDate(weekStartDate);
+        List<UserStatistics> userStatistics = repo.findByDate(weekStartDate);
 
         return userStatistics;
     }
-
+*/
 
     
 }

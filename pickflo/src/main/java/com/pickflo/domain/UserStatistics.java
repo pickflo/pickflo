@@ -19,24 +19,30 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "user_statistics")
-@NoArgsConstructor @AllArgsConstructor
-@Builder @Getter @Setter
-@ToString @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class UserStatistics {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(nullable = false)
 	private String userGroup;
-	
+
 	private int pageView;
 	private int scrollCount;
 	private int likeCount;
 	private int unlikeCount;
-	
+	private int totalTimeSpent;
+	private String actionCompleted; // 행동 완료 여부 (Y 또는 N)
+
 	@Column(nullable = false)
-	private LocalDate weekStartDate;
-	@Column(nullable = false)
-	private LocalDate weekEndDate;
-    private Timestamp lastUpdated; // 마지막 업데이트 시간
+	private LocalDate date;
+
+	private Timestamp lastUpdated; // 마지막 업데이트 시간
 }
