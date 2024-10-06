@@ -1,5 +1,7 @@
 package com.pickflo.web;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,27 @@ public class UserStatisticsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
   
-    @GetMapping("/getUserData")
-    public ResponseEntity<List<UserStatistics>> getUserData() {
-        List<UserStatistics> data = userStatisticsSvc.getUserStatistics();
-        return ResponseEntity.ok(data);
-    } 
+	@GetMapping("/getUserData")
+    public ResponseEntity<List<UserStatistics>> getUserData(
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        try {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            List<UserStatistics> statistics = userStatisticsSvc.getUserStatisticsByDateRange(start, end);
+            return ResponseEntity.ok(statistics);
+        } catch (DateTimeParseException e) {
+            // 날짜 파싱 오류 처리
+            System.err.println("Invalid date format: " + e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            // 일반적인 오류 처리
+            System.err.println("Error fetching user data: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+   
+
 
 }

@@ -123,7 +123,10 @@ function handleFavoriteClick() {
 				iconHeart.style.color = 'red';
 				console.log("추가 성공");
 				
-				saveUserData(userGroup, 1, 0);
+				// 현재 페이지가 /pickflo/일 때만 saveUserData 호출
+				if (window.location.pathname === '/pickflo/') {
+					saveUserData(userGroup, 1, 0);
+				}
 			
 				if (window.location.pathname === '/pickflo/movie/like') {
 					updateMovieList();
@@ -147,7 +150,10 @@ function handleFavoriteClick() {
 					iconHeart.style.color = '#ffffff';
 					console.log("해제 성공");
 					
-					saveUserData(userGroup, 0, 1);
+					// 현재 페이지가 /pickflo/일 때만 saveUserData 호출
+					if (window.location.pathname === '/pickflo/') {
+						saveUserData(userGroup, 0, 1);
+					}
 					
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);

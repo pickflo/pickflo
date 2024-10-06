@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -55,7 +56,7 @@ public class UserStatistics {
     
     @Basic(optional = false)
     @Column(name = "conversion_rate")
-    private double conversionRate; // 전환율 (%)
+    private double conversionRate; // 전환율((likeCount/visitorCount)X100(%)) 
     
     @Basic(optional = false)
     @Column(name = "visitor_count")
@@ -79,6 +80,7 @@ public class UserStatistics {
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now; 
+        this.updatedAt = now;
         this.statDate = now.toLocalDate(); 
         this.visitorCount = 0; 
         this.timeSpent = 0;    
@@ -86,6 +88,11 @@ public class UserStatistics {
         this.likeCount = 0;    
         this.unlikeCount = 0; 
         this.conversionRate = 0.0; 
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now(); // 수정 시 현재 시간으로 업데이트
     }
     
     // 전환율 계산 메서드

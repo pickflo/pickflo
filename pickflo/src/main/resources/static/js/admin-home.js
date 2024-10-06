@@ -113,6 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("conversionRateB").innerText = conversionRateB.toFixed(2) + "%";
     }
     
+
+    
     
     function drawCharts(data) {
 	    const ctx = document.getElementById('chartAB').getContext('2d');
@@ -128,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.likeCount : 0), 0) / Math.max(totalLikeClick, 1)) * 100) || 0,
 	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.unlikeCount : 0), 0) / Math.max(totalLikeUnclick, 1)) * 100) || 0,
 	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.timeSpent : 0), 0) / Math.max(totalTimeSpent, 1)) * 100) || 0
-	    ].map(Number).map(value => value.toFixed(1)); // 모든 값을 숫자로 변환 후 소수점 한 자리까지 표현
+	    ].map(Number).map(value => value.toFixed(1)); 
 	
 	    const chartData = {
 	        labels: ['스크롤 수', '좋아요 클릭 수', '좋아요 해제 수', '총 이용 시간'],
@@ -136,16 +138,30 @@ document.addEventListener('DOMContentLoaded', function() {
 	            {
 	                label: 'A 그룹',
 	                data: calculateData('A'),
-	                backgroundColor: '#4CAF50',
+	                backgroundColor: 'rgba(111, 66, 193)',
 	                borderColor: 'white',
-	                borderWidth: 1
+	                borderWidth: 1,
+	                datalabels: { 
+	                    color: 'black',
+	                    anchor: 'end',
+	                    align: 'end',
+	                    formatter: (value) => `${value}%`,
+	                    display: true
+	                }
 	            },
 	            {
 	                label: 'B 그룹',
 	                data: calculateData('B'),
-	                backgroundColor: '#FF4C4C',
+	                backgroundColor: 'rgba(255, 193, 7)',
 	                borderColor: 'white',
-	                borderWidth: 1
+	                borderWidth: 1,
+	                datalabels: { 
+	                    color: 'white',
+	                    anchor: 'end',
+	                    align: 'end',
+	                    formatter: (value) => `${value}%`,
+	                    display: true 
+	                }
 	            }
 	        ]
 	    };
@@ -162,12 +178,28 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    labels: {
 							color: 'white',
 							font: {
-								size: window.innerWidth < 600 ? 12 : 16 // 화면 크기에 따라 글씨 크기 조정
+								size: window.innerWidth < 600 ? 12 : 16 
 							}
 	                    }
+	                },
+	                tooltip: {
+						padding: 10, // 툴팁의 패딩
+					    backgroundColor: 'rgba(0, 0, 0, 0.8)', // 툴팁 배경색
+					    bodyFont: {
+					        size: window.innerWidth < 600 ? 12 : 16, // 툴팁 텍스트 크기
+					        family: 'Arial', // 폰트 패밀리
+					        weight: 'bold' // 폰트 두께
+					    },
+			            callbacks: {
+			                label: function(tooltipItem) {
+			                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '%';
+			                }
+			            }
+			        },
+			        datalabels: {
+	                    display: true, 
 	                }
 	            },
-	            
 	            scales: {
 	                y: {
 	                    beginAtZero: true,
@@ -177,13 +209,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	                        text: '비율 (%)',
 	                        color: 'white',
 	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16 // 화면 크기에 따라 글씨 크기 조정
+								size: window.innerWidth < 600 ? 10 : 16 
 							}
 	                    },
 	                    ticks: {
 	                        color: 'white',
 	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16 // 화면 크기에 따라 글씨 크기 조정
+								size: window.innerWidth < 600 ? 10 : 16 
 							}
 	                    }
 	                },
@@ -192,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    ticks: {
 	                        color: 'white',
 	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16 // 화면 크기에 따라 글씨 크기 조정
+								size: window.innerWidth < 600 ? 10 : 16
 							}
 	                    }
 	                }

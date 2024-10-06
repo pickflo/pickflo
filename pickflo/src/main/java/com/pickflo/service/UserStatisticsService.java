@@ -29,10 +29,9 @@ public class UserStatisticsService {
         // 오늘 해당 유저 그룹에 대한 통계 항목 조회
         UserStatistics statistics = userStatisticsRepo.findByUserGroupAndStatDate(userGroup, today)
                 .stream().findFirst().orElseGet(() -> createNewStatistics(userGroup, today));
-
-        // 방문자 수 증가
-        statistics.setVisitorCount(statistics.getVisitorCount() + 1);
-
+      
+        statistics.setVisitorCount(statistics.getVisitorCount() + 1); // 방문자 수 증가
+        statistics.setUpdatedAt(LocalDateTime.now()); // updatedAt 업데이트
 
         // 변경 사항 저장
         userStatisticsRepo.save(statistics);
@@ -50,8 +49,9 @@ public class UserStatisticsService {
         statistics.setUnlikeCount(statistics.getUnlikeCount() + userData.getUnlikeCount());
         statistics.calculateConversionRate();
        
-        // 변경 사항 저장
-        userStatisticsRepo.save(statistics);
+        statistics.setUpdatedAt(LocalDateTime.now());
+        
+        userStatisticsRepo.save(statistics); // 변경 사항 저장
     }
     
     private UserStatistics createNewStatistics(String userGroup, LocalDate statDate) {
@@ -68,8 +68,8 @@ public class UserStatisticsService {
                 .build();
     }
 
-    public List<UserStatistics> getUserStatistics() {
-        return userStatisticsRepo.findAll();
+    public List<UserStatistics> getUserStatisticsByDateRange(LocalDate startDate, LocalDate endDate) {
+        return userStatisticsRepo.findByStatDateBetween(startDate, endDate);
     }
     
 }

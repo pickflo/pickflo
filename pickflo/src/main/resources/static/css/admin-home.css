@@ -28,57 +28,32 @@ body {
 	justify-content: end;
 }
 
+.nickname {
+	margin-top: 7px;
+	margin-left: 20px;
+	font-size: 20px;
+}
+
 a {
 	text-decoration: none;
 }
 
+.date-selection {
+    margin-top: 100px;
+}
+
+.table {
+	margin-top: 30px;
+}
+
 .chart-container {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    margin: 50px auto; 
+        position: relative;
+        width: 100%;  
+        height: 500px; 
+        max-width: 1000px; 
+        margin: 100px auto;
+    }
 
-}
-
-.chart-row {
-    display: flex; /* 차트를 나란히 배치 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    margin-top: 30px;
-    margin-bottom: 50px; /* 각 행 사이의 여백 */
-    width: 100%; 
-    flex-wrap: wrap; /* 줄바꿈 */
-}
-
-canvas {
-    width: 100%; /* 너비를 100%로 설정하여 부모 컨테이너에 맞게 조정 */
-    height: auto; /* 높이를 자동으로 설정하여 비율을 유지 */
-    max-height: 400px; /* 최대 높이 설정 */
-    max-width: 500px; /* 각 차트의 최대 너비 설정 */
-    margin: 0 15px; /* 좌우 여백 */
-}
-
-
-button {
-    font-size: 20px; 
-    padding: 10px 20px;
-    border: none; 
-    border-radius: 5px;
-    cursor: pointer; 
-    background-color: #6c757d;
-    color: white; 
-    transition: background-color 0.3s, transform 0.2s; 
-    margin: 10px;
-}
-
-.active-button {
-    background-color: #4e555b;
-    border: 2px solid white;
-}
-
-button:active {
-    transform: scale(1.1); /* 버튼 클릭 시 일시적 확대 효과 */
-}
 
 @media ( max-width : 768px) {
 	.header { 
@@ -93,6 +68,27 @@ button:active {
 	.header-logo {
 		margin-left: 0px;
 	}
+	
+	.date-selection {
+        margin-top: 50px;
+    }
+	
+	label, input, #resultButton {
+        font-size: 14px !important;
+    }
+	
+	tr, td {
+		font-size: 12px;
+	}
+	
+	.chart-container {
+        position: relative;
+        width: 100%;  
+        height: 300px; 
+        max-width: 400px; 
+        margin: 50px auto;
+    }
+	
 
 }
 

@@ -40,32 +40,76 @@
 	</div>
 	
 	<div class="container" style="margin-top:50px;">
-		<h3>A/B 테스트 결과 대시보드</h3>
+		<h3 class="text-center">A/B 테스트 결과 대시보드</h3>
 	    
-		<div class="period d-flex justify-content-center">
-			<button id="todayButton">당일</button>
-		    <button id="sevenDaysButton">7일간</button>
-	    </div>
-			
-		<div class="chart-container">
-			<div class="chart-row">
-                <canvas id="hourlyAverageSessionChart"></canvas>
-            </div>
-		
-			<div class="chart-row">
-                <canvas id="averageSessionTimeChart"></canvas>
-                <canvas id="conversionRateChart"></canvas>
-            </div>
-			
-		    <div class="chart-row">
-		        <canvas id="timeSpentComparisonChart"></canvas>
-			    <canvas id="scrollCountChart"></canvas>
-			</div>    
-			<div class="chart-row">
-			    <canvas id="likeCountChart"></canvas>
-			    <canvas id="unlikeCountChart"></canvas>
+	    <!-- 날짜 선택기 --> 
+		<div class="container">
+		    <div class="row mb-4 justify-content-center align-items-center date-selection">
+		        <label for="dateRange" class="col-form-label col-auto me-2">날짜 선택</label>
+		        <div class="col-3 col-md-2">
+		            <input type="date" id="startDate" class="form-control" placeholder="시작 날짜">
+		        </div>
+		        <div class="col-3 col-md-2">
+		            <input type="date" id="endDate" class="form-control" placeholder="종료 날짜">
+		        </div>
+		        <div class="col-3 col-md-2"> 
+		            <button class="btn btn-primary w-100" id="resultButton">결과</button> <!-- w-100으로 전체 너비 사용 -->
+		        </div>
 		    </div>
-		    
+		</div>
+			
+
+	    <!-- 지표 요약 섹션 -->
+		<div class="container mt-4">
+		    <h5></h5>
+		    <table class="table table-bordered">
+		        <thead>
+		            <tr>
+		                <th></th>
+		                <th>총 이용 시간</th>
+		                <th>스크롤 수</th>
+		                <th>좋아요 해제 수</th>
+		                <th>좋아요 클릭 수</th>
+		                <th>방문자 수</th>
+		                <th>전환율</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr>
+		                <td>A 그룹</td>
+		                <td id="timeSpentA"></td> <!-- A 총 이용 시간 -->
+		                <td id="scrollCountA"></td> <!-- A 스크롤 수 -->
+		                <td id="unlikeCountA"></td> <!-- A 좋아요 해제 수 -->
+		                <td id="likeCountA"></td> <!-- A 좋아요 클릭 수 -->
+		                <td id="visitorCountA"></td> <!-- A 방문자 수 -->
+		                <td id="conversionRateA"></td> <!-- A 전환율 -->
+		                
+			            </tr>
+		            <tr>
+		                <td>B 그룹</td>
+		                <td id="timeSpentB"></td> <!-- B 총 이용 시간 -->
+		                <td id="scrollCountB"></td> <!-- B 스크롤 수 -->
+		                <td id="unlikeCountB"></td> <!-- B 좋아요 해제 수 -->
+		                <td id="likeCountB"></td> <!-- B 좋아요 클릭 수 -->
+		                <td id="visitorCountB"></td> <!-- B 방문자 수 -->
+		                <td id="conversionRateB"></td> <!-- B 전환율 -->
+		                
+		            </tr>
+		        </tbody>
+		    </table>
+		
+		</div>
+
+		
+		<!-- 차트 섹션 -->
+	    <div class="chart-container">
+            <canvas id="chartAB"></canvas>
+        </div>
+		
+		<!-- 결과 분석 섹션 -->
+		<div>
+			<h3>결과 분석</h3>
+			<p></p>		
 		</div>
 	</div>
 	
