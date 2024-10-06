@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import com.pickflo.domain.User;
-import com.pickflo.domain.UserStatistics;
 import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
 import com.pickflo.service.UserStatisticsService;
@@ -25,7 +24,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	private final UserMoviePickService userMoviePickSvc;
 	private final UserService userSvc;
 	private final UserStatisticsService userStatisticsSvc;
-    
+	
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {

@@ -19,14 +19,13 @@ public class FilterConfiguration implements WebMvcConfigurer {
 	
 	private final UserMoviePickService userMoviePickSvc;
 	private final UserService userService;
-	private final UserStatisticsService userStatisticsSvc;
 	
 	@Bean
 	public FilterRegistrationBean<PickedItemsAccessFilter> filterRegistrionBean() {
 		log.info("filterRegistrionBean()");
 		
 		FilterRegistrationBean<PickedItemsAccessFilter> filterRegistration = 
-				new FilterRegistrationBean<PickedItemsAccessFilter>(new PickedItemsAccessFilter(userMoviePickSvc, userService, userStatisticsSvc));
+				new FilterRegistrationBean<PickedItemsAccessFilter>(new PickedItemsAccessFilter(userMoviePickSvc, userService));
 		filterRegistration.addUrlPatterns("/movie/picker", "/movie/search", "/movie/like");
 		
 		return filterRegistration;

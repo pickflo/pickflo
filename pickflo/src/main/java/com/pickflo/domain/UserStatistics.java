@@ -24,9 +24,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE) @Builder
 @Entity
-@Table(name = "user_statistics", uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"user_group", "stat_date"}) 
-	    })
+@Table(name = "user_statistics", uniqueConstraints = { @UniqueConstraint(columnNames = {"user_group", "stat_date"}) })
 public class UserStatistics {
 	
 	@Id
@@ -36,7 +34,7 @@ public class UserStatistics {
 
     @Basic(optional = false)
     @Column(name = "user_group")
-    private String userGroup; // 유저 그룹 (A/B)
+    private String userGroup; // A, B
 
     @Basic(optional = false)
     @Column(name = "time_spent")
@@ -62,6 +60,10 @@ public class UserStatistics {
     @Basic(optional = false)
     @Column(name = "visitor_count")
     private int visitorCount; // 방문자 수
+    
+    @Basic(optional = false)
+    @Column(name = "revisit_rate")
+    private double revisitRate; // 재방문율
 
 
     @Basic(optional = false)

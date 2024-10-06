@@ -30,7 +30,6 @@ public class PickedItemsAccessFilter extends GenericFilterBean {
 
 	private final UserMoviePickService userMoviePickService;
 	private final UserService userService;
-	private final UserStatisticsService userStatisticsSvc;
 	
 	@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
