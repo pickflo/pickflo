@@ -123,17 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	    const totalLikeClick = data.reduce((sum, stat) => sum + stat.likeCount, 0);
 	    const totalLikeUnclick = data.reduce((sum, stat) => sum + stat.unlikeCount, 0);
 	    const totalTimeSpent = data.reduce((sum, stat) => sum + stat.timeSpent, 0);
+	    const totalVisitors = data.reduce((sum, stat) => sum + stat.visitorCount, 0);
 	
 	    // 비율 계산 함수
 	    const calculateData = (userGroup) => [
+			((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.timeSpent : 0), 0) / Math.max(totalTimeSpent, 1)) * 100) || 0,
 	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.scrollCount : 0), 0) / Math.max(totalScroll, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.likeCount : 0), 0) / Math.max(totalLikeClick, 1)) * 100) || 0,
 	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.unlikeCount : 0), 0) / Math.max(totalLikeUnclick, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.timeSpent : 0), 0) / Math.max(totalTimeSpent, 1)) * 100) || 0
+	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.likeCount : 0), 0) / Math.max(totalLikeClick, 1)) * 100) || 0,
+	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.visitorCount : 0), 0) / Math.max(totalVisitors, 1)) * 100) || 0
 	    ].map(Number).map(value => value.toFixed(1)); 
 	
 	    const chartData = {
-	        labels: ['스크롤 수', '좋아요 클릭 수', '좋아요 해제 수', '총 이용 시간'],
+	        labels: ['총 이용 시간', '스크롤 수', '좋아요 해제 수', '좋아요 클릭 수', '방문자 수'],
 	        datasets: [
 	            {
 	                label: 'A 그룹',
@@ -181,6 +183,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	            responsive: true,
 	            maintainAspectRatio: false,	
 	            plugins: {
+					title: {
+						display: true,
+		                text: 'A 그룹 vs B 그룹: 사용자 행동 비율 비교', 
+		                color: 'white',
+		                font: {
+		                    size: window.innerWidth < 600 ? 14 : 18, 
+		                },
+		                padding: {
+		                    top: 10,
+		                    bottom: window.innerWidth < 600 ? 20 : 50
+		                }	
+					},
 	                legend: {
 						position: window.innerWidth < 600 ? 'top' : 'right',
 	                    labels: {
