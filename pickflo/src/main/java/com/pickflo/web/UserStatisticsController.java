@@ -26,7 +26,7 @@ public class UserStatisticsController {
 	@PostMapping("/saveUserData")
     public ResponseEntity<Void> saveUserData(@RequestBody UserStatistics userData) {
         try {
-            userStatisticsSvc.saveUserData(userData, true);
+            userStatisticsSvc.saveUserData(userData);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             // 예외 처리

@@ -2,6 +2,8 @@ package com.pickflo.service;
 
 import com.pickflo.domain.UserStatistics;
 import com.pickflo.repository.UserStatisticsRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -15,70 +17,59 @@ import org.springframework.stereotype.Service;
 public class UserStatisticsService {
 
     private final UserStatisticsRepository userStatisticsRepo;
-      
-    public void saveUserData(UserStatistics userStatistics, boolean isEventOccurred) {
-    	
-        LocalDateTime now = LocalDateTime.now();
-        LocalDate statDate = now.toLocalDate(); // 현재 날짜를 LocalDate로 변환
+    
+    @Transactional
+    public void incrementVisitCount(Long userId) {
+        // 사용자 ID에 따라 유저 그룹을 결정
+        String userGroup = (userId % 2 == 0) ? "B" : "A";
 
-        List<UserStatistics> existingStatisticsList = userStatisticsRepo.findByUserGroupAndStatDate(userStatistics.getUserGroup(), statDate);
-        
-        // 중복된 통계 삭제
-        if (existingStatisticsList.size() > 1) {
-            existingStatisticsList.forEach(stat -> userStatisticsRepo.delete(stat)); // 모든 중복 삭제
-        }
-        
-        // 기존 통계가 있는 경우 업데이트, 없으면 새로 생성
-        if (!existingStatisticsList.isEmpty()) {
-            UserStatistics existingStatistics = existingStatisticsList.get(0); // 첫 번째 데이터 사용
-            if (isEventOccurred) {
-                updateExistingStatistics(existingStatistics, userStatistics);
-            }
-        } else {
-            createNewStatistics(userStatistics, statDate, now);
-        }
+        // 오늘 날짜
+        LocalDate today = LocalDate.now();
+
+        // 오늘 해당 유저 그룹에 대한 통계 항목 조회
+        UserStatistics statistics = userStatisticsRepo.findByUserGroupAndStatDate(userGroup, today)
+                .stream().findFirst().orElseGet(() -> createNewStatistics(userGroup, today));
+
+        // 방문자 수 증가
+        statistics.setVisitorCount(statistics.getVisitorCount() + 1);
+
+
+        // 변경 사항 저장
+        userStatisticsRepo.save(statistics);
     }
+    
+    @Transactional
+    public void saveUserData(UserStatistics userData) {
+        LocalDate today = LocalDate.now();
+        UserStatistics statistics = userStatisticsRepo.findByUserGroupAndStatDate(userData.getUserGroup(), today)
+                .stream().findFirst().orElseGet(() -> createNewStatistics(userData.getUserGroup(), today));
 
-    private void updateExistingStatistics(UserStatistics existingStatistics, UserStatistics userStatistics) {
-    		existingStatistics.setTimeSpent(existingStatistics.getTimeSpent() + userStatistics.getTimeSpent());
-        existingStatistics.setScrollCount(existingStatistics.getScrollCount() + userStatistics.getScrollCount());
-        existingStatistics.setLikeCount(existingStatistics.getLikeCount() + userStatistics.getLikeCount());
-        existingStatistics.setUnlikeCount(existingStatistics.getUnlikeCount() + userStatistics.getUnlikeCount());
-        existingStatistics.setVisitorCount(existingStatistics.getVisitorCount() + 1); // 방문 카운트 증가
-
-        // 전환율 계산
-        int totalLikes = existingStatistics.getLikeCount();
-        int totalVisitors = existingStatistics.getVisitorCount();
-
-        if (totalVisitors > 0) {
-            double conversionRate = (double) totalLikes / totalVisitors * 100;
-            existingStatistics.setConversionRate(conversionRate);
-        } else {
-            existingStatistics.setConversionRate(0.0);
-        }
-
-        // 업데이트된 데이터 저장
-        userStatisticsRepo.save(existingStatistics);
+        statistics.setTimeSpent(statistics.getTimeSpent() + userData.getTimeSpent());
+        statistics.setScrollCount(statistics.getScrollCount() + userData.getScrollCount());
+        statistics.setLikeCount(statistics.getLikeCount() + userData.getLikeCount());
+        statistics.setUnlikeCount(statistics.getUnlikeCount() + userData.getUnlikeCount());
+        statistics.calculateConversionRate();
+       
+        // 변경 사항 저장
+        userStatisticsRepo.save(statistics);
     }
-
-    private void createNewStatistics(UserStatistics userStatistics, LocalDate statDate, LocalDateTime now) {
-        UserStatistics newStatistics = UserStatistics.builder()
-                .userGroup(userStatistics.getUserGroup())
-                .timeSpent(userStatistics.getTimeSpent())
-                .scrollCount(userStatistics.getScrollCount())
-                .likeCount(userStatistics.getLikeCount())
-                .unlikeCount(userStatistics.getUnlikeCount())
-                .visitorCount(1) // 방문자 수 초기화
-                .conversionRate(0.0) // 초기 전환율 설정
-                .statDate(statDate) // LocalDate로 설정
-                .createdAt(now) // 현재 시간으로 설정
-                .updatedAt(now) // 현재 시간으로 설정
+    
+    private UserStatistics createNewStatistics(String userGroup, LocalDate statDate) {
+        return UserStatistics.builder()
+                .userGroup(userGroup)
+                .timeSpent(0) // 기본값 설정
+                .scrollCount(0) // 기본값 설정
+                .likeCount(0)
+                .unlikeCount(0)
+                .conversionRate(0.0)
+                .statDate(statDate)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
-
-        userStatisticsRepo.save(newStatistics);
     }
 
     public List<UserStatistics> getUserStatistics() {
         return userStatisticsRepo.findAll();
     }
+    
 }

@@ -12,6 +12,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.pickflo.domain.User;
 import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
+import com.pickflo.service.UserStatisticsService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,6 +30,7 @@ public class PickedItemsAccessFilter extends GenericFilterBean {
 
 	private final UserMoviePickService userMoviePickService;
 	private final UserService userService;
+	private final UserStatisticsService userStatisticsSvc;
 	
 	@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -45,7 +47,7 @@ public class PickedItemsAccessFilter extends GenericFilterBean {
             User user = userService.findByEmail(email); // 이메일로 사용자 정보 조회
 
             if (user != null) {
-                // 사용자 역할 확인
+              // 사용자 역할 확인
                 String userRole = user.getUserRole(); // User 엔티티에서 역할 가져오기
                 int pickedCount = userMoviePickService.getPickedCountByUserId(user.getId()); // 사용자의 찜한 영화 수 조회
 

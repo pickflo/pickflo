@@ -9,8 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -80,9 +78,23 @@ public class UserStatistics {
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now; // 데이터 생성 시간
-        this.statDate = now.toLocalDate(); // 기록 날짜
-        this.visitorCount = 0; // 초기 방문자 수 설정
+        this.createdAt = now; 
+        this.statDate = now.toLocalDate(); 
+        this.visitorCount = 0; 
+        this.timeSpent = 0;    
+        this.scrollCount = 0;  
+        this.likeCount = 0;    
+        this.unlikeCount = 0; 
+        this.conversionRate = 0.0; 
+    }
+    
+    // 전환율 계산 메서드
+    public void calculateConversionRate() {
+        if (visitorCount > 0) {
+            this.conversionRate = ((double) likeCount / visitorCount) * 100;
+        } else {
+            this.conversionRate = 0.0; // 방문자가 없을 경우 전환율 0으로 설정
+        }
     }
     
 }
