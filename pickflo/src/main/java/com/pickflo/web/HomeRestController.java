@@ -24,32 +24,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/recMovies")
 public class HomeRestController {
-	
-	private final HomeService homeSvc;	
-	
-	
-	@PreAuthorize("isAuthenticated()")
+    
+    private final HomeService homeSvc;    
+    
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/home_A")
     public List<HomeRecMovieDto> homeRecMoviesA(  
-    		@RequestParam int startRow, 
-    		@RequestParam int endRow) {
+            @RequestParam int startRow, 
+            @RequestParam int pageSize) { 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Long userId = ((CustomUserDetails) userDetails).getId();
 
-        return homeSvc.getMoviesByUserIdAndGenres(userId,startRow,endRow);
+        return homeSvc.getMoviesByUserIdAndGenres(userId, startRow, pageSize); // endRow를 pageSize로 변경
     } 
-	
-	@PreAuthorize("isAuthenticated()")
+    
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/home_B")
     public List<HomeRecMovieDto> homeRecMoviesB(  
-    		@RequestParam int startRow, 
-    		@RequestParam int endRow) {
+            @RequestParam int startRow, 
+            @RequestParam int pageSize) { 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Long userId = ((CustomUserDetails) userDetails).getId();
 
-        return homeSvc.getMoviesByUserIdAndPeople(userId,startRow,endRow);
+        return homeSvc.getMoviesByUserIdAndPeople(userId, startRow, pageSize); // endRow를 pageSize로 변경
     } 
-	
 }

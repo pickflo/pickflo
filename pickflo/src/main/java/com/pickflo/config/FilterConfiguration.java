@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
+import com.pickflo.service.UserStatisticsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,14 @@ public class FilterConfiguration implements WebMvcConfigurer {
 	
 	private final UserMoviePickService userMoviePickSvc;
 	private final UserService userService;
+	private final UserStatisticsService userStatisticsSvc;
 	
 	@Bean
 	public FilterRegistrationBean<PickedItemsAccessFilter> filterRegistrionBean() {
 		log.info("filterRegistrionBean()");
 		
 		FilterRegistrationBean<PickedItemsAccessFilter> filterRegistration = 
-				new FilterRegistrationBean<PickedItemsAccessFilter>(new PickedItemsAccessFilter(userMoviePickSvc, userService));
+				new FilterRegistrationBean<PickedItemsAccessFilter>(new PickedItemsAccessFilter(userMoviePickSvc, userService, userStatisticsSvc));
 		filterRegistration.addUrlPatterns("/movie/picker", "/movie/search", "/movie/like");
 		
 		return filterRegistration;

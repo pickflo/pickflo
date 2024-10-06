@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+body {
+    overflow-x: hidden; /* 가로 스크롤을 막아 좌우 흔들림 방지 */
+}
+
 .list-wrap {
 	display: flex;
     justify-content: center; 
