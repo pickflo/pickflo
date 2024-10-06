@@ -31,7 +31,7 @@ public class UserStatisticsService {
                 .stream().findFirst().orElseGet(() -> createNewStatistics(userGroup, today));
       
         statistics.setVisitorCount(statistics.getVisitorCount() + 1); // 방문자 수 증가
-        statistics.setUpdatedAt(LocalDateTime.now()); // updatedAt 업데이트
+        statistics.setUpdatedAt(LocalDateTime.now());
 
         // 변경 사항 저장
         userStatisticsRepo.save(statistics);
@@ -47,11 +47,20 @@ public class UserStatisticsService {
         statistics.setScrollCount(statistics.getScrollCount() + userData.getScrollCount());
         statistics.setLikeCount(statistics.getLikeCount() + userData.getLikeCount());
         statistics.setUnlikeCount(statistics.getUnlikeCount() + userData.getUnlikeCount());
-        statistics.calculateConversionRate();
-       
-        statistics.setUpdatedAt(LocalDateTime.now());
+        
+        calculateConversionRate(statistics); // 전환율 계산
+
+        statistics.setUpdatedAt(LocalDateTime.now()); // updatedAt 업데이트
         
         userStatisticsRepo.save(statistics); // 변경 사항 저장
+    }
+    
+    private void calculateConversionRate(UserStatistics statistics) {
+        if (statistics.getVisitorCount() > 0) {
+            statistics.setConversionRate(((double) statistics.getLikeCount() / statistics.getVisitorCount()) * 100);
+        } else {
+            statistics.setConversionRate(0.0); // 방문자가 없을 경우 전환율 0으로 설정
+        }
     }
     
     private UserStatistics createNewStatistics(String userGroup, LocalDate statDate) {
@@ -61,6 +70,7 @@ public class UserStatisticsService {
                 .scrollCount(0) // 기본값 설정
                 .likeCount(0)
                 .unlikeCount(0)
+                .visitorCount(0)
                 .conversionRate(0.0)
                 .statDate(statDate)
                 .createdAt(LocalDateTime.now())

@@ -20,12 +20,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "user_statistics", uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"user_group", "stat_date"})
-	})
+
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PRIVATE) @Builder
+@Entity
+@Table(name = "user_statistics", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = {"user_group", "stat_date"}) 
+	    })
 public class UserStatistics {
 	
 	@Id
@@ -74,34 +75,5 @@ public class UserStatistics {
     @Basic(optional = false)
     @Column(name = "updated_at")
     private LocalDateTime updatedAt; // 데이터 수정 시간
-
-    // 데이터 생성 전 현재 시간으로 createAt과 statDate 초기화
-    @PrePersist
-    public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now; 
-        this.updatedAt = now;
-        this.statDate = now.toLocalDate(); 
-        this.visitorCount = 0; 
-        this.timeSpent = 0;    
-        this.scrollCount = 0;  
-        this.likeCount = 0;    
-        this.unlikeCount = 0; 
-        this.conversionRate = 0.0; 
-    }
-    
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now(); // 수정 시 현재 시간으로 업데이트
-    }
-    
-    // 전환율 계산 메서드
-    public void calculateConversionRate() {
-        if (visitorCount > 0) {
-            this.conversionRate = ((double) likeCount / visitorCount) * 100;
-        } else {
-            this.conversionRate = 0.0; // 방문자가 없을 경우 전환율 0으로 설정
-        }
-    }
     
 }
