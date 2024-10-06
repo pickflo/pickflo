@@ -142,9 +142,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	                borderColor: 'white',
 	                borderWidth: 1,
 	                datalabels: { 
+						font: {
+	                        weight: 'bold', // 폰트 굵게 설정
+	                        size: window.innerWidth < 600 ? 10 : 16 // 반응형 폰트 크기
+	                    },
 	                    color: 'black',
-	                    anchor: 'end',
-	                    align: 'end',
+	                    anchor: 'center',
+	                    align: 'center',
 	                    formatter: (value) => `${value}%`,
 	                    display: true
 	                }
@@ -156,11 +160,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	                borderColor: 'white',
 	                borderWidth: 1,
 	                datalabels: { 
-	                    color: 'white',
-	                    anchor: 'end',
-	                    align: 'end',
+						font: {
+	                        weight: 'bold', // 폰트 굵게 설정
+	                        size: window.innerWidth < 600 ? 10 : 16 // 반응형 폰트 크기
+	                    },
+	                    color: 'black',
+	                    anchor: 'center',
+	                    align: 'center',
 	                    formatter: (value) => `${value}%`,
-	                    display: true 
+	                    display: true
 	                }
 	            }
 	        ]
@@ -229,7 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	                    }
 	                }
 	            }
-	        }
+	        },
+	        plugins: [ChartDataLabels] 
 	    });
 	}
 
