@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalTimeSpentA = 0, totalTimeSpentB = 0;
         let totalConversionRateA = 0, totalConversionRateB = 0;
         let totalVisitorCountA = 0, totalVisitorCountB = 0;
+        let totalRevisitA = 0, totalRevisitB = 0;
         
         data.forEach(stat => {
             if (stat.userGroup === 'A') {
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalUnlikeA += stat.unlikeCount;
                 totalTimeSpentA += stat.timeSpent; // 초 단위
                 totalVisitorCountA += stat.visitorCount;
+                if (stat.isRevisit) totalRevisitA++;
                 
             } else if (stat.userGroup === 'B') {
                 totalScrollB += stat.scrollCount;
@@ -84,8 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalUnlikeB += stat.unlikeCount;
                 totalTimeSpentB += stat.timeSpent; // 초 단위
                 totalVisitorCountB += stat.visitorCount;
+                if (stat.isRevisit) totalRevisitB++;
             }
         });
+        
+        // 재방문율 계산
+	    const revisitRateA = totalVisitorCountA > 0 ? (totalRevisitA / totalVisitorCountA) * 100 : 0;
+	    const revisitRateB = totalVisitorCountB > 0 ? (totalRevisitB / totalVisitorCountB) * 100 : 0;
+
 		
 		// A 그룹 통계 값 삽입
         document.getElementById("scrollCountA").innerText = totalScrollA + "회";
@@ -94,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("timeSpentA").innerText = formatTimeSpent(totalTimeSpentA); // 시간 형식으로 변환하여 표시
         document.getElementById("conversionRateA").innerText = totalConversionRateA.toFixed(2) + "%";
         document.getElementById("visitorCountA").innerText = totalVisitorCountA + "명"; // A 그룹 방문자 수 표시
+		document.getElementById("revisitRateA").innerText = revisitRateA.toFixed(2) + "%";
 		
 		// A 그룹 전환율 계산
         const conversionRateA = totalVisitorCountA > 0 ? (totalLikeA / totalVisitorCountA) * 100 : 0;
@@ -107,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("timeSpentB").innerText = formatTimeSpent(totalTimeSpentB); // 시간 형식으로 변환하여 표시
         document.getElementById("conversionRateB").innerText = totalConversionRateB.toFixed(2) + "%";
         document.getElementById("visitorCountB").innerText = totalVisitorCountB + "명";
+        document.getElementById("revisitRateB").innerText = revisitRateB.toFixed(2) + "%";
    		
    		// B 그룹 전환율 계산
         const conversionRateB = totalVisitorCountB > 0 ? (totalLikeB / totalVisitorCountB) * 100 : 0;
