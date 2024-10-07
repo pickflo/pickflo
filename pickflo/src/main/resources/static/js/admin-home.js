@@ -63,208 +63,227 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	function drawTables(data) {
-        let totalScrollA = 0, totalScrollB = 0;
-        let totalLikeA = 0, totalLikeB = 0;
-        let totalUnlikeA = 0, totalUnlikeB = 0;
-        let totalTimeSpentA = 0, totalTimeSpentB = 0;
-        let totalConversionRateA = 0, totalConversionRateB = 0;
-        let totalVisitorCountA = 0, totalVisitorCountB = 0;
-        let totalRevisitA = 0, totalRevisitB = 0;
-        
-        data.forEach(stat => {
-            if (stat.userGroup === 'A') {
-                totalScrollA += stat.scrollCount;
-                totalLikeA += stat.likeCount;
-                totalUnlikeA += stat.unlikeCount;
-                totalTimeSpentA += stat.timeSpent; // 초 단위
-                totalVisitorCountA += stat.visitorCount;
-                if (stat.isRevisit) totalRevisitA++;
-                
-            } else if (stat.userGroup === 'B') {
-                totalScrollB += stat.scrollCount;
-                totalLikeB += stat.likeCount;
-                totalUnlikeB += stat.unlikeCount;
-                totalTimeSpentB += stat.timeSpent; // 초 단위
-                totalVisitorCountB += stat.visitorCount;
-                if (stat.isRevisit) totalRevisitB++;
+    let totalScrollA = 0, totalScrollB = 0;
+    let totalLikeA = 0, totalLikeB = 0;
+    let totalUnlikeA = 0, totalUnlikeB = 0;
+    let totalTimeSpentA = 0, totalTimeSpentB = 0;
+    let totalConversionRateA = 0, totalConversionRateB = 0;
+    let totalVisitorCountA = 0, totalVisitorCountB = 0;
+    
+    let totalRevisitRateA = 0, totalRevisitRateB = 0;
+    let daysWithDataA = 0, daysWithDataB = 0;
+
+    // 데이터를 순회하며 그룹 A와 그룹 B의 통계를 집계
+    data.forEach(stat => {
+        if (stat.userGroup === 'A') {
+            totalScrollA += stat.scrollCount;
+            totalLikeA += stat.likeCount;
+            totalUnlikeA += stat.unlikeCount;
+            totalTimeSpentA += stat.timeSpent; // 초 단위
+            totalVisitorCountA += stat.visitorCount;
+
+            if (stat.revisitRate) { // 재방문율이 존재하면 더함
+                totalRevisitRateA += stat.revisitRate;
+                daysWithDataA++;
             }
-        });
-        
-        // 재방문율 계산
-	    const revisitRateA = totalVisitorCountA > 0 ? (totalRevisitA / totalVisitorCountA) * 100 : 0;
-	    const revisitRateB = totalVisitorCountB > 0 ? (totalRevisitB / totalVisitorCountB) * 100 : 0;
 
-		
-		// A 그룹 통계 값 삽입
-        document.getElementById("scrollCountA").innerText = totalScrollA + "회";
-        document.getElementById("likeCountA").innerText = totalLikeA + "회";
-        document.getElementById("unlikeCountA").innerText = totalUnlikeA + "회";
-        document.getElementById("timeSpentA").innerText = formatTimeSpent(totalTimeSpentA); // 시간 형식으로 변환하여 표시
-        document.getElementById("conversionRateA").innerText = totalConversionRateA.toFixed(2) + "%";
-        document.getElementById("visitorCountA").innerText = totalVisitorCountA + "명"; // A 그룹 방문자 수 표시
-		document.getElementById("revisitRateA").innerText = revisitRateA.toFixed(2) + "%";
-		
-		// A 그룹 전환율 계산
-        const conversionRateA = totalVisitorCountA > 0 ? (totalLikeA / totalVisitorCountA) * 100 : 0;
-        document.getElementById("conversionRateA").innerText = conversionRateA.toFixed(2) + "%";
+        } else if (stat.userGroup === 'B') {
+            totalScrollB += stat.scrollCount;
+            totalLikeB += stat.likeCount;
+            totalUnlikeB += stat.unlikeCount;
+            totalTimeSpentB += stat.timeSpent; // 초 단위
+            totalVisitorCountB += stat.visitorCount;
 
-		
-        // B 그룹 통계 값 삽입
-        document.getElementById("scrollCountB").innerText = totalScrollB + "회";
-        document.getElementById("likeCountB").innerText = totalLikeB + "회";
-        document.getElementById("unlikeCountB").innerText = totalUnlikeB + "회";
-        document.getElementById("timeSpentB").innerText = formatTimeSpent(totalTimeSpentB); // 시간 형식으로 변환하여 표시
-        document.getElementById("conversionRateB").innerText = totalConversionRateB.toFixed(2) + "%";
-        document.getElementById("visitorCountB").innerText = totalVisitorCountB + "명";
-        document.getElementById("revisitRateB").innerText = revisitRateB.toFixed(2) + "%";
-   		
-   		// B 그룹 전환율 계산
-        const conversionRateB = totalVisitorCountB > 0 ? (totalLikeB / totalVisitorCountB) * 100 : 0;
-        document.getElementById("conversionRateB").innerText = conversionRateB.toFixed(2) + "%";
+            if (stat.revisitRate) { // 재방문율이 존재하면 더함
+                totalRevisitRateB += stat.revisitRate;
+                daysWithDataB++;
+            }
+        }
+    });
+
+    // A 그룹 통계 값 삽입
+    document.getElementById("scrollCountA").innerText = totalScrollA + "회";
+    document.getElementById("likeCountA").innerText = totalLikeA + "회";
+    document.getElementById("unlikeCountA").innerText = totalUnlikeA + "회";
+    document.getElementById("timeSpentA").innerText = formatTimeSpent(totalTimeSpentA); // 시간 형식으로 변환하여 표시
+    document.getElementById("visitorCountA").innerText = totalVisitorCountA + "명"; // A 그룹 방문자 수 표시
+
+    // A 그룹 전환율 계산
+    const conversionRateA = totalVisitorCountA > 0 ? (totalLikeA / totalVisitorCountA) * 100 : 0;
+    document.getElementById("conversionRateA").innerText = conversionRateA.toFixed(2) + "%";
+
+    // A 그룹 평균 재방문율 계산
+    const averageRevisitRateA = daysWithDataA > 0 ? (totalRevisitRateA / daysWithDataA).toFixed(2) : 0;
+    document.getElementById("revisitRateA").innerText = averageRevisitRateA + "%";
+
+    // B 그룹 통계 값 삽입
+    document.getElementById("scrollCountB").innerText = totalScrollB + "회";
+    document.getElementById("likeCountB").innerText = totalLikeB + "회";
+    document.getElementById("unlikeCountB").innerText = totalUnlikeB + "회";
+    document.getElementById("timeSpentB").innerText = formatTimeSpent(totalTimeSpentB); // 시간 형식으로 변환하여 표시
+    document.getElementById("visitorCountB").innerText = totalVisitorCountB + "명";
+
+    // B 그룹 전환율 계산
+    const conversionRateB = totalVisitorCountB > 0 ? (totalLikeB / totalVisitorCountB) * 100 : 0;
+    document.getElementById("conversionRateB").innerText = conversionRateB.toFixed(2) + "%";
+
+    // B 그룹 평균 재방문율 계산
+    const averageRevisitRateB = daysWithDataB > 0 ? (totalRevisitRateB / daysWithDataB).toFixed(2) : 0;
+    document.getElementById("revisitRateB").innerText = averageRevisitRateB + "%";
+}
+
+    
+
+    
+    
+    let chartInstance = null; // 차트 인스턴스를 전역 변수로 선언
+
+function drawCharts(data) {
+    const ctx = document.getElementById('chartAB').getContext('2d');
+
+    // 기존 차트가 존재하는지 확인하고 파괴(destroy)
+    if (chartInstance) {
+        chartInstance.destroy();
+        chartInstance = null; // 파괴 후 차트 인스턴스 초기화
     }
-    
 
-    
-    
-    function drawCharts(data) {
-	    const ctx = document.getElementById('chartAB').getContext('2d');
-	
-	    const totalScroll = data.reduce((sum, stat) => sum + stat.scrollCount, 0);
-	    const totalLikeClick = data.reduce((sum, stat) => sum + stat.likeCount, 0);
-	    const totalLikeUnclick = data.reduce((sum, stat) => sum + stat.unlikeCount, 0);
-	    const totalTimeSpent = data.reduce((sum, stat) => sum + stat.timeSpent, 0);
-	    const totalVisitors = data.reduce((sum, stat) => sum + stat.visitorCount, 0);
-	
-	    // 비율 계산 함수
-	    const calculateData = (userGroup) => [
-			((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.timeSpent : 0), 0) / Math.max(totalTimeSpent, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.scrollCount : 0), 0) / Math.max(totalScroll, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.unlikeCount : 0), 0) / Math.max(totalLikeUnclick, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.likeCount : 0), 0) / Math.max(totalLikeClick, 1)) * 100) || 0,
-	        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.visitorCount : 0), 0) / Math.max(totalVisitors, 1)) * 100) || 0
-	    ].map(Number).map(value => value.toFixed(1)); 
-	
-	    const chartData = {
-	        labels: ['총 이용 시간', '스크롤 수', '좋아요 해제 수', '좋아요 클릭 수', '방문자 수'],
-	        datasets: [
-	            {
-	                label: 'A 그룹',
-	                data: calculateData('A'),
-	                backgroundColor: 'rgba(111, 66, 193)',
-	                borderColor: 'white',
-	                borderWidth: 1,
-	                datalabels: { 
-						font: {
-	                        weight: 'bold', // 폰트 굵게 설정
-	                        size: window.innerWidth < 600 ? 10 : 16 // 반응형 폰트 크기
-	                    },
-	                    color: 'black',
-	                    anchor: 'center',
-	                    align: 'center',
-	                    formatter: (value) => `${value}%`,
-	                    display: true
-	                }
-	            },
-	            {
-	                label: 'B 그룹',
-	                data: calculateData('B'),
-	                backgroundColor: 'rgba(255, 193, 7)',
-	                borderColor: 'white',
-	                borderWidth: 1,
-	                datalabels: { 
-						font: {
-	                        weight: 'bold', // 폰트 굵게 설정
-	                        size: window.innerWidth < 600 ? 10 : 16 // 반응형 폰트 크기
-	                    },
-	                    color: 'black',
-	                    anchor: 'center',
-	                    align: 'center',
-	                    formatter: (value) => `${value}%`,
-	                    display: true
-	                }
-	            }
-	        ]
-	    };
-	
-	    new Chart(ctx, { 
-	        type: 'bar',
-	        data: chartData,
-	        options: {
-	            responsive: true,
-	            maintainAspectRatio: false,	
-	            plugins: {
-					title: {
-						display: true,
-		                text: 'A 그룹 vs B 그룹: 사용자 행동 비율 비교', 
-		                color: 'white',
-		                font: {
-		                    size: window.innerWidth < 600 ? 14 : 18, 
-		                },
-		                padding: {
-		                    top: 10,
-		                    bottom: window.innerWidth < 600 ? 20 : 50
-		                }	
-					},
-	                legend: {
-						position: window.innerWidth < 600 ? 'top' : 'right',
-	                    labels: {
-							color: 'white',
-							font: {
-								size: window.innerWidth < 600 ? 12 : 16 
-							}
-	                    }
-	                },
-	                tooltip: {
-						padding: 10, // 툴팁의 패딩
-					    backgroundColor: 'rgba(0, 0, 0, 0.8)', // 툴팁 배경색
-					    bodyFont: {
-					        size: window.innerWidth < 600 ? 12 : 16, // 툴팁 텍스트 크기
-					        family: 'Arial', // 폰트 패밀리
-					        weight: 'bold' // 폰트 두께
-					    },
-			            callbacks: {
-			                label: function(tooltipItem) {
-			                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '%';
-			                }
-			            }
-			        },
-			        datalabels: {
-	                    display: true, 
-	                }
-	            },
-	            scales: {
-	                y: {
-	                    beginAtZero: true,
-	                    stacked: true,
-	                    title: {
-	                        display: true,
-	                        text: '비율 (%)',
-	                        color: 'white',
-	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16 
-							}
-	                    },
-	                    ticks: {
-	                        color: 'white',
-	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16 
-							}
-	                    }
-	                },
-	                x: {
-	                    stacked: true,
-	                    ticks: {
-	                        color: 'white',
-	                        font: {
-								size: window.innerWidth < 600 ? 10 : 16
-							}
-	                    }
-	                }
-	            }
-	        },
-	        plugins: [ChartDataLabels] 
-	    });
-	}
+    const totalScroll = data.reduce((sum, stat) => sum + stat.scrollCount, 0);
+    const totalLikeClick = data.reduce((sum, stat) => sum + stat.likeCount, 0);
+    const totalUnlikeClick = data.reduce((sum, stat) => sum + stat.unlikeCount, 0);
+    const totalTimeSpent = data.reduce((sum, stat) => sum + stat.timeSpent, 0);
+    const totalVisitors = data.reduce((sum, stat) => sum + stat.visitorCount, 0);
+
+    const calculateData = (userGroup) => [
+        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.timeSpent : 0), 0) / Math.max(totalTimeSpent, 1)) * 100) || 0,
+        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.scrollCount : 0), 0) / Math.max(totalScroll, 1)) * 100) || 0,
+        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.unlikeCount : 0), 0) / Math.max(totalUnlikeClick, 1)) * 100) || 0,
+        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.likeCount : 0), 0) / Math.max(totalLikeClick, 1)) * 100) || 0,
+        ((data.reduce((sum, stat) => sum + (stat.userGroup === userGroup ? stat.visitorCount : 0), 0) / Math.max(totalVisitors, 1)) * 100) || 0
+    ].map(Number).map(value => value.toFixed(1));
+
+    const chartData = {
+        labels: ['총 이용 시간', '스크롤 수', '좋아요 해제 수', '좋아요 클릭 수', '방문자 수'],
+        datasets: [
+            {
+                label: 'A 그룹',
+                data: calculateData('A'),
+                backgroundColor: 'rgba(111, 66, 193)',
+                borderColor: 'white',
+                borderWidth: 1,
+                datalabels: {
+                    font: {
+                        weight: 'bold',
+                        size: window.innerWidth < 600 ? 10 : 16
+                    },
+                    color: 'black',
+                    anchor: 'center',
+                    align: 'center',
+                    formatter: (value) => `${value}%`,
+                    display: true
+                }
+            },
+            {
+                label: 'B 그룹',
+                data: calculateData('B'),
+                backgroundColor: 'rgba(255, 193, 7)',
+                borderColor: 'white',
+                borderWidth: 1,
+                datalabels: {
+                    font: {
+                        weight: 'bold',
+                        size: window.innerWidth < 600 ? 10 : 16
+                    },
+                    color: 'black',
+                    anchor: 'center',
+                    align: 'center',
+                    formatter: (value) => `${value}%`,
+                    display: true
+                }
+            }
+        ]
+    };
+
+    // 새로운 차트를 생성하고 chartInstance에 저장
+    chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'A 그룹 vs B 그룹: 사용자 행동 비율 비교',
+                    color: 'white',
+                    font: {
+                        size: window.innerWidth < 600 ? 14 : 18,
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: window.innerWidth < 600 ? 20 : 50
+                    }
+                },
+                legend: {
+                    position: window.innerWidth < 600 ? 'top' : 'right',
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: window.innerWidth < 600 ? 12 : 16
+                        }
+                    }
+                },
+                tooltip: {
+                    padding: 10,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    bodyFont: {
+                        size: window.innerWidth < 600 ? 12 : 16,
+                        family: 'Arial',
+                        weight: 'bold'
+                    },
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw + '%';
+                        }
+                    }
+                },
+                datalabels: {
+                    display: true,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: '비율 (%)',
+                        color: 'white',
+                        font: {
+                            size: window.innerWidth < 600 ? 10 : 16
+                        }
+                    },
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: window.innerWidth < 600 ? 10 : 16
+                        }
+                    }
+                },
+                x: {
+                    stacked: true,
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: window.innerWidth < 600 ? 10 : 16
+                        }
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+
 
         
    		
