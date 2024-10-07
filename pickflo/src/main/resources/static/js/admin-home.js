@@ -67,11 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let totalLikeA = 0, totalLikeB = 0;
     let totalUnlikeA = 0, totalUnlikeB = 0;
     let totalTimeSpentA = 0, totalTimeSpentB = 0;
-    let totalConversionRateA = 0, totalConversionRateB = 0;
     let totalVisitorCountA = 0, totalVisitorCountB = 0;
     
-    let totalRevisitRateA = 0, totalRevisitRateB = 0;
-    let daysWithDataA = 0, daysWithDataB = 0;
 
     // 데이터를 순회하며 그룹 A와 그룹 B의 통계를 집계
     data.forEach(stat => {
@@ -82,10 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             totalTimeSpentA += stat.timeSpent; // 초 단위
             totalVisitorCountA += stat.visitorCount;
 
-            if (stat.revisitRate) { // 재방문율이 존재하면 더함
-                totalRevisitRateA += stat.revisitRate;
-                daysWithDataA++;
-            }
+    
 
         } else if (stat.userGroup === 'B') {
             totalScrollB += stat.scrollCount;
@@ -94,10 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
             totalTimeSpentB += stat.timeSpent; // 초 단위
             totalVisitorCountB += stat.visitorCount;
 
-            if (stat.revisitRate) { // 재방문율이 존재하면 더함
-                totalRevisitRateB += stat.revisitRate;
-                daysWithDataB++;
-            }
         }
     });
 
@@ -112,10 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const conversionRateA = totalVisitorCountA > 0 ? (totalLikeA / totalVisitorCountA) * 100 : 0;
     document.getElementById("conversionRateA").innerText = conversionRateA.toFixed(2) + "%";
 
-    // A 그룹 평균 재방문율 계산
-    const averageRevisitRateA = daysWithDataA > 0 ? (totalRevisitRateA / daysWithDataA).toFixed(2) : 0;
-    document.getElementById("revisitRateA").innerText = averageRevisitRateA + "%";
-
     // B 그룹 통계 값 삽입
     document.getElementById("scrollCountB").innerText = totalScrollB + "회";
     document.getElementById("likeCountB").innerText = totalLikeB + "회";
@@ -127,9 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const conversionRateB = totalVisitorCountB > 0 ? (totalLikeB / totalVisitorCountB) * 100 : 0;
     document.getElementById("conversionRateB").innerText = conversionRateB.toFixed(2) + "%";
 
-    // B 그룹 평균 재방문율 계산
-    const averageRevisitRateB = daysWithDataB > 0 ? (totalRevisitRateB / daysWithDataB).toFixed(2) : 0;
-    document.getElementById("revisitRateB").innerText = averageRevisitRateB + "%";
 }
 
     
