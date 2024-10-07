@@ -60,11 +60,6 @@ public class UserStatistics {
     @Basic(optional = false)
     @Column(name = "visitor_count")
     private int visitorCount; // 방문자 수
-    
-    @Basic(optional = false)
-    @Column(name = "revisit_rate")
-    private double revisitRate; // 재방문율
-
 
     @Basic(optional = false)
     @Column(name = "stat_date")
