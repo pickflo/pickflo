@@ -115,11 +115,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }
 
-    
+
+fetch('/pickflo/api/user-visits/return-rate/odd')
+    .then(response => response.json())
+    .then(rate => {
+        console.log(`홀수 user_id의 재방문율: ${rate.toFixed(2)}%`);
+        document.getElementById('oddReturnRate').innerText = `${rate.toFixed(2)}%`; // A그룹의 재방문율
+    })
+    .catch(error => console.error('Error fetching odd user return rate:', error));
+
+fetch('/pickflo/api/user-visits/return-rate/even')
+    .then(response => response.json())
+    .then(rate => {
+        console.log(`짝수 user_id의 재방문율: ${rate.toFixed(2)}%`);
+        document.getElementById('evenReturnRate').innerText = `${rate.toFixed(2)}%`; // B그룹의 재방문율
+    })
+    .catch(error => console.error('Error fetching even user return rate:', error));
 
     
-    
-    let chartInstance = null; // 차트 인스턴스를 전역 변수로 선언
+// 차트 섹션
+let chartInstance = null; // 차트 인스턴스를 전역 변수로 선언
 
 function drawCharts(data) {
     const ctx = document.getElementById('chartAB').getContext('2d');
@@ -199,7 +214,7 @@ function drawCharts(data) {
                     text: 'A 그룹 vs B 그룹: 사용자 행동 비율 비교',
                     color: 'white',
                     font: {
-                        size: window.innerWidth < 600 ? 14 : 18,
+                        size: window.innerWidth < 600 ? 17 : 20,
                     },
                     padding: {
                         top: 10,

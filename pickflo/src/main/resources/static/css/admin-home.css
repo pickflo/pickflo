@@ -40,6 +40,18 @@ a {
 
 .date-selection {
     margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-title {
+    font-weight: bold; 
+    font-size: 30px;
+    text-align: center;
+}
+
+.data {
+	margin-left: 300px;
 }
 
 .table {
@@ -65,19 +77,35 @@ a {
     background-color: rgba(255, 182, 193);
 }
 
+.return-rate-table {
+    width: 50%;
+    margin: 60px 30px 0 50px;
+    
+}
+
+.return-rate-table th, .return-rate-table td {
+    width: 50%; 
+    text-align: center;
+}
+
+.table-caption {
+    font-size: 21px;
+    color: white; 
+    font-weight: bold; 
+    text-align: center;
+    margin-top: 30px; 
+    margin-bottom: 10px; 
+    caption-side: top; 
+}
 
 .chart-container {
 	position: relative;
 	width: 100%;  
     height: 500px; 
     max-width: 1000px; 
-    margin: 100px auto;
+    margin: 70px auto;
 }
     
-.result {
-	font-size: 25px;
-	margin-top: 150px;
-}
 
 
 @media ( max-width : 768px) {
@@ -94,6 +122,14 @@ a {
 		margin-left: 0px;
 	}
 	
+	.dashboard-title {
+		font-size: 25px;
+	}
+	
+	.data {
+		margin-left: 0px;
+	}
+	
 	.date-selection {
         margin-top: 50px;
     }
@@ -106,6 +142,17 @@ a {
 		font-size: 12px;
 	}
 	
+	.table-caption {
+		font-size: 18px;
+		margin-top: 20px;
+	}
+	
+	.return-rate-table {
+	    width: 50%;
+	    margin: 0px 0px 0 80px;
+	    
+	}
+	
 	.chart-container {
         position: relative;
         width: 100%;  
@@ -114,11 +161,6 @@ a {
         margin: 50px auto;
     }
     
-    .result {
-		font-size: 20px;
-	}
-	
-
 }
 
 @media only screen and (min-width: 768px) and (max-width : 1024px) {
