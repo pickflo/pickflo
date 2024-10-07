@@ -103,53 +103,57 @@ document.addEventListener('DOMContentLoaded', function() {
         filterMovies(); // 필터링
     }
 
-    function filterMovies() {
-        if (isLoading) return; // 데이터 로딩 중이면 요청 무시
+	function filterMovies() {
+	    if (isLoading) return; // 데이터 로딩 중이면 요청 무시
 
-        isLoading = true;
-        loading.style.display = 'block'; // 로딩 표시
+	    isLoading = true;
+	    document.body.classList.add('loading'); // 로딩 중일 때 스크롤 잠시 비활성화
+	    loading.style.display = 'block'; // 로딩 표시
 
-        let queryParams = '';
-        
-        if (selectedGenre) {
-            const genreCode = selectedGenre.getAttribute('data-value');
-            queryParams += `genreCode=${encodeURIComponent(genreCode)}`;
-        }
-        
-        if (selectedCountry) {
-            const countryCode = selectedCountry.getAttribute('data-value');
-            if (queryParams.length > 0) queryParams += '&';
-            queryParams += `countryCode=${encodeURIComponent(countryCode)}`;
-        }
-        
-        if (queryParams.length > 0) {
-            fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=18`) 
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(movies => {
-                    if (movies.length > 0) {
-                        appendMovieList(movies);
-                        currentPage++; // 페이지 번호 증가
-                    } else {
-                        console.log("No more movies available.");
-                    }
-                    isLoading = false;
-                    loading.style.display = 'none'; // 로딩 숨기기
-                })
-                .catch(error => {
-                    console.error('Error fetching movies:', error.message);
-                    isLoading = false;
-                    loading.style.display = 'none'; // 로딩 숨기기
-                });
-        } else {
-            isLoading = false;
-            loading.style.display = 'none'; // 로딩 숨기기
-        }
-    }
+	    let queryParams = '';
+	    
+	    if (selectedGenre) {
+	        const genreCode = selectedGenre.getAttribute('data-value');
+	        queryParams += `genreCode=${encodeURIComponent(genreCode)}`;
+	    }
+	    
+	    if (selectedCountry) {
+	        const countryCode = selectedCountry.getAttribute('data-value');
+	        if (queryParams.length > 0) queryParams += '&';
+	        queryParams += `countryCode=${encodeURIComponent(countryCode)}`;
+	    }
+	    
+	    if (queryParams.length > 0) {
+	        fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=21`) 
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error(`HTTP error! Status: ${response.status}`);
+	                }
+	                return response.json();
+	            })
+	            .then(movies => {
+	                if (movies.length > 0) {
+	                    appendMovieList(movies);
+	                    currentPage++; // 페이지 번호 증가
+	                } else {
+	                    console.log("No more movies available.");
+	                }
+	                isLoading = false;
+	                document.body.classList.remove('loading'); // 로딩이 끝나면 스크롤 다시 활성화
+	                loading.style.display = 'none'; // 로딩 숨기기
+	            })
+	            .catch(error => {
+	                console.error('Error fetching movies:', error.message);
+	                isLoading = false;
+	                document.body.classList.remove('loading'); // 에러 발생 시에도 스크롤 다시 활성화
+	                loading.style.display = 'none'; // 로딩 숨기기
+	            });
+	    } else {
+	        isLoading = false;
+	        document.body.classList.remove('loading'); // 로딩이 끝나면 스크롤 다시 활성화
+	        loading.style.display = 'none'; // 로딩 숨기기
+	    }
+	}
 
     function appendMovieList(movies) {
         movies.forEach(movie => {
