@@ -9,6 +9,7 @@ import com.pickflo.domain.User;
 import com.pickflo.service.UserMoviePickService;
 import com.pickflo.service.UserService;
 import com.pickflo.service.UserStatisticsService;
+import com.pickflo.service.UserVisitService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	private final UserMoviePickService userMoviePickSvc;
 	private final UserService userSvc;
 	private final UserStatisticsService userStatisticsSvc;
+	private final UserVisitService userVisitSvc;
 	
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -40,7 +42,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // userRole이 "member"인 경우에만 incrementVisitCount 호출
         if ("member".equals(user.getUserRole())) {
-            userStatisticsSvc.incrementVisitCount(user.getId()); // user_id 전달
+            userStatisticsSvc.incrementVisitCount(user.getId()); 
+            userVisitSvc.recordUserVisit(user);
         }
     
 
