@@ -4,24 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>관리자 페이지</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-	rel="stylesheet">
-<link rel="stylesheet" href="/pickflo/css/base.css">
-<link rel="stylesheet" href="/pickflo/css/fragments.css">
-<link rel="stylesheet" href="/pickflo/css/admin-home.css">
-<link rel="stylesheet" href="/pickflo/css/list.css">
-<link href="/pickflo/css/movie-details.css" rel="stylesheet" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
 
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+		rel="stylesheet">
+	<link rel="stylesheet" href="/pickflo/css/base.css">
+	<link rel="stylesheet" href="/pickflo/css/fragments.css">
+	<link rel="stylesheet" href="/pickflo/css/admin-home.css">
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<div class="header row">
@@ -31,43 +29,104 @@
 			</a>
 		</div>
 		<div class="header-user col-6 col-md-3">
-			<div class="nickname"
-				th:text="${#authentication.principal.nickname} + '님'"></div>
-			<button class="menu-text" onclick="toggleMenu()">
-				<i class="bi bi-person-lines-fill"
-					style="font-size: 30px; color: white;"></i>
-			</button>
-			<div class="dropdown-menu" id="menu">
-				<a id="homeLink" href="/pickflo">홈</a>
-				<!-- <a href="/pickflo/movie/like">찜한영화</a>  -->
-				<a href="/pickflo/user/logout">로그아웃</a>
-			</div>
+				<div class="nickname" th:text="${#authentication.principal.nickname} + '님'"></div>
+				<button class="menu-text" onclick="toggleMenu()">
+					<i class="bi bi-person-lines-fill" style="font-size: 30px; color: white;"></i>
+				</button>
+				<div class="dropdown-menu" id="menu">
+					<a id="homeLink" href="/pickflo">홈</a> <a href="/pickflo/user/logout">로그아웃</a>
+				</div>
 		</div>
 	</div>
-
-	<div class="chart-container">
-		<div class="chart-row">
-			<canvas id="userStatsChart"></canvas>
-			<canvas id="scrollCountChart"></canvas>
+	
+	<div class="container" style="margin-top:50px;">
+		<h3 class="text-center">A/B 테스트 결과 대시보드</h3>
+	    
+	    <!-- 날짜 선택기 --> 
+		<div class="container">
+		    <div class="row mb-4 justify-content-center align-items-center date-selection">
+		        <label for="dateRange" class="col-form-label col-auto me-2">날짜 선택</label>
+		        <div class="col-3 col-md-2">
+		            <input type="date" id="startDate" class="form-control" placeholder="시작 날짜">
+		        </div>
+		        <div class="col-3 col-md-2">
+		            <input type="date" id="endDate" class="form-control" placeholder="종료 날짜">
+		        </div>
+		        <div class="col-3 col-md-2"> 
+		            <button class="btn btn-primary w-100" id="resultButton">결과</button> <!-- w-100으로 전체 너비 사용 -->
+		        </div>
+		    </div>
 		</div>
-		<div class="chart-row">
-			<canvas id="likeEventChart"></canvas>
-			<canvas id="unlikeEventChart"></canvas>
+			
+
+	    <!-- 지표 요약 섹션 -->
+		<div class="container mt-4">
+		    <h5></h5>
+		    <table class="table table-bordered">
+		        <thead>
+		            <tr>
+		                <th></th>
+		                <th>총 이용 시간</th>
+		                <th>스크롤 수</th>
+		                <th>좋아요 해제 수</th>
+		                <th>좋아요 클릭 수</th>
+		                <th>방문자 수</th>
+		                <th>전환율</th>
+		                <th>재방문율</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr class="group-a">
+		                <th>A 그룹</th>
+		                <td id="timeSpentA"></td> <!-- A 총 이용 시간 -->
+		                <td id="scrollCountA"></td> <!-- A 스크롤 수 -->
+		                <td id="unlikeCountA"></td> <!-- A 좋아요 해제 수 -->
+		                <td id="likeCountA"></td> <!-- A 좋아요 클릭 수 -->
+		                <td id="visitorCountA"></td> <!-- A 방문자 수 -->
+		                <td id="conversionRateA" class="conversion-rate"></td> <!-- A 전환율 -->
+		                <td id="revisitRateA"></td> <!-- A 재방문율 -->
+		                
+			            </tr>
+		            <tr class="group-b">
+		                <th>B 그룹</th>
+		                <td id="timeSpentB"></td> <!-- B 총 이용 시간 -->
+		                <td id="scrollCountB"></td> <!-- B 스크롤 수 -->
+		                <td id="unlikeCountB"></td> <!-- B 좋아요 해제 수 -->
+		                <td id="likeCountB"></td> <!-- B 좋아요 클릭 수 -->
+		                <td id="visitorCountB"></td> <!-- B 방문자 수 -->
+		                <td id="conversionRateB" class="conversion-rate"></td> <!-- B 전환율 -->
+		                <td id="revisitRateB"></td> <!-- B 재방문율 -->
+		                
+		            </tr>
+		        </tbody>
+		    </table>
+		
+		</div>
+
+		
+		<!-- 차트 섹션 -->
+	    <div class="chart-container">
+            <canvas id="chartAB"></canvas>
+        </div>
+		
+		<!-- 결과 분석 섹션 -->
+		<div>
+			<h3 class="result text-center">결과 분석</h3>
+			<p></p>		
 		</div>
 	</div>
-
-
+	
+	
 	<th:block th:replace="~{layout/fragments :: userHeaderJS}"></th:block>
-	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 	<th:block th:replace="~{layout/fragments :: footerContents}"></th:block>
-	<!-- <script th:src="@{/js/home.js}"></script> -->
-	<!-- <script src="/pickflo/js/movie-details.js"></script> -->
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<!-- Chart.js 포함 -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/pickflo/js/admin-home.js"></script>
+
+	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+	
+	<script th:src="@{/js/admin-home.js}"></script>
 </body>
 </html>
-

@@ -23,13 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchService {
 	
 	private final SearchRepository searchRepo;
-
+	
 	public List<SearchGenreCountryDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         Page<SearchGenreCountryDto> moviePage = searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode, pageable);
         return moviePage.getContent();
     }
+
 	
+	// 키워드 검색
 	public List<SearchMovieListDto> search(SearchMovieRequestDto dto) {
 		log.info("SearchService(dto={})", dto);
 		
@@ -41,3 +43,11 @@ public class SearchService {
 	}
 	
 }
+
+/*
+public List<SearchGenreCountryDto> findMoviesByGenreAndCountryCode(Integer genreCode, String countryCode, int page, int limit) {
+    Pageable pageable = PageRequest.of(page - 1, limit);
+    Page<SearchGenreCountryDto> moviePage = searchRepo.findMoviesByGenreAndCountryCode(genreCode, countryCode, pageable);
+    return moviePage.getContent();
+}
+*/

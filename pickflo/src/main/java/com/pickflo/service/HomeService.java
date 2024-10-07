@@ -12,13 +12,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class HomeService {
-	
-	private final HomeRecMovieRepository homeRecMovieRepo;
-	
-	public List<HomeRecMovieDto> getMoviesByUserIdAndGenres(Long userId, int startRow, int endRow) {
-        List<Object[]> results = homeRecMovieRepo.findMoviesByUserIdAndGenres(userId,startRow,endRow);
+    
+    private final HomeRecMovieRepository homeRecMovieRepo;
+    
+    public List<HomeRecMovieDto> getMoviesByUserIdAndGenres(Long userId, int startRow, int pageSize) {
+        List<Object[]> results = homeRecMovieRepo.findMoviesByUserIdAndGenres(userId, startRow, pageSize);
 
-       return results.stream()
+        return results.stream()
             .map(result -> new HomeRecMovieDto(
                 ((Number) result[0]).longValue(),  
                 (String) result[1],                
@@ -26,9 +26,9 @@ public class HomeService {
             ))
             .collect(Collectors.toList());
     }
-	
-	public List<HomeRecMovieDto> getMoviesByUserIdAndPeople(Long userId, int startRow, int endRow) {
-        List<Object[]> results = homeRecMovieRepo.findMoviesByUserIdAndPeople(userId, startRow, endRow);
+    
+    public List<HomeRecMovieDto> getMoviesByUserIdAndPeople(Long userId, int startRow, int pageSize) {
+        List<Object[]> results = homeRecMovieRepo.findMoviesByUserIdAndPeople(userId, startRow, pageSize);
         
         return results.stream()
             .map(result -> new HomeRecMovieDto(
@@ -38,5 +38,4 @@ public class HomeService {
             ))
             .collect(Collectors.toList());
     }
-	
 }

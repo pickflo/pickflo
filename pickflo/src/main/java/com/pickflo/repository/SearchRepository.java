@@ -13,10 +13,10 @@ import com.pickflo.dto.SearchGenreCountryDto;
 
 public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuerydsl {
 	
-	@Query("select distinct new com.pickflo.dto.SearchGenreCountryDto(m.id, m.movieImg) "
+	@Query("select new com.pickflo.dto.SearchGenreCountryDto(m.id, m.movieImg) "
 	        + "from Movie m "
 	        + "where m.id in ("
-	        + "    select distinct m2.id "
+	        + "    select m2.id "
 	        + "    from Movie m2 "
 	        + "    join MovieGenre mg on m2.id = mg.movieId "
 	        + "    join Genre g on mg.genreId = g.id "
@@ -29,7 +29,7 @@ public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuer
 	                                                            @Param("countryCode") String countryCode,
 	                                                            Pageable pageable);
 
-
+	
 	@Query("select distinct m "
 			+ "from Movie m "
 			+ "left join MoviePerson mp on m.id = mp.movieId "
@@ -40,3 +40,22 @@ public interface SearchRepository extends JpaRepository<Movie, Long>, SearchQuer
 	List<Movie> findByMovieTitleOrPersonName(@Param("keywords") String keywords);
 
 }
+
+/*
+@Query("select distinct new com.pickflo.dto.SearchGenreCountryDto(m.id, m.movieImg) "
+        + "from Movie m "
+        + "where m.id in ("
+        + "    select distinct m2.id "
+        + "    from Movie m2 "
+        + "    join MovieGenre mg on m2.id = mg.movieId "
+        + "    join Genre g on mg.genreId = g.id "
+        + "    join MovieCountry mc on m2.id = mc.movieId "
+        + "    join Country c on mc.countryId = c.id "
+        + "    where (:genreCode is null or g.genreCode = :genreCode) "
+        + "    and (:countryCode is null or c.countryCode = :countryCode)"
+        + ")")
+Page<SearchGenreCountryDto> findMoviesByGenreAndCountryCode(@Param("genreCode") Integer genreCode,
+                                                            @Param("countryCode") String countryCode,
+                                                            Pageable pageable);
+                                                            
+*/
