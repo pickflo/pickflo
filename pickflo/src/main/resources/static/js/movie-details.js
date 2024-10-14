@@ -10,7 +10,7 @@ let unlikeCount = 0; // 초기화
 
 function bindPosterImageClickEvent() {
 	const posterImages = document.querySelectorAll('.poster-image');
-	
+
 	posterImages.forEach(image => {
 		image.addEventListener('click', clickPosterImage);
 	});
@@ -77,10 +77,10 @@ function bindPosterImageClickEvent() {
 				const isFavorite = response.data;
 
 				const iconHeart = document.getElementById('iconHeart');
-				
+
 				// 기존 핸들러 제거
 				iconHeart.removeEventListener('click', handleFavoriteClick);
-				
+
 				if (isFavorite) {
 					// 찜 상태일 때
 					iconHeart.classList.remove('fa-regular', 'fa-heart');
@@ -106,7 +106,7 @@ function bindPosterImageClickEvent() {
 function handleFavoriteClick() {
 	const iconHeart = document.getElementById('iconHeart');
 	let userGroup = (currentUserId % 2 === 0) ? 'B' : 'A';
-	
+
 	console.log("Movie ID:", currentMovieId);
 	console.log("User ID:", currentUserId);
 
@@ -122,18 +122,18 @@ function handleFavoriteClick() {
 				iconHeart.classList.add('fa-solid', 'fa-heart');
 				iconHeart.style.color = 'red';
 				console.log("추가 성공");
-				
+
 				// 현재 페이지가 /pickflo/일 때만 saveUserData 호출
 				if (window.location.pathname === '/pickflo/') {
 					saveUserData(userGroup, 1, 0);
 				}
-			
+
 				if (window.location.pathname === '/pickflo/movie/like') {
 					updateMovieList();
 				}
 			})
 			.catch(error => console.error('Error:', error));
-			
+
 	} else {
 		axios.get('/pickflo/api/movie/unlike', {
 			params: {
@@ -149,12 +149,12 @@ function handleFavoriteClick() {
 					iconHeart.classList.add('fa-regular', 'fa-heart');
 					iconHeart.style.color = '#ffffff';
 					console.log("해제 성공");
-					
+
 					// 현재 페이지가 /pickflo/일 때만 saveUserData 호출
 					if (window.location.pathname === '/pickflo/') {
 						saveUserData(userGroup, 0, 1);
 					}
-					
+
 					if (window.location.pathname === '/pickflo/movie/like') {
 						removeMovieFromLikePage(currentMovieId);
 					}
@@ -165,21 +165,21 @@ function handleFavoriteClick() {
 }
 
 function saveUserData(userGroup, likeCount, unlikeCount) {
-    const userData = {
-        userGroup: userGroup,
-        likeCount: likeCount,     
-        unlikeCount: unlikeCount,  
-        statTime: new Date().toISOString()    
-    };
-    
-    // 서버에 POST 요청
-    axios.post('/pickflo/api/user-statistics/saveUserData', userData)
-        .then(response => {
-            console.log('User data saved successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error saving user data:', error);
-        });
+	const userData = {
+		userGroup: userGroup,
+		likeCount: likeCount,
+		unlikeCount: unlikeCount,
+		statTime: new Date().toISOString()
+	};
+
+	// 서버에 POST 요청
+	axios.post('/pickflo/api/user-statistics/saveUserData', userData)
+		.then(response => {
+			console.log('User data saved successfully:', response.data);
+		})
+		.catch(error => {
+			console.error('Error saving user data:', error);
+		});
 }
 
 
@@ -226,3 +226,32 @@ function removeMovieFromLikePage() {
 	updateMovieList();
 
 }
+
+// 스와이프 감지를 위한 변수
+let touchStartY = 0;
+let touchEndY = 0;
+
+function handleTouchStart(event) {
+	touchStartY = event.changedTouches[0].screenY;
+}
+
+function handleTouchMove(event) {
+	touchEndY = event.changedTouches[0].screenY;
+}
+
+function handleTouchEnd() {
+	const swipeDistance = touchEndY - touchStartY;
+
+	// 스와이프가 아래로 100px 이상이면 모달 닫기
+	if (swipeDistance > 100) {
+		const modal = document.querySelector('#modalMovieDetails');
+		const modalInstance = bootstrap.Modal.getInstance(modal);
+		modalInstance.hide();
+	}
+}
+
+document.querySelector('#modalMovieDetails').addEventListener('touchstart', handleTouchStart);
+document.querySelector('#modalMovieDetails').addEventListener('touchmove', handleTouchMove);
+document.querySelector('#modalMovieDetails').addEventListener('touchend', handleTouchEnd);
+
+
