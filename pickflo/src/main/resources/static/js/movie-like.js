@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
      
 
         // 서버에 POST 요청
-        axios.post('/pickflo/api/user-statistics/saveUserData', userData)
+        axios.post('/api/user-statistics/saveUserData', userData)
             .then(response => {
                 console.log('User data saved successfully:', response.data);
             })

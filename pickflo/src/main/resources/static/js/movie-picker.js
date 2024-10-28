@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		isLoading = true; // 로딩 상태로 설정
 
 		try {
-			const response = await axios.get(`/pickflo/api/picker/listByGenre`, {
+			const response = await axios.get(`/api/picker/listByGenre`, {
 				params: { rating, rn1, rn2 }
 			});
 
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const data = selectedMoviesId.map(movieId => ({ userId, movieId }));
 
-        const uri = `/pickflo/api/usermovie/saveAll`;
+        const uri = `/api/usermovie/saveAll`;
         axios
             .post(uri, data, {
                 headers: {
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then((response) => {
                 console.log(response.data);
-                window.location.href = '/pickflo';
+                window.location.href = '/';
             })
             .catch((error) => {
                 console.log(error);

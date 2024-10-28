@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			return;
 		}
 
-		const uri = `/pickflo/api/check-email?email=${encodeURIComponent(email)}`;
+		const uri = `/api/check-email?email=${encodeURIComponent(email)}`;
 		console.log('@@@@@@uri=', uri);
 		axios
 			.get(uri)

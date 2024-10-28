@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 페이지에서 userId를 전달받아 설정
 	const userId = parseInt(document.getElementById('userId').value);
-	const apiUrl = userId % 2 === 0 ? '/pickflo/api/recMovies/home_B' : '/pickflo/api/recMovies/home_A';
+	const apiUrl = userId % 2 === 0 ? '/api/recMovies/home_B' : '/api/recMovies/home_A';
 
 	let userGroup = (userId % 2 === 0) ? 'B' : 'A';
 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		};
 
 		// 서버에 POST 요청
-		axios.post('/pickflo/api/user-statistics/saveUserData', userData)
+		axios.post('/api/user-statistics/saveUserData', userData)
 			.then(response => {
 				console.log('User data saved successfully:', response.data);
 			})

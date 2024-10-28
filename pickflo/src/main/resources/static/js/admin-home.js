@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 	function fetchUserData(startDate, endDate) {
-	    const url = `/pickflo/api/user-statistics/getUserData?startDate=${startDate}&endDate=${endDate}`;
+	    const url = `/api/user-statistics/getUserData?startDate=${startDate}&endDate=${endDate}`;
         fetch(url)
 	        .then(response => {
 	            if (!response.ok) {
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 
-fetch('/pickflo/api/user-visits/return-rate/odd')
+fetch('/api/user-visits/return-rate/odd')
     .then(response => response.json())
     .then(rate => {
         console.log(`홀수 user_id의 재방문율: ${rate.toFixed(2)}%`);
@@ -124,7 +124,7 @@ fetch('/pickflo/api/user-visits/return-rate/odd')
     })
     .catch(error => console.error('Error fetching odd user return rate:', error));
 
-fetch('/pickflo/api/user-visits/return-rate/even')
+fetch('/api/user-visits/return-rate/even')
     .then(response => response.json())
     .then(rate => {
         console.log(`짝수 user_id의 재방문율: ${rate.toFixed(2)}%`);

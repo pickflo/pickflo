@@ -54,20 +54,20 @@ public class PickedItemsAccessFilter extends GenericFilterBean {
                 
                 // 관리자와 일반 사용자 처리 로직 통합
                 if ("admin".equals(userRole)) {
-                    httpResponse.sendRedirect("/pickflo"); // 관리자도 일반 사용자 홈으로 리다이렉트
+                    httpResponse.sendRedirect("/"); // 관리자도 일반 사용자 홈으로 리다이렉트
                 } else {
                     // 일반 사용자 처리
                     if (pickedCount >= 3) {
-                        if (requestURI.equals("/pickflo/movie/picker")) {
-                            httpResponse.sendRedirect("/pickflo"); // context root 페이지로
+                        if (requestURI.equals("/movie/picker")) {
+                            httpResponse.sendRedirect("/"); // context root 페이지로
                         } else {
                             chain.doFilter(request, response); // 가던 곳 그대로
                         }
                     } else {
-                        if (requestURI.equals("/pickflo/movie/picker")) {
+                        if (requestURI.equals("/movie/picker")) {
                             chain.doFilter(request, response); // 가던 곳 그대로
                         } else {
-                            httpResponse.sendRedirect("/pickflo"); // context root 페이지로
+                            httpResponse.sendRedirect("/"); // context root 페이지로
                         }
                     }
                 }
