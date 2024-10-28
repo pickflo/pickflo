@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 	    
 	    if (queryParams.length > 0) {
-	        fetch(`/pickflo/api/search/movies?${queryParams}&page=${currentPage}&limit=21`) 
+	        fetch(`/api/search/movies?${queryParams}&page=${currentPage}&limit=21`) 
 	            .then(response => {
 	                if (!response.ok) {
 	                    throw new Error(`HTTP error! Status: ${response.status}`);
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
      
 
         // 서버에 POST 요청
-        axios.post('/pickflo/api/user-statistics/saveUserData', userData)
+        axios.post('/api/user-statistics/saveUserData', userData)
             .then(response => {
                 console.log('User data saved successfully:', response.data);
             })

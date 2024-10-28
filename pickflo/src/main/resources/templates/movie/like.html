@@ -3,17 +3,17 @@
 <head>
 <!-- <th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block> -->
 <th:block th:replace="~{layout/fragments :: documentHeader}"></th:block>
-<link href="/pickflo/css/fragments.css" rel="stylesheet" />
-<link href="/pickflo/css/movie-like.css" rel="stylesheet" />
-<link href="/pickflo/css/list.css" rel="stylesheet" />
+<link href="/css/fragments.css" rel="stylesheet" />
+<link href="/css/movie-like.css" rel="stylesheet" />
+<link href="/css/list.css" rel="stylesheet" />
 
-<link href="/pickflo/css/movie-details.css" rel="stylesheet" />
+<link href="/css/movie-details.css" rel="stylesheet" />
 
 </head>
 <body>
 	<div class="header row">
 		<div class="header-logo col-6 col-md-8">
-			<a href="/pickflo">
+			<a href="/">
 				<h1 id="logo">PICKFLO</h1>
 			</a>
 		</div>
@@ -25,8 +25,8 @@
 					style="font-size: 30px; color: white;"></i>
 			</button>
 			<div class="dropdown-menu" id="menu">
-				<a id="homeLink" href="/pickflo">홈</a> <a href="/pickflo/movie/like">찜한
-					영화</a> <a href="/pickflo/user/logout">로그아웃</a>
+				<a id="homeLink" href="/">홈</a> <a href="/movie/like">찜한
+					영화</a> <a href="/user/logout">로그아웃</a>
 			</div>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 			<h3 th:text="${#authentication.principal.nickname} + '님의 선호 영화'"></h3>	
 		</div>
 		<div class="searchBtn col-2 col-md-6">
-			<a href="/pickflo/movie/search" class="btn" id="searchBtn"> <i
+			<a href="/movie/search" class="btn" id="searchBtn"> <i
 				class="bi bi-search"></i>
 			</a>
 		</div>
@@ -62,8 +62,8 @@
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 	<th:block th:replace="~{layout/fragments :: userHeaderJS}"></th:block>
 
-	<script src="/pickflo/js/movie-like.js"></script>
-	<script src="/pickflo/js/movie-details.js"></script>
+	<script src="/js/movie-like.js"></script>
+	<script src="/js/movie-details.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
